@@ -1,0 +1,46 @@
+.datePicker {
+  width: 250px;
+  position: relative;
+}
+
+.input {
+  width: 170px;
+  padding: 11px 39px;
+  color: #333;
+  font-size: 15px;
+  border-radius: 8px;
+  border: 1px solid #ddd;
+  background: #fff;
+  outline: none;
+}
+
+.input::placeholder {
+  color: #bbb;
+}
+
+.calendarIcon {
+  position: absolute;
+  width: 16px;
+  height: 16px;
+  left: 15px;
+  top: 13px;
+}
+
+.crossButton {
+  position: absolute;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  left: calc(100% - 16px - 15px);
+  top: 12px;
+  width: 16px;
+  height: 16px;
+  color: #fff;
+  border-radius: 50%;
+  background-color: #aaa;
+  font-size: 10px;
+  line-height: 100%;
+  outline: none;
+  border: none;
+  cursor: pointer;
+}

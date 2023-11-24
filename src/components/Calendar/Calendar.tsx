@@ -2,11 +2,16 @@ import React, { useEffect, useState } from 'react';
 
 import { ReactComponent as NextIcon } from '@/assets/icons/Next.svg';
 import { ReactComponent as PrevIcon } from '@/assets/icons/Prev.svg';
+import {
+  CalendarWrapper,
+  Cell,
+  Cells,
+  Controller,
+} from '@/components/Calendar/Calendar.styled';
 import { CALENDAR_MONTH_NAMES } from '@/constants/calendarMonthNames';
+import { WEEK_DAYS_NAMES } from '@/constants/weekDaysNames';
 import { Day } from '@/types/Day';
 import { calculateDaysInMonth } from '@/utils/calculateDaysInMonth';
-
-import styles from './Calendar.module.css';
 
 export const Calendar = () => {
   const [year, setYear] = useState<number>(2023);
@@ -41,29 +46,20 @@ export const Calendar = () => {
   useEffect(displayDaysInCurrentMonth, [month, year]);
 
   return (
-    <div className={styles.calendar}>
-      <div className={styles.month}>
+    <CalendarWrapper>
+      <Controller>
         <PrevIcon onClick={setPrevMonth} />
         <span>
           {CALENDAR_MONTH_NAMES[month]} {year}
         </span>
         <NextIcon onClick={setNextMonth} />
-      </div>
-      <div className={styles.weekDays}>
-        <div className={styles.weekDay}>Su</div>
-        <div className={styles.weekDay}>Mo</div>
-        <div className={styles.weekDay}>Tu</div>
-        <div className={styles.weekDay}>We</div>
-        <div className={styles.weekDay}>Th</div>
-        <div className={styles.weekDay}>Fr</div>
-        <div className={styles.weekDay}>Sa</div>
-      </div>
-      <div className={styles.days}>
+      </Controller>
+      <Cells>
+        {WEEK_DAYS_NAMES.map((weekDay) => (
+          <Cell>{weekDay}</Cell>
+        ))}
         {days.map((item, index) => (
-          <div
-            key={`${item.number}-${item.isCurrentMoth}`}
-            className={styles.day}
-          >
+          <Cell key={`${item.number}-${item.isCurrentMoth}`}>
             <input
               type='radio'
               name='day'
@@ -71,9 +67,9 @@ export const Calendar = () => {
               disabled={!item.isCurrentMoth}
             />
             <label htmlFor={`${index}${item.number}`}>{item.number}</label>
-          </div>
+          </Cell>
         ))}
-      </div>
-    </div>
+      </Cells>
+    </CalendarWrapper>
   );
 };

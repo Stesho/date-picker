@@ -1,9 +1,15 @@
-.datePicker {
+import styled from 'styled-components';
+
+import { ReactComponent as CalendarIconSvg } from '@/assets/icons/Calendar.svg';
+
+export const DateInputWrapper = styled.div`
   width: 250px;
   position: relative;
-}
+  display: flex;
+  align-items: center;
+`;
 
-.input {
+export const Input = styled.input`
   width: 170px;
   padding: 11px 39px;
   color: #333;
@@ -12,27 +18,25 @@
   border: 1px solid #ddd;
   background: #fff;
   outline: none;
-}
 
-.input::placeholder {
-  color: #bbb;
-}
+  &::placeholder {
+    color: #bbb;
+  }
+`;
 
-.calendarIcon {
+export const CalendarIcon = styled(CalendarIconSvg)`
   position: absolute;
   width: 16px;
   height: 16px;
   left: 15px;
-  top: 13px;
-}
+`;
 
-.crossButton {
+export const CrossButton = styled.button`
   position: absolute;
   display: flex;
   align-items: center;
   justify-content: center;
   left: calc(100% - 16px - 15px);
-  top: 12px;
   width: 16px;
   height: 16px;
   color: #fff;
@@ -43,4 +47,4 @@
   outline: none;
   border: none;
   cursor: pointer;
-}
+`;

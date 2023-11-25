@@ -15,8 +15,17 @@ import { WEEK_DAYS_NAMES } from '@/constants/weekDaysNames';
 import { Day } from '@/types/Day';
 import { calculateDaysInMonth } from '@/utils/calculateDaysInMonth';
 import { getTodosByDate } from '@/utils/getTodosByDate';
+import { shiftArrayToLeft } from '@/utils/shiftArrayToLeft';
 
-export const Calendar = () => {
+interface CalendarProps {
+  isStartWithMonday?: boolean;
+}
+
+export const Calendar = ({ isStartWithMonday = false }: CalendarProps) => {
+  const weekDays = isStartWithMonday
+    ? shiftArrayToLeft(WEEK_DAYS_NAMES, 1)
+    : WEEK_DAYS_NAMES;
+
   const [year, setYear] = useState<number>(2023);
   const [month, setMonth] = useState<number>(9);
   const [days, setDays] = useState<Day[]>([]);
@@ -24,7 +33,7 @@ export const Calendar = () => {
   const [selectedDate, setSelectedDate] = useState<Date>(null!);
 
   const displayDaysInCurrentMonth = (): void => {
-    const newDays = calculateDaysInMonth(year, month);
+    const newDays = calculateDaysInMonth(year, month, isStartWithMonday);
     if (newDays) {
       setDays([...newDays]);
     }
@@ -61,7 +70,7 @@ export const Calendar = () => {
     return todosList.length !== 0;
   };
 
-  useEffect(displayDaysInCurrentMonth, [month, year]);
+  useEffect(displayDaysInCurrentMonth, [month, year, isStartWithMonday]);
 
   return (
     <CalendarWrapper>
@@ -73,14 +82,12 @@ export const Calendar = () => {
         <NextControllerIcon onClick={setNextMonth} />
       </Controllers>
       <Cells>
-        {WEEK_DAYS_NAMES.map((weekDay) => (
+        {weekDays.map((weekDay) => (
           <WeekCell>{weekDay}</WeekCell>
         ))}
         {days.map((item, index) => (
           <DayCell
             $hasTodos={hasTodos(item.number)}
-            onDoubleClick={toggleTodoList}
-            onClick={selectDate(item.number)}
             key={`${item.number}-${item.isCurrentMoth}`}
           >
             <input
@@ -89,7 +96,13 @@ export const Calendar = () => {
               id={`${index}${item.number}`}
               disabled={!item.isCurrentMoth}
             />
-            <label htmlFor={`${index}${item.number}`}>{item.number}</label>
+            <label
+              onDoubleClick={toggleTodoList}
+              onClick={selectDate(item.number)}
+              htmlFor={`${index}${item.number}`}
+            >
+              {item.number}
+            </label>
           </DayCell>
         ))}
       </Cells>

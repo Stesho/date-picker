@@ -1,7 +1,7 @@
 import { TODOS_STORAGE_KEY } from '@/constants/todos';
 import { Todo, Todos } from '@/types/Todos';
 
-export const setTodosByDate = (date: Date, todos: Todo[]) => {
+export const setTodosByDate = (date: Date, todos: Todo[]): void => {
   const todosList = localStorage.getItem(TODOS_STORAGE_KEY);
   const dateString = `${date.getFullYear()}-${date.getMonth()}-${date.getDate()}`;
 

@@ -6,10 +6,24 @@ const minYear = 1970;
 const maxYear = 2099;
 const minMonth = 0;
 const maxMonth = 11;
+const firstWeekDay = 0;
+const lastWeekDay = 6;
+
+const getFirstDayInMonth = (
+  firstDayInMonth: number,
+  isStartWithMonday: boolean,
+): number => {
+  if (isStartWithMonday && firstDayInMonth === firstWeekDay) {
+    return lastWeekDay;
+  }
+
+  return firstDayInMonth - (isStartWithMonday ? 1 : 0);
+};
 
 export const calculateDaysInMonth = (
   year: number,
   month: number,
+  isStartWithMonday = false,
 ): Day[] | null => {
   if (
     year < minYear ||
@@ -23,7 +37,11 @@ export const calculateDaysInMonth = (
   const newDays: Day[] = [];
   const maxDays = new Date(year, month + 1, 0).getDate() + 1;
   const maxDaysInPrevMoth = new Date(year, month, 0).getDate() + 1;
-  const firstDayInMonth = new Date(year, month, 1).getDay();
+  const firstDayInMonthOffset = new Date(year, month, 1).getDay();
+  const firstDayInMonth = getFirstDayInMonth(
+    firstDayInMonthOffset,
+    isStartWithMonday,
+  );
   const lastDayInMonth = firstDayInMonth + maxDays - 1;
   let isCurrentMonth = false;
 
@@ -41,16 +59,10 @@ export const calculateDaysInMonth = (
       dayNumber = 1;
     }
 
-    const day: Day = {
+    newDays.push({
       number: dayNumber,
-      isCurrentMoth: false,
-    };
-
-    if (i >= firstDayInMonth && i < lastDayInMonth) {
-      day.isCurrentMoth = true;
-    }
-
-    newDays.push(day);
+      isCurrentMoth: i >= firstDayInMonth && i < lastDayInMonth,
+    });
   }
 
   return newDays;

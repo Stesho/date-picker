@@ -3,14 +3,15 @@ import styled from 'styled-components';
 import { ReactComponent as CalendarIconSvg } from '@/assets/icons/Calendar.svg';
 
 export const DateInputWrapper = styled.div`
-  width: 250px;
   position: relative;
   display: flex;
   align-items: center;
+  width: 250px;
+  margin: 0 0 8px 0;
 `;
 
 export const Input = styled.input`
-  width: 170px;
+  width: 100%;
   padding: 11px 39px;
   color: #333;
   font-size: 15px;

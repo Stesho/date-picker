@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from 'react';
 
-import { ReactComponent as NextIcon } from '@/assets/icons/Next.svg';
-import { ReactComponent as PrevIcon } from '@/assets/icons/Prev.svg';
 import {
   CalendarWrapper,
-  Cell,
   Cells,
-  Controller,
+  Controllers,
+  DayCell,
+  NextControllerIcon,
+  PrevControllerIcon,
+  WeekCell,
 } from '@/components/Calendar/Calendar.styled';
 import { CALENDAR_MONTH_NAMES } from '@/constants/calendarMonthNames';
 import { WEEK_DAYS_NAMES } from '@/constants/weekDaysNames';
@@ -47,19 +48,19 @@ export const Calendar = () => {
 
   return (
     <CalendarWrapper>
-      <Controller>
-        <PrevIcon onClick={setPrevMonth} />
+      <Controllers>
+        <PrevControllerIcon onClick={setPrevMonth} />
         <span>
           {CALENDAR_MONTH_NAMES[month]} {year}
         </span>
-        <NextIcon onClick={setNextMonth} />
-      </Controller>
+        <NextControllerIcon onClick={setNextMonth} />
+      </Controllers>
       <Cells>
         {WEEK_DAYS_NAMES.map((weekDay) => (
-          <Cell>{weekDay}</Cell>
+          <WeekCell>{weekDay}</WeekCell>
         ))}
         {days.map((item, index) => (
-          <Cell key={`${item.number}-${item.isCurrentMoth}`}>
+          <DayCell key={`${item.number}-${item.isCurrentMoth}`}>
             <input
               type='radio'
               name='day'
@@ -67,7 +68,7 @@ export const Calendar = () => {
               disabled={!item.isCurrentMoth}
             />
             <label htmlFor={`${index}${item.number}`}>{item.number}</label>
-          </Cell>
+          </DayCell>
         ))}
       </Cells>
     </CalendarWrapper>

@@ -49,25 +49,12 @@ export const WeekCell = styled(Cell)`
 `;
 
 export const DayCell = styled(Cell)<{ $hasTodos: boolean }>`
-  position: relative;
-
-  &:before {
-    content: '';
-    display: ${(props) => (props.$hasTodos ? 'block' : 'none')};
-    position: absolute;
-    width: 5px;
-    height: 5px;
-    top: 3px;
-    left: calc(100% - 8px);
-    border-radius: 50%;
-    background-color: red;
-  }
-
   & input {
     display: none;
   }
 
   & label {
+    position: relative;
     cursor: pointer;
     display: flex;
     align-items: center;
@@ -83,6 +70,18 @@ export const DayCell = styled(Cell)<{ $hasTodos: boolean }>`
 
   & input:disabled + label {
     color: #aaa;
+  }
+
+  & input:not(:disabled) + label:before {
+    content: '';
+    display: ${(props) => (props.$hasTodos ? 'block' : 'none')};
+    position: absolute;
+    width: 5px;
+    height: 5px;
+    top: 3px;
+    left: calc(100% - 8px);
+    border-radius: 50%;
+    background-color: red;
   }
 
   & input:checked + label {

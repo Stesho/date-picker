@@ -9,15 +9,19 @@ import {
   PrevControllerIcon,
   WeekCell,
 } from '@/components/Calendar/Calendar.styled';
+import { TodoList } from '@/components/TodoList/TodoList';
 import { CALENDAR_MONTH_NAMES } from '@/constants/calendarMonthNames';
 import { WEEK_DAYS_NAMES } from '@/constants/weekDaysNames';
 import { Day } from '@/types/Day';
 import { calculateDaysInMonth } from '@/utils/calculateDaysInMonth';
+import { getTodosByDate } from '@/utils/getTodosByDate';
 
 export const Calendar = () => {
   const [year, setYear] = useState<number>(2023);
   const [month, setMonth] = useState<number>(9);
   const [days, setDays] = useState<Day[]>([]);
+  const [isOpenTodoList, setIsOpenTodoList] = useState<boolean>(false);
+  const [selectedDate, setSelectedDate] = useState<Date>(null!);
 
   const displayDaysInCurrentMonth = (): void => {
     const newDays = calculateDaysInMonth(year, month);
@@ -44,6 +48,19 @@ export const Calendar = () => {
     }
   };
 
+  const toggleTodoList = () => {
+    setIsOpenTodoList(!isOpenTodoList);
+  };
+
+  const selectDate = (day: number) => () => {
+    setSelectedDate(new Date(year, month, day));
+  };
+
+  const hasTodos = (day: number) => {
+    const todosList = getTodosByDate(new Date(year, month, day));
+    return todosList.length !== 0;
+  };
+
   useEffect(displayDaysInCurrentMonth, [month, year]);
 
   return (
@@ -60,7 +77,12 @@ export const Calendar = () => {
           <WeekCell>{weekDay}</WeekCell>
         ))}
         {days.map((item, index) => (
-          <DayCell key={`${item.number}-${item.isCurrentMoth}`}>
+          <DayCell
+            $hasTodos={hasTodos(item.number)}
+            onDoubleClick={toggleTodoList}
+            onClick={selectDate(item.number)}
+            key={`${item.number}-${item.isCurrentMoth}`}
+          >
             <input
               type='radio'
               name='day'
@@ -71,6 +93,9 @@ export const Calendar = () => {
           </DayCell>
         ))}
       </Cells>
+      {isOpenTodoList && (
+        <TodoList onClose={toggleTodoList} date={selectedDate} />
+      )}
     </CalendarWrapper>
   );
 };

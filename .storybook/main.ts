@@ -1,3 +1,4 @@
+import path from 'node:path';
 import type { StorybookConfig } from '@storybook/react-webpack5';
 
 const config: StorybookConfig = {
@@ -9,6 +10,15 @@ const config: StorybookConfig = {
     '@storybook/addon-onboarding',
     '@storybook/addon-interactions',
   ],
+  webpackFinal: async (config) => {
+    if (config?.resolve?.alias) {
+      config.resolve.alias = {
+        ...config.resolve.alias,
+        '@': path.resolve(__dirname, '../src'),
+      };
+    }
+    return config;
+  },
   framework: {
     name: '@storybook/react-webpack5',
     options: {},

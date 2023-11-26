@@ -18,22 +18,30 @@ import { getTodosByDate } from '@/utils/getTodosByDate';
 import { shiftArrayToLeft } from '@/utils/shiftArrayToLeft';
 
 interface CalendarProps {
+  initialDate?: Date;
   isStartWithMonday?: boolean;
   minDate?: Date;
   maxDate?: Date;
 }
 
 export const Calendar = ({
+  initialDate,
   isStartWithMonday = false,
   minDate,
   maxDate,
 }: CalendarProps) => {
+  const initialYear = initialDate?.getFullYear();
+  const initialMonth = initialDate?.getMonth();
   const weekDays = isStartWithMonday
     ? shiftArrayToLeft(WEEK_DAYS_NAMES, 1)
     : WEEK_DAYS_NAMES;
 
-  const [year, setYear] = useState<number>(2023);
-  const [month, setMonth] = useState<number>(3);
+  const [year, setYear] = useState<number>(
+    () => initialYear || new Date().getFullYear(),
+  );
+  const [month, setMonth] = useState<number>(
+    () => initialMonth || new Date().getMonth(),
+  );
   const [days, setDays] = useState<Day[]>([]);
   const [isOpenTodoList, setIsOpenTodoList] = useState<boolean>(false);
   const [selectedDate, setSelectedDate] = useState<Date>(null!);
@@ -42,6 +50,7 @@ export const Calendar = ({
     const newDays = calculateDaysInMonth({
       year,
       month,
+      isStartWithMonday,
       minDate,
       maxDate,
     });
@@ -106,7 +115,7 @@ export const Calendar = ({
         {days.map((item, index) => (
           <DayCell
             $hasTodos={hasTodos(item.number)}
-            // key={`${item.number}${item.isCurrentMoth}`}
+            key={`${item.number}${item.isCurrentMoth}`}
           >
             <input
               type='radio'

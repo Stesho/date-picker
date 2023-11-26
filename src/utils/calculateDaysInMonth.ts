@@ -1,11 +1,19 @@
 import { Day } from '@/types/Day';
 
+interface CalculateDaysInMonthParams {
+  year: number;
+  month: number;
+  isStartWithMonday?: boolean;
+  minDate?: Date;
+  maxDate?: Date;
+}
+
 export const DISPLAYED_DAYS_COUNT = 42;
 
-const minYear = 1970;
-const maxYear = 2099;
-const minMonth = 0;
-const maxMonth = 11;
+const minLimitYear = 1970;
+const maxLimitYear = 2099;
+const minLimitMonth = 0;
+const maxLimitMonth = 11;
 const firstWeekDay = 0;
 const lastWeekDay = 6;
 
@@ -20,16 +28,18 @@ const getFirstDayInMonth = (
   return firstDayInMonth - (isStartWithMonday ? 1 : 0);
 };
 
-export const calculateDaysInMonth = (
-  year: number,
-  month: number,
+export const calculateDaysInMonth = ({
+  year,
+  month,
   isStartWithMonday = false,
-): Day[] | null => {
+  minDate,
+  maxDate,
+}: CalculateDaysInMonthParams): Day[] | null => {
   if (
-    year < minYear ||
-    year > maxYear ||
-    month < minMonth ||
-    month > maxMonth
+    year < minLimitYear ||
+    year > maxLimitYear ||
+    month < minLimitMonth ||
+    month > maxLimitMonth
   ) {
     return null;
   }
@@ -59,9 +69,28 @@ export const calculateDaysInMonth = (
       dayNumber = 1;
     }
 
+    let temp = false;
+    if (i >= firstDayInMonth && i < lastDayInMonth) {
+      temp = true;
+    }
+
+    if (minDate) {
+      const currentDate = new Date(year, month, dayNumber);
+      if (currentDate < minDate) {
+        temp = false;
+      }
+    }
+
+    if (maxDate) {
+      const currentDate = new Date(year, month, dayNumber);
+      if (currentDate > maxDate) {
+        temp = false;
+      }
+    }
+
     newDays.push({
       number: dayNumber,
-      isCurrentMoth: i >= firstDayInMonth && i < lastDayInMonth,
+      isCurrentMoth: temp,
     });
   }
 

@@ -8,6 +8,6 @@ export const Datepicker = () => (
   <div>
     <ResetStyles />
     <DateInput />
-    <Calendar />
+    <Calendar initialDate={new Date(2024, 11, 5)} />
   </div>
 );

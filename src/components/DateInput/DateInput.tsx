@@ -7,9 +7,13 @@ import {
   Input,
 } from '@/components/DateInput/DateInput.styled';
 
-export const DateInput = () => (
+interface DateInputProps {
+  toggleCalendar: () => void;
+}
+
+export const DateInput = ({ toggleCalendar }: DateInputProps) => (
   <DateInputWrapper>
-    <CalendarIcon />
+    <CalendarIcon onClick={toggleCalendar} />
     <Input placeholder='Choose Date' />
     <CrossButton type='button'>✖</CrossButton>
   </DateInputWrapper>

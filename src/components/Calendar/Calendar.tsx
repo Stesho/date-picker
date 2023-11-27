@@ -19,16 +19,16 @@ import { shiftArrayToLeft } from '@/utils/shiftArrayToLeft';
 
 interface CalendarProps {
   initialDate?: Date;
-  isStartWithMonday?: boolean;
   minDate?: Date;
   maxDate?: Date;
+  isStartWithMonday?: boolean;
 }
 
 export const Calendar = ({
   initialDate,
-  isStartWithMonday = false,
   minDate,
   maxDate,
+  isStartWithMonday = false,
 }: CalendarProps) => {
   const initialYear = initialDate?.getFullYear();
   const initialMonth = initialDate?.getMonth();
@@ -98,6 +98,13 @@ export const Calendar = ({
     minDate,
     maxDate,
   ]);
+
+  useEffect(() => {
+    if (initialDate) {
+      setYear(initialDate.getFullYear());
+      setMonth(initialDate.getMonth());
+    }
+  }, [initialDate]);
 
   return (
     <CalendarWrapper>

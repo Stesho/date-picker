@@ -1,4 +1,4 @@
-import React, { ChangeEvent, useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useState } from 'react';
 
 import { Calendar } from '@/components/Calendar/Calendar';
 import { DateInput } from '@/components/DateInput/DateInput';
@@ -21,47 +21,36 @@ export const Datepicker = ({
   isStartWithMonday = false,
 }: DatepickerProps) => {
   const [isOpenCalendar, setIsOpenCalendar] = useState(false);
-  const [dateValue, setDateValue] = useState('');
   const [isError, setIsError] = useState(false);
   const [currentDate, setCurrentDate] = useState(initialDate);
 
-  const onInputValue = (event: ChangeEvent<HTMLInputElement>) => {
-    setDateValue(event.target.value);
-  };
+  const isInvalidDateString = useCallback(
+    (dateString: string) => dateString !== '' && !datePattern.test(dateString),
+    [],
+  );
 
-  const onClearInput = () => {
-    setDateValue('');
-  };
+  const onInputValue = useCallback(
+    (dateString: string) => {
+      if (!isInvalidDateString(dateString)) {
+        setCurrentDate(parseDateString(dateString));
+        setIsError(false);
+      } else {
+        setIsError(true);
+      }
+    },
+    [isInvalidDateString],
+  );
 
   const toggleCalendar = () => {
     setIsOpenCalendar(!isOpenCalendar);
   };
 
-  const getCurrentDate = useCallback(() => {
-    const newDate = parseDateString(dateValue);
-    return dateValue && !isError ? newDate : initialDate;
-  }, [dateValue, isError, initialDate]);
-
-  useEffect(() => {
-    setCurrentDate(getCurrentDate());
-  }, [dateValue, getCurrentDate]);
-
-  useEffect(() => {
-    setIsError(
-      (dateValue !== '' && !datePattern.test(dateValue)) ||
-        (minDate !== undefined && parseDateString(dateValue) < minDate) ||
-        (maxDate !== undefined && parseDateString(dateValue) > maxDate),
-    );
-  }, [dateValue, minDate, maxDate]);
-
   return (
     <div>
       <ResetStyles />
       <DateInput
-        dateValue={dateValue}
         toggleCalendar={toggleCalendar}
         onInputValue={onInputValue}
-        onClearInput={onClearInput}
         isError={isError}
       />
       {isOpenCalendar && (

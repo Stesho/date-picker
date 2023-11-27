@@ -11,5 +11,11 @@ export default meta;
 type Story = StoryObj<typeof DateInput>;
 
 export const Default: Story = {
-  render: () => <DateInput />,
+  render: () => (
+    <DateInput
+      onInputValue={() => {}}
+      toggleCalendar={() => {}}
+      isError={false}
+    />
+  ),
 };

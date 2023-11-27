@@ -1,4 +1,4 @@
-import React, { ChangeEvent } from 'react';
+import React, { ChangeEvent, useEffect, useState } from 'react';
 
 import {
   CalendarIcon,
@@ -8,35 +8,52 @@ import {
 } from '@/components/DateInput/DateInput.styled';
 
 interface DateInputProps {
-  dateValue: string;
   toggleCalendar: () => void;
-  onInputValue: (event: ChangeEvent<HTMLInputElement>) => void;
-  onClearInput: () => void;
+  onInputValue: (dateString: string) => void;
   isError: boolean;
 }
 
 export const DateInput = ({
-  dateValue,
   toggleCalendar,
   onInputValue,
-  onClearInput,
   isError,
-}: DateInputProps) => (
-  <DateInputWrapper>
-    <CalendarIcon onClick={toggleCalendar} />
-    <Input
-      value={dateValue}
-      onChange={onInputValue}
-      placeholder='Choose Date'
-      type='text'
-      style={{
-        borderColor: isError ? 'red' : '#ddd',
-      }}
-    />
-    {dateValue.length > 0 && (
-      <CrossButton onClick={onClearInput} type='button'>
-        ✖
-      </CrossButton>
-    )}
-  </DateInputWrapper>
-);
+}: DateInputProps) => {
+  const numbersOrSlashSymbol = /^[\d\\/]*$/;
+
+  const [value, setValue] = useState('');
+
+  const onChange = (event: ChangeEvent<HTMLInputElement>) => {
+    const dateString = event.target.value;
+    if (numbersOrSlashSymbol.test(dateString)) {
+      setValue(dateString);
+    }
+  };
+
+  const onClearInput = () => {
+    setValue('');
+  };
+
+  useEffect(() => {
+    onInputValue(value);
+  }, [onInputValue, value]);
+
+  return (
+    <DateInputWrapper>
+      <CalendarIcon onClick={toggleCalendar} />
+      <Input
+        value={value}
+        onChange={onChange}
+        placeholder='Choose Date'
+        type='text'
+        style={{
+          borderColor: isError ? 'red' : '#ddd',
+        }}
+      />
+      {value.length > 0 && (
+        <CrossButton onClick={onClearInput} type='button'>
+          ✖
+        </CrossButton>
+      )}
+    </DateInputWrapper>
+  );
+};

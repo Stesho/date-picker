@@ -6,14 +6,17 @@ import {
   DateInputWrapper,
   Input,
 } from '@/components/DateInput/DateInput.styled';
+import { dateToString } from '@/utils/dateToString';
 
 interface DateInputProps {
+  currentDate: Date | null;
   toggleCalendar: () => void;
   onInputValue: (dateString: string) => void;
   isError: boolean;
 }
 
 export const DateInput = ({
+  currentDate,
   toggleCalendar,
   onInputValue,
   isError,
@@ -26,16 +29,21 @@ export const DateInput = ({
     const dateString = event.target.value;
     if (numbersOrSlashSymbol.test(dateString)) {
       setValue(dateString);
+      onInputValue(dateString);
     }
   };
 
   const onClearInput = () => {
     setValue('');
+    onInputValue('');
   };
 
   useEffect(() => {
-    onInputValue(value);
-  }, [onInputValue, value]);
+    if (currentDate) {
+      const dateString = dateToString(currentDate);
+      setValue(dateString);
+    }
+  }, [currentDate]);
 
   return (
     <DateInputWrapper>

@@ -11,5 +11,5 @@ export default meta;
 type Story = StoryObj<typeof Calendar>;
 
 export const Default: Story = {
-  render: () => <Calendar />,
+  render: () => <Calendar currentDate={new Date()} setCurrentDate={() => {}} />,
 };

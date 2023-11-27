@@ -22,23 +22,23 @@ export const Datepicker = ({
 }: DatepickerProps) => {
   const [isOpenCalendar, setIsOpenCalendar] = useState(false);
   const [isError, setIsError] = useState(false);
-  const [currentDate, setCurrentDate] = useState(initialDate);
+  const [currentDate, setCurrentDate] = useState(initialDate || null);
 
-  const isInvalidDateString = useCallback(
-    (dateString: string) => dateString !== '' && !datePattern.test(dateString),
+  const isValidDateString = useCallback(
+    (dateString: string) => dateString === '' || datePattern.test(dateString),
     [],
   );
 
   const onInputValue = useCallback(
     (dateString: string) => {
-      if (!isInvalidDateString(dateString)) {
-        setCurrentDate(parseDateString(dateString));
+      if (isValidDateString(dateString)) {
+        setCurrentDate(dateString !== '' ? parseDateString(dateString) : null);
         setIsError(false);
       } else {
         setIsError(true);
       }
     },
-    [isInvalidDateString],
+    [isValidDateString],
   );
 
   const toggleCalendar = () => {
@@ -49,13 +49,15 @@ export const Datepicker = ({
     <div>
       <ResetStyles />
       <DateInput
+        currentDate={currentDate}
         toggleCalendar={toggleCalendar}
         onInputValue={onInputValue}
         isError={isError}
       />
       {isOpenCalendar && (
         <Calendar
-          initialDate={currentDate}
+          currentDate={currentDate}
+          setCurrentDate={setCurrentDate}
           minDate={minDate}
           maxDate={maxDate}
           isStartWithMonday={isStartWithMonday}

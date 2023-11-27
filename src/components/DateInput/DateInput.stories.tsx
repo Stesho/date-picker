@@ -13,6 +13,7 @@ type Story = StoryObj<typeof DateInput>;
 export const Default: Story = {
   render: () => (
     <DateInput
+      currentDate={new Date()}
       onInputValue={() => {}}
       toggleCalendar={() => {}}
       isError={false}

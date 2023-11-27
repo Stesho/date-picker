@@ -13,9 +13,9 @@ type Story = StoryObj<typeof Datepicker>;
 export const Default: Story = {
   render: () => (
     <Datepicker
-      initialDate={new Date(2022, 5, 15)}
-      minDate={new Date(2022, 3, 15)}
-      maxDate={new Date(2022, 7, 15)}
+      initialDate={new Date(2023, 10, 15)}
+      minDate={new Date(2023, 7, 5)}
+      maxDate={new Date(2024, 2, 10)}
     />
   ),
 };

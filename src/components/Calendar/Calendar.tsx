@@ -1,8 +1,9 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 
 import { CalendarWrapper } from '@/components/Calendar/Calendar.styled';
 import { Cells } from '@/components/Cells/Cells';
 import { Controllers } from '@/components/Controllers/Controllers';
+import { DateContext } from '@/context/dateContext';
 
 interface CalendarProps {
   currentDate: Date | null;
@@ -46,25 +47,31 @@ export const Calendar = ({
     }
   }, [currentDate]);
 
+  const dateContext = useMemo(
+    () => ({
+      year,
+      month,
+      currentDate,
+      minDate,
+      maxDate,
+    }),
+    [year, month, currentDate, minDate, maxDate],
+  );
+
   return (
     <CalendarWrapper>
-      <Controllers
-        year={year}
-        month={month}
-        setMonth={setMonth}
-        setYear={setYear}
-        onSetPrevMonth={onSetMonth(month - 1)}
-        onSetNextMonth={onSetMonth(month + 1)}
-      />
-      <Cells
-        year={year}
-        month={month}
-        currentDate={currentDate}
-        onSetCurrentDate={onSetCurrentDate}
-        isStartWithMonday={isStartWithMonday}
-        minDate={minDate}
-        maxDate={maxDate}
-      />
+      <DateContext.Provider value={dateContext}>
+        <Controllers
+          setMonth={setMonth}
+          setYear={setYear}
+          onSetPrevMonth={onSetMonth(month - 1)}
+          onSetNextMonth={onSetMonth(month + 1)}
+        />
+        <Cells
+          onSetCurrentDate={onSetCurrentDate}
+          isStartWithMonday={isStartWithMonday}
+        />
+      </DateContext.Provider>
     </CalendarWrapper>
   );
 };

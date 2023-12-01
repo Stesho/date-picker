@@ -1,26 +1,22 @@
-import React from 'react';
+import React, { useContext } from 'react';
 
 import { DayCell } from '@/components/Cells/DayCells/DayCells.styled';
+import { DateContext } from '@/context/dateContext';
 import { Day } from '@/types/Day';
 import { getTodosByDate } from '@/utils/getTodosByDate';
 
 interface DayCellsProps {
-  year: number;
-  month: number;
-  currentDate: Date | null;
   days: Day[];
   onSetCurrentDate: (date: Date) => void;
   toggleTodoList: () => void;
 }
 
 const DayCells = ({
-  year,
-  month,
   days,
-  currentDate,
   onSetCurrentDate,
   toggleTodoList,
 }: DayCellsProps) => {
+  const { year, month, currentDate } = useContext(DateContext);
   const hasTodos = (selectedDay: number) => {
     const todosList = getTodosByDate(new Date(year, month, selectedDay));
     return todosList.length !== 0;

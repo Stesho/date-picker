@@ -1,31 +1,21 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 
 import { CellsWrapper } from '@/components/Cells/Cells.styled';
 import DayCells from '@/components/Cells/DayCells/DayCells';
 import WeekCells from '@/components/Cells/WeekCells/WeekCells';
 import { TodoList } from '@/components/TodoList/TodoList';
+import { DateContext } from '@/context/dateContext';
 import { Day } from '@/types/Day';
 import { calculateDaysInMonth } from '@/utils/calculateDaysInMonth';
 
 interface CellsProps {
-  year: number;
-  month: number;
-  currentDate: Date | null;
   onSetCurrentDate: (date: Date) => void;
   isStartWithMonday: boolean;
-  minDate?: Date;
-  maxDate?: Date;
 }
 
-export const Cells = ({
-  year,
-  month,
-  currentDate,
-  onSetCurrentDate,
-  minDate,
-  maxDate,
-  isStartWithMonday,
-}: CellsProps) => {
+export const Cells = ({ onSetCurrentDate, isStartWithMonday }: CellsProps) => {
+  const { year, month, currentDate, minDate, maxDate } =
+    useContext(DateContext);
   const [days, setDays] = useState<Day[]>([]);
   const [isOpenTodoList, setIsOpenTodoList] = useState<boolean>(false);
 
@@ -59,9 +49,6 @@ export const Cells = ({
     <CellsWrapper>
       <WeekCells isStartWithMonday={isStartWithMonday} />
       <DayCells
-        year={year}
-        month={month}
-        currentDate={currentDate}
         days={days}
         onSetCurrentDate={onSetCurrentDate}
         toggleTodoList={toggleTodoList}

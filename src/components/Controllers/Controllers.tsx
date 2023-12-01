@@ -17,7 +17,7 @@ interface ControllersProps {
   onSetNextMonth: () => void;
 }
 
-const Controllers = ({
+export const Controllers = ({
   year,
   month,
   setMonth,
@@ -57,5 +57,3 @@ const Controllers = ({
     </ControllersWrapper>
   );
 };
-
-export default Controllers;

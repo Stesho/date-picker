@@ -11,5 +11,11 @@ export default meta;
 type Story = StoryObj<typeof Datepicker>;
 
 export const Default: Story = {
-  render: () => <Datepicker />,
+  render: () => (
+    <Datepicker
+      initialDate={new Date(2023, 10, 15)}
+      minDate={new Date(2023, 7, 5)}
+      maxDate={new Date(2024, 2, 10)}
+    />
+  ),
 };

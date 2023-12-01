@@ -30,6 +30,8 @@ export const CalendarIcon = styled(CalendarIconSvg)`
   width: 16px;
   height: 16px;
   left: 15px;
+
+  cursor: pointer;
 `;
 
 export const CrossButton = styled.button`

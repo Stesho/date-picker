@@ -3,6 +3,7 @@ import React, { useCallback, useState } from 'react';
 import { Calendar } from '@/components/Calendar/Calendar';
 import { DateInput } from '@/components/DateInput/DateInput';
 import { ResetStyles } from '@/styles/reset';
+import { isValidDateString } from '@/utils/isValidDateString';
 import { parseDateString } from '@/utils/parseDateString';
 
 interface DatepickerProps {
@@ -11,8 +12,6 @@ interface DatepickerProps {
   maxDate?: Date;
   isStartWithMonday?: boolean;
 }
-
-const datePattern = /^(0[1-9]|[1-2][0-9]|3[0-1])\/(0[1-9]|1[0-2])\/(\d{4})$/;
 
 export const Datepicker = ({
   initialDate,
@@ -24,22 +23,15 @@ export const Datepicker = ({
   const [isError, setIsError] = useState(false);
   const [currentDate, setCurrentDate] = useState(initialDate || null);
 
-  const isValidDateString = useCallback(
-    (dateString: string) => dateString === '' || datePattern.test(dateString),
-    [],
-  );
-
-  const onInputValue = useCallback(
-    (dateString: string) => {
-      if (isValidDateString(dateString)) {
-        setCurrentDate(dateString !== '' ? parseDateString(dateString) : null);
-        setIsError(false);
-      } else {
-        setIsError(true);
-      }
-    },
-    [isValidDateString],
-  );
+  const onInputValue = useCallback((dateString: string) => {
+    if (isValidDateString(dateString)) {
+      setCurrentDate(dateString !== '' ? parseDateString(dateString) : null);
+      setIsError(false);
+    } else {
+      setCurrentDate(null);
+      setIsError(true);
+    }
+  }, []);
 
   const toggleCalendar = () => {
     setIsOpenCalendar(!isOpenCalendar);

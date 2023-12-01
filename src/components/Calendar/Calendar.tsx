@@ -3,14 +3,11 @@ import React, { useEffect, useState } from 'react';
 import {
   CalendarWrapper,
   Cells,
-  Controllers,
   DayCell,
-  NextControllerIcon,
-  PrevControllerIcon,
   WeekCell,
 } from '@/components/Calendar/Calendar.styled';
+import Controllers from '@/components/Controllers/Controllers';
 import { TodoList } from '@/components/TodoList/TodoList';
-import { CALENDAR_MONTH_NAMES } from '@/constants/calendarMonthNames';
 import { WEEK_DAYS_NAMES } from '@/constants/weekDaysNames';
 import { Day } from '@/types/Day';
 import { calculateDaysInMonth } from '@/utils/calculateDaysInMonth';
@@ -47,6 +44,18 @@ export const Calendar = ({
   const [days, setDays] = useState<Day[]>([]);
   const [isOpenTodoList, setIsOpenTodoList] = useState<boolean>(false);
 
+  const onSetPrevMonth = () => {
+    if (currentDate) {
+      setCurrentDate(new Date(year, month - 1, currentDate.getDate()));
+    }
+  };
+
+  const onSetNextMonth = () => {
+    if (currentDate) {
+      setCurrentDate(new Date(year, month + 1, currentDate.getDate()));
+    }
+  };
+
   const displayDaysInCurrentMonth = (): void => {
     const newDays = calculateDaysInMonth({
       year,
@@ -58,32 +67,6 @@ export const Calendar = ({
 
     if (newDays) {
       setDays([...newDays]);
-    }
-  };
-
-  const setNextMonth = (): void => {
-    if (month === 11) {
-      setMonth(0);
-      setYear((current) => current + 1);
-    } else {
-      setMonth((current) => current + 1);
-    }
-
-    if (currentDate) {
-      setCurrentDate(new Date(year, month + 1, currentDate.getDate()));
-    }
-  };
-
-  const setPrevMonth = (): void => {
-    if (month === 0) {
-      setMonth(11);
-      setYear((current) => current - 1);
-    } else {
-      setMonth((current) => current - 1);
-    }
-
-    if (currentDate) {
-      setCurrentDate(new Date(year, month - 1, currentDate.getDate()));
     }
   };
 
@@ -117,13 +100,14 @@ export const Calendar = ({
 
   return (
     <CalendarWrapper>
-      <Controllers>
-        <PrevControllerIcon onClick={setPrevMonth} />
-        <span>
-          {CALENDAR_MONTH_NAMES[month]} {year}
-        </span>
-        <NextControllerIcon onClick={setNextMonth} />
-      </Controllers>
+      <Controllers
+        year={year}
+        month={month}
+        setMonth={setMonth}
+        setYear={setYear}
+        onSetPrevMonth={onSetPrevMonth}
+        onSetNextMonth={onSetNextMonth}
+      />
       <Cells>
         {weekDays.map((weekDay) => (
           <WeekCell key={weekDay}>{weekDay}</WeekCell>
@@ -138,6 +122,7 @@ export const Calendar = ({
               name='day'
               id={`${index}${item.number}`}
               disabled={!item.isCurrentMoth}
+              onChange={selectDate(item.number)}
               checked={
                 !!currentDate &&
                 item.isCurrentMoth &&
@@ -146,7 +131,7 @@ export const Calendar = ({
             />
             <label
               onDoubleClick={toggleTodoList}
-              onClick={selectDate(item.number)}
+              // onClick={selectDate(item.number)}
               htmlFor={`${index}${item.number}`}
             >
               {item.number}

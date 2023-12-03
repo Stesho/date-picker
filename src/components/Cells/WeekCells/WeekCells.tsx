@@ -1,23 +1,19 @@
 import React from 'react';
 
 import { WeekCell } from '@/components/Cells/WeekCells/WeekCells.styled';
-import { WEEK_DAYS_NAMES } from '@/constants/weekDaysNames';
 import { cutWeekends } from '@/utils/cutWeekends';
-import { shiftArrayToLeft } from '@/utils/shiftArrayToLeft';
 
 interface WeekCellsProps {
+  weekDays: string[];
   isStartWithMonday: boolean;
   areWeekendsHidden: boolean;
 }
 
 const WeekCells = ({
+  weekDays,
   isStartWithMonday,
   areWeekendsHidden,
 }: WeekCellsProps) => {
-  const weekDays = isStartWithMonday
-    ? shiftArrayToLeft(WEEK_DAYS_NAMES, 1)
-    : WEEK_DAYS_NAMES;
-
   const weekendCalculatedWeekDays = areWeekendsHidden
     ? cutWeekends(weekDays, isStartWithMonday)
     : weekDays;

@@ -3,8 +3,13 @@ import React, { useContext, useEffect, useMemo, useState } from 'react';
 import { CalendarWrapper } from '@/components/Calendar/Calendar.styled';
 import { Cells } from '@/components/Cells/Cells';
 import { Controllers } from '@/components/Controllers/Controllers';
+import { WEEK_DAYS_NAMES } from '@/constants/weekDaysNames';
 import { CalendarContext } from '@/context/calendarContext';
 import { DateContext } from '@/context/dateContext';
+import { withMondayStart } from '@/hocs/withMondayStart';
+import { Day } from '@/types/Day';
+import { calculateDaysInMonth } from '@/utils/calculateDaysInMonth';
+import { cutWeekends } from '@/utils/cutWeekends';
 
 interface CalendarProps {
   setCurrentDate: (date: Date) => void;
@@ -17,7 +22,7 @@ export const Calendar = ({
   isStartWithMonday,
   areWeekendsHidden,
 }: CalendarProps) => {
-  const { currentDate } = useContext(DateContext);
+  const { currentDate, minDate, maxDate } = useContext(DateContext);
 
   const initialYear = currentDate?.getFullYear();
   const initialMonth = currentDate?.getMonth();
@@ -28,6 +33,7 @@ export const Calendar = ({
   const [month, setMonth] = useState<number>(
     () => initialMonth || new Date().getMonth(),
   );
+  const [days, setDays] = useState<Day[]>([]);
 
   const onSetMonth = (newMonth: number) => () => {
     if (currentDate) {
@@ -54,6 +60,35 @@ export const Calendar = ({
     [year, month],
   );
 
+  const displayDaysInCurrentMonth = (): void => {
+    const newDays = calculateDaysInMonth({
+      year,
+      month,
+      minDate,
+      maxDate,
+    });
+
+    if (newDays) {
+      const weekendCalculatedDays = areWeekendsHidden
+        ? cutWeekends(newDays, isStartWithMonday)
+        : newDays;
+      setDays([...weekendCalculatedDays]);
+    }
+  };
+
+  useEffect(displayDaysInCurrentMonth, [
+    month,
+    year,
+    isStartWithMonday,
+    areWeekendsHidden,
+    minDate,
+    maxDate,
+  ]);
+
+  const WithMondayStartCells = isStartWithMonday
+    ? withMondayStart(Cells)
+    : Cells;
+
   return (
     <CalendarWrapper>
       <CalendarContext.Provider value={dateContext}>
@@ -63,7 +98,11 @@ export const Calendar = ({
           onSetPrevMonth={onSetMonth(month - 1)}
           onSetNextMonth={onSetMonth(month + 1)}
         />
-        <Cells
+        <WithMondayStartCells
+          year={year}
+          month={month}
+          days={days}
+          weekDays={WEEK_DAYS_NAMES}
           areWeekendsHidden={areWeekendsHidden}
           onSetCurrentDate={onSetCurrentDate}
           isStartWithMonday={isStartWithMonday}

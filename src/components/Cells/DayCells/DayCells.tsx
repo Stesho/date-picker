@@ -1,6 +1,7 @@
 import React, { useContext } from 'react';
 
 import { DayCell } from '@/components/Cells/DayCells/DayCells.styled';
+import { CalendarContext } from '@/context/calendarContext';
 import { DateContext } from '@/context/dateContext';
 import { Day } from '@/types/Day';
 import { getTodosByDate } from '@/utils/getTodosByDate';
@@ -9,14 +10,18 @@ interface DayCellsProps {
   days: Day[];
   onSetCurrentDate: (date: Date) => void;
   toggleTodoList: () => void;
+  areWeekendsHidden: boolean;
 }
 
 const DayCells = ({
   days,
   onSetCurrentDate,
   toggleTodoList,
+  areWeekendsHidden,
 }: DayCellsProps) => {
-  const { year, month, currentDate } = useContext(DateContext);
+  const { year, month } = useContext(CalendarContext);
+  const { currentDate } = useContext(DateContext);
+
   const hasTodos = (selectedDay: number) => {
     const todosList = getTodosByDate(new Date(year, month, selectedDay));
     return todosList.length !== 0;
@@ -34,6 +39,7 @@ const DayCells = ({
       {days.map((day, index) => (
         <DayCell
           $hasTodos={hasTodos(day.number)}
+          $areWeekendsHidden={areWeekendsHidden}
           key={`${day.number}${day.isCurrentMoth}${index}`}
         >
           <input

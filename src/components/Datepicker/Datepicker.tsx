@@ -1,7 +1,8 @@
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useMemo, useState } from 'react';
 
 import { Calendar } from '@/components/Calendar/Calendar';
 import { DateInput } from '@/components/DateInput/DateInput';
+import { DateContext } from '@/context/dateContext';
 import { ResetStyles } from '@/styles/reset';
 import { isValidDateString } from '@/utils/isValidDateString';
 import { parseDateString } from '@/utils/parseDateString';
@@ -11,6 +12,7 @@ interface DatepickerProps {
   minDate?: Date;
   maxDate?: Date;
   isStartWithMonday?: boolean;
+  areWeekendsHidden?: boolean;
 }
 
 export const Datepicker = ({
@@ -18,6 +20,7 @@ export const Datepicker = ({
   minDate,
   maxDate,
   isStartWithMonday = false,
+  areWeekendsHidden = false,
 }: DatepickerProps) => {
   const [isOpenCalendar, setIsOpenCalendar] = useState(false);
   const [isError, setIsError] = useState(false);
@@ -37,24 +40,33 @@ export const Datepicker = ({
     setIsOpenCalendar(!isOpenCalendar);
   };
 
+  const dateContext = useMemo(
+    () => ({
+      currentDate,
+      minDate,
+      maxDate,
+    }),
+    [currentDate, minDate, maxDate],
+  );
+
   return (
     <div>
-      <ResetStyles />
-      <DateInput
-        currentDate={currentDate}
-        toggleCalendar={toggleCalendar}
-        onInputValue={onInputValue}
-        isError={isError}
-      />
-      {isOpenCalendar && (
-        <Calendar
+      <DateContext.Provider value={dateContext}>
+        <ResetStyles />
+        <DateInput
           currentDate={currentDate}
-          setCurrentDate={setCurrentDate}
-          minDate={minDate}
-          maxDate={maxDate}
-          isStartWithMonday={isStartWithMonday}
+          toggleCalendar={toggleCalendar}
+          onInputValue={onInputValue}
+          isError={isError}
         />
-      )}
+        {isOpenCalendar && (
+          <Calendar
+            setCurrentDate={setCurrentDate}
+            isStartWithMonday={isStartWithMonday}
+            areWeekendsHidden={areWeekendsHidden}
+          />
+        )}
+      </DateContext.Provider>
     </div>
   );
 };

@@ -1,7 +1,7 @@
 import React, { Dispatch, useContext } from 'react';
 
 import { CALENDAR_MONTH_NAMES } from '@/constants/calendarMonthNames';
-import { DateContext } from '@/context/dateContext';
+import { CalendarContext } from '@/context/calendarContext';
 
 import {
   ControllersWrapper,
@@ -22,7 +22,8 @@ export const Controllers = ({
   onSetPrevMonth,
   onSetNextMonth,
 }: ControllersProps) => {
-  const { year, month } = useContext(DateContext);
+  const { year, month } = useContext(CalendarContext);
+
   const setNextMonth = (): void => {
     if (month === 11) {
       setMonth(0);

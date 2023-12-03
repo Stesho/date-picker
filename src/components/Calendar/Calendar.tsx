@@ -1,25 +1,22 @@
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useContext, useEffect, useMemo, useState } from 'react';
 
 import { CalendarWrapper } from '@/components/Calendar/Calendar.styled';
 import { Cells } from '@/components/Cells/Cells';
 import { Controllers } from '@/components/Controllers/Controllers';
+import { CalendarContext } from '@/context/calendarContext';
 import { DateContext } from '@/context/dateContext';
 
 interface CalendarProps {
-  currentDate: Date | null;
   setCurrentDate: (date: Date) => void;
   isStartWithMonday: boolean;
-  minDate?: Date;
-  maxDate?: Date;
 }
 
 export const Calendar = ({
-  currentDate,
   setCurrentDate,
-  minDate,
-  maxDate,
   isStartWithMonday,
 }: CalendarProps) => {
+  const { currentDate } = useContext(DateContext);
+
   const initialYear = currentDate?.getFullYear();
   const initialMonth = currentDate?.getMonth();
 
@@ -51,16 +48,13 @@ export const Calendar = ({
     () => ({
       year,
       month,
-      currentDate,
-      minDate,
-      maxDate,
     }),
-    [year, month, currentDate, minDate, maxDate],
+    [year, month],
   );
 
   return (
     <CalendarWrapper>
-      <DateContext.Provider value={dateContext}>
+      <CalendarContext.Provider value={dateContext}>
         <Controllers
           setMonth={setMonth}
           setYear={setYear}
@@ -71,7 +65,7 @@ export const Calendar = ({
           onSetCurrentDate={onSetCurrentDate}
           isStartWithMonday={isStartWithMonday}
         />
-      </DateContext.Provider>
+      </CalendarContext.Provider>
     </CalendarWrapper>
   );
 };

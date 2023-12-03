@@ -4,6 +4,7 @@ import { CellsWrapper } from '@/components/Cells/Cells.styled';
 import DayCells from '@/components/Cells/DayCells/DayCells';
 import WeekCells from '@/components/Cells/WeekCells/WeekCells';
 import { TodoList } from '@/components/TodoList/TodoList';
+import { CalendarContext } from '@/context/calendarContext';
 import { DateContext } from '@/context/dateContext';
 import { Day } from '@/types/Day';
 import { calculateDaysInMonth } from '@/utils/calculateDaysInMonth';
@@ -14,8 +15,9 @@ interface CellsProps {
 }
 
 export const Cells = ({ onSetCurrentDate, isStartWithMonday }: CellsProps) => {
-  const { year, month, currentDate, minDate, maxDate } =
-    useContext(DateContext);
+  const { currentDate, minDate, maxDate } = useContext(DateContext);
+  const { year, month } = useContext(CalendarContext);
+
   const [days, setDays] = useState<Day[]>([]);
   const [isOpenTodoList, setIsOpenTodoList] = useState<boolean>(false);
 

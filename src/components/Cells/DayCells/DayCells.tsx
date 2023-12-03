@@ -10,12 +10,14 @@ interface DayCellsProps {
   days: Day[];
   onSetCurrentDate: (date: Date) => void;
   toggleTodoList: () => void;
+  areWeekendsHidden: boolean;
 }
 
 const DayCells = ({
   days,
   onSetCurrentDate,
   toggleTodoList,
+  areWeekendsHidden,
 }: DayCellsProps) => {
   const { year, month } = useContext(CalendarContext);
   const { currentDate } = useContext(DateContext);
@@ -37,6 +39,7 @@ const DayCells = ({
       {days.map((day, index) => (
         <DayCell
           $hasTodos={hasTodos(day.number)}
+          $areWeekendsHidden={areWeekendsHidden}
           key={`${day.number}${day.isCurrentMoth}${index}`}
         >
           <input

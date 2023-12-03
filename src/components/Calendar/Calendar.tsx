@@ -9,11 +9,13 @@ import { DateContext } from '@/context/dateContext';
 interface CalendarProps {
   setCurrentDate: (date: Date) => void;
   isStartWithMonday: boolean;
+  areWeekendsHidden: boolean;
 }
 
 export const Calendar = ({
   setCurrentDate,
   isStartWithMonday,
+  areWeekendsHidden,
 }: CalendarProps) => {
   const { currentDate } = useContext(DateContext);
 
@@ -62,6 +64,7 @@ export const Calendar = ({
           onSetNextMonth={onSetMonth(month + 1)}
         />
         <Cells
+          areWeekendsHidden={areWeekendsHidden}
           onSetCurrentDate={onSetCurrentDate}
           isStartWithMonday={isStartWithMonday}
         />

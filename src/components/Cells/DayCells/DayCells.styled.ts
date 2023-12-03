@@ -2,7 +2,13 @@ import styled from 'styled-components';
 
 import { Cell } from '@/components/Cells/Cells.styled';
 
-export const DayCell = styled(Cell)<{ $hasTodos: boolean }>`
+export const DayCell = styled(Cell)<{
+  $hasTodos: boolean;
+  $areWeekendsHidden: boolean;
+}>`
+  width: ${(props) => (props.$areWeekendsHidden ? '45.5px' : '32px')};
+  height: ${(props) => (props.$areWeekendsHidden ? '45.5px' : '32px')};
+
   & input {
     display: none;
   }

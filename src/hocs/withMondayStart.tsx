@@ -1,37 +1,15 @@
 import React, { ComponentType } from 'react';
 
 import { CellsProps } from '@/components/Cells/Cells';
-import { Day } from '@/types/Day';
 import { shiftArrayToLeft } from '@/utils/shiftArrayToLeft';
-import { shiftArrayToRight } from '@/utils/shiftArrayToRight';
+import { shiftDaysToLeft } from '@/utils/shiftDaysToLeft';
+import { shiftDaysToRight } from '@/utils/shiftDaysToRight';
 
 interface WrappedComponentProps extends CellsProps {
   year: number;
   month: number;
+  isStartWithMonday: boolean;
 }
-
-const shiftDaysToLeft = (days: Day[]) => {
-  const daysStartWithMonday = shiftArrayToLeft(days, 1);
-  const beforeLastDayNumber =
-    daysStartWithMonday[daysStartWithMonday.length - 2].number;
-  daysStartWithMonday[daysStartWithMonday.length - 1].number =
-    beforeLastDayNumber + 1;
-
-  return daysStartWithMonday;
-};
-
-const shiftDaysToRight = (days: Day[], daysInPrevMonth: number) => {
-  const shiftCount = 6;
-  const daysStartWithMonday = shiftArrayToRight(days, shiftCount);
-
-  let dayNum = daysInPrevMonth - shiftCount + 1;
-  for (let i = 0; i < shiftCount; i++) {
-    daysStartWithMonday[i].number = dayNum;
-    dayNum++;
-  }
-
-  return daysStartWithMonday;
-};
 
 export const withMondayStart = <T extends WrappedComponentProps>(
   WrappedComponent: ComponentType<T>,

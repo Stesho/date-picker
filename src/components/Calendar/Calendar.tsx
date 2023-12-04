@@ -6,10 +6,10 @@ import { Controllers } from '@/components/Controllers/Controllers';
 import { WEEK_DAYS_NAMES } from '@/constants/weekDaysNames';
 import { CalendarContext } from '@/context/calendarContext';
 import { DateContext } from '@/context/dateContext';
+import { withHiddenHolidays } from '@/hocs/withHiddenHolidays';
 import { withMondayStart } from '@/hocs/withMondayStart';
 import { Day } from '@/types/Day';
 import { calculateDaysInMonth } from '@/utils/calculateDaysInMonth';
-import { cutWeekends } from '@/utils/cutWeekends';
 
 interface CalendarProps {
   setCurrentDate: (date: Date) => void;
@@ -69,10 +69,7 @@ export const Calendar = ({
     });
 
     if (newDays) {
-      const weekendCalculatedDays = areWeekendsHidden
-        ? cutWeekends(newDays, isStartWithMonday)
-        : newDays;
-      setDays([...weekendCalculatedDays]);
+      setDays([...newDays]);
     }
   };
 
@@ -85,9 +82,13 @@ export const Calendar = ({
     maxDate,
   ]);
 
-  const WithMondayStartCells = isStartWithMonday
-    ? withMondayStart(Cells)
+  const WithHiddenHolidays = areWeekendsHidden
+    ? withHiddenHolidays(Cells)
     : Cells;
+
+  const WithMondayStartCells = isStartWithMonday
+    ? withMondayStart(WithHiddenHolidays)
+    : WithHiddenHolidays;
 
   return (
     <CalendarWrapper>

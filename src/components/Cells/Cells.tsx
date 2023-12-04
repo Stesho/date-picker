@@ -11,7 +11,6 @@ export interface CellsProps {
   days: Day[];
   weekDays: string[];
   onSetCurrentDate: (date: Date) => void;
-  isStartWithMonday: boolean;
   areWeekendsHidden: boolean;
 }
 
@@ -19,7 +18,6 @@ export const Cells = ({
   days,
   weekDays,
   onSetCurrentDate,
-  isStartWithMonday,
   areWeekendsHidden,
 }: CellsProps) => {
   const { currentDate } = useContext(DateContext);
@@ -31,11 +29,7 @@ export const Cells = ({
 
   return (
     <CellsWrapper>
-      <WeekCells
-        weekDays={weekDays}
-        isStartWithMonday={isStartWithMonday}
-        areWeekendsHidden={areWeekendsHidden}
-      />
+      <WeekCells weekDays={weekDays} areWeekendsHidden={areWeekendsHidden} />
       <DayCells
         days={days}
         onSetCurrentDate={onSetCurrentDate}

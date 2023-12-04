@@ -17,8 +17,6 @@ const maxLimitMonth = 11;
 export const getDaysInMonth = ({
   year,
   month,
-  minDate,
-  maxDate,
 }: CalculateDaysInMonthParams): Day[] | null => {
   if (
     year < minLimitYear ||
@@ -53,20 +51,6 @@ export const getDaysInMonth = ({
     let temp = false;
     if (i >= firstDayInMonth && i < lastDayInMonth) {
       temp = true;
-    }
-
-    if (minDate) {
-      const currentDate = new Date(year, month, dayNumber);
-      if (currentDate < minDate) {
-        temp = false;
-      }
-    }
-
-    if (maxDate) {
-      const currentDate = new Date(year, month, dayNumber);
-      if (currentDate > maxDate) {
-        temp = false;
-      }
     }
 
     newDays.push({

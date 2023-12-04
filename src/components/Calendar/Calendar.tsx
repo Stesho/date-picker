@@ -19,7 +19,7 @@ export const Calendar = ({
   isStartWithMonday,
   areWeekendsHidden,
 }: CalendarProps) => {
-  const { currentDate } = useContext(DateContext);
+  const { currentDate, minDate, maxDate } = useContext(DateContext);
 
   const initialYear = currentDate?.getFullYear();
   const initialMonth = currentDate?.getMonth();
@@ -60,6 +60,8 @@ export const Calendar = ({
   const CalendarBody = configurationService({
     isStartWithMonday,
     areWeekendsHidden,
+    minDate,
+    maxDate,
   });
 
   return (
@@ -75,6 +77,8 @@ export const Calendar = ({
           year={year}
           month={month}
           days={days}
+          minDate={minDate}
+          maxDate={maxDate}
           weekDays={WEEK_DAYS_NAMES}
           areWeekendsHidden={areWeekendsHidden}
           onSetCurrentDate={onSetCurrentDate}

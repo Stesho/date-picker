@@ -1,23 +1,30 @@
 import { Cells } from '@/components/Cells/Cells';
+import { withDateLimits } from '@/hocs/withDateLimits';
 import { withHiddenHolidays } from '@/hocs/withHiddenHolidays';
 import { withMondayStart } from '@/hocs/withMondayStart';
 
 interface ConfigurationServiceProps {
   isStartWithMonday?: boolean;
   areWeekendsHidden?: boolean;
+  minDate?: Date;
+  maxDate?: Date;
 }
 
 export const configurationService = ({
   isStartWithMonday,
   areWeekendsHidden,
+  minDate,
+  maxDate,
 }: ConfigurationServiceProps) => {
+  const daysWithDateLimits = minDate || maxDate ? withDateLimits(Cells) : Cells;
+
   if (areWeekendsHidden) {
-    return withHiddenHolidays(Cells);
+    return withHiddenHolidays(daysWithDateLimits);
   }
 
   if (isStartWithMonday) {
-    return withMondayStart(Cells);
+    return withMondayStart(daysWithDateLimits);
   }
 
-  return Cells;
+  return daysWithDateLimits;
 };

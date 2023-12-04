@@ -14,6 +14,8 @@ export const Default: Story = {
   render: () => (
     <Datepicker
       initialDate={new Date(2023, 9, 15)}
+      minDate={new Date(2023, 7, 10)}
+      maxDate={new Date(2024, 0, 15)}
       areWeekendsHidden
       isStartWithMonday
     />

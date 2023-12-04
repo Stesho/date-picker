@@ -14,7 +14,7 @@ const maxLimitYear = 2099;
 const minLimitMonth = 0;
 const maxLimitMonth = 11;
 
-export const calculateDaysInMonth = ({
+export const getDaysInMonth = ({
   year,
   month,
   minDate,

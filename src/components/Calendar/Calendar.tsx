@@ -5,9 +5,8 @@ import { Controllers } from '@/components/Controllers/Controllers';
 import { WEEK_DAYS_NAMES } from '@/constants/weekDaysNames';
 import { CalendarContext } from '@/context/calendarContext';
 import { DateContext } from '@/context/dateContext';
+import { useDays } from '@/hooks/useDays';
 import { configurationService } from '@/services/configurationService';
-import { Day } from '@/types/Day';
-import { calculateDaysInMonth } from '@/utils/calculateDaysInMonth';
 
 interface CalendarProps {
   setCurrentDate: (date: Date) => void;
@@ -20,7 +19,7 @@ export const Calendar = ({
   isStartWithMonday,
   areWeekendsHidden,
 }: CalendarProps) => {
-  const { currentDate, minDate, maxDate } = useContext(DateContext);
+  const { currentDate } = useContext(DateContext);
 
   const initialYear = currentDate?.getFullYear();
   const initialMonth = currentDate?.getMonth();
@@ -31,7 +30,7 @@ export const Calendar = ({
   const [month, setMonth] = useState<number>(
     () => initialMonth || new Date().getMonth(),
   );
-  const [days, setDays] = useState<Day[]>([]);
+  const [days] = useDays(year, month);
 
   const onSetMonth = (newMonth: number) => () => {
     if (currentDate) {
@@ -57,28 +56,6 @@ export const Calendar = ({
     }),
     [year, month],
   );
-
-  const displayDaysInCurrentMonth = (): void => {
-    const newDays = calculateDaysInMonth({
-      year,
-      month,
-      minDate,
-      maxDate,
-    });
-
-    if (newDays) {
-      setDays([...newDays]);
-    }
-  };
-
-  useEffect(displayDaysInCurrentMonth, [
-    month,
-    year,
-    isStartWithMonday,
-    areWeekendsHidden,
-    minDate,
-    maxDate,
-  ]);
 
   const CalendarBody = configurationService({
     isStartWithMonday,

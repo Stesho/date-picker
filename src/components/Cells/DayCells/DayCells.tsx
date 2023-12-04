@@ -40,6 +40,7 @@ const DayCells = ({
         <DayCell
           $hasTodos={hasTodos(day.number)}
           $areWeekendsHidden={areWeekendsHidden}
+          $isHoliday={day.isHoliday}
           key={`${day.number}${day.isCurrentMoth}${index}`}
         >
           <input

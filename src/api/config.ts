@@ -3,13 +3,11 @@ import axios, { AxiosError } from 'axios';
 import { HOLIDAYS_API_KEY } from '@/constants/environment/environment';
 import { BASE_URL } from '@/constants/holidays/endpoints';
 
-console.log('KEY = ', HOLIDAYS_API_KEY);
-
 export const holidaysInstance = axios.create({
   baseURL: BASE_URL,
   headers: {
     Accept: 'text/json',
-    'X-Api-Key': '/E9Utzc7doqFIdJQU1t82w==J7heC8AohHyFG4QT',
+    'X-Api-Key': HOLIDAYS_API_KEY,
   },
 });
 

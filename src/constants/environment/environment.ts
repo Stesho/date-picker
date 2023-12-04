@@ -1,1 +1,1 @@
-export const HOLIDAYS_API_KEY = process.env.HOLIDAYS_API_KEY || '';
+export const HOLIDAYS_API_KEY = process.env.REACT_APP_HOLIDAYS_API_KEY || '';

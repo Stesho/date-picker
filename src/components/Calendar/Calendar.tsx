@@ -2,7 +2,7 @@ import React, { useContext, useEffect, useMemo, useState } from 'react';
 
 import { CalendarWrapper } from '@/components/Calendar/Calendar.styled';
 import { Controllers } from '@/components/Controllers/Controllers';
-import { WEEK_DAYS_NAMES } from '@/constants/weekDaysNames';
+import { WEEK_DAYS_NAMES } from '@/constants/calendar/weekDaysNames';
 import { CalendarContext } from '@/context/calendarContext';
 import { DateContext } from '@/context/dateContext';
 import { useDays } from '@/hooks/useDays';
@@ -12,12 +12,16 @@ interface CalendarProps {
   setCurrentDate: (date: Date) => void;
   isStartWithMonday: boolean;
   areWeekendsHidden: boolean;
+  isHolidays: boolean;
+  country: string;
 }
 
 export const Calendar = ({
   setCurrentDate,
   isStartWithMonday,
+  isHolidays,
   areWeekendsHidden,
+  country,
 }: CalendarProps) => {
   const { currentDate, minDate, maxDate } = useContext(DateContext);
 
@@ -58,10 +62,13 @@ export const Calendar = ({
   );
 
   const CalendarBody = configurationService({
+    year,
+    isHolidays,
     isStartWithMonday,
     areWeekendsHidden,
     minDate,
     maxDate,
+    country,
   });
 
   return (
@@ -82,6 +89,7 @@ export const Calendar = ({
           weekDays={WEEK_DAYS_NAMES}
           areWeekendsHidden={areWeekendsHidden}
           onSetCurrentDate={onSetCurrentDate}
+          country={country}
         />
       </CalendarContext.Provider>
     </CalendarWrapper>

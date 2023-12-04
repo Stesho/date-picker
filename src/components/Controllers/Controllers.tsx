@@ -1,6 +1,6 @@
 import React, { Dispatch, useContext } from 'react';
 
-import { CALENDAR_MONTH_NAMES } from '@/constants/calendarMonthNames';
+import { CALENDAR_MONTH_NAMES } from '@/constants/calendar/calendarMonthNames';
 import { CalendarContext } from '@/context/calendarContext';
 
 import {

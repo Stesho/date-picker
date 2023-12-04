@@ -1,4 +1,4 @@
-import { TODOS_STORAGE_KEY } from '@/constants/todos';
+import { TODOS_STORAGE_KEY } from '@/constants/todos/todos';
 import { Todo, Todos } from '@/types/Todos';
 
 export const setTodosByDate = (date: Date, todos: Todo[]): void => {

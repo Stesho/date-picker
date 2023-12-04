@@ -14,6 +14,8 @@ interface DatepickerProps {
   maxDate?: Date;
   isStartWithMonday?: boolean;
   areWeekendsHidden?: boolean;
+  isHolidays?: boolean;
+  country?: string;
 }
 
 export const Datepicker = ({
@@ -22,6 +24,8 @@ export const Datepicker = ({
   maxDate,
   isStartWithMonday = false,
   areWeekendsHidden = false,
+  isHolidays = false,
+  country = 'BY',
 }: DatepickerProps) => {
   const [isOpenCalendar, setIsOpenCalendar] = useState(false);
   const [isError, setIsError] = useState(false);
@@ -74,6 +78,8 @@ export const Datepicker = ({
               setCurrentDate={setCurrentDate}
               isStartWithMonday={isStartWithMonday}
               areWeekendsHidden={areWeekendsHidden}
+              isHolidays={isHolidays}
+              country={country}
             />
           )}
         </WeekContext.Provider>

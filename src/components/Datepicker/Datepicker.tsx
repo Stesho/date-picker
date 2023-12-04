@@ -3,6 +3,7 @@ import React, { useCallback, useMemo, useState } from 'react';
 import { Calendar } from '@/components/Calendar/Calendar';
 import { DateInput } from '@/components/DateInput/DateInput';
 import { DateContext } from '@/context/dateContext';
+import { WeekContext } from '@/context/weekContext';
 import { ResetStyles } from '@/styles/reset';
 import { isValidDateString } from '@/utils/isValidDateString';
 import { parseDateString } from '@/utils/parseDateString';
@@ -49,23 +50,33 @@ export const Datepicker = ({
     [currentDate, minDate, maxDate],
   );
 
+  const weekContext = useMemo(
+    () => ({
+      isStartWithMonday,
+      areWeekendsHidden,
+    }),
+    [isStartWithMonday, areWeekendsHidden],
+  );
+
   return (
     <div>
       <DateContext.Provider value={dateContext}>
-        <ResetStyles />
-        <DateInput
-          currentDate={currentDate}
-          toggleCalendar={toggleCalendar}
-          onInputValue={onInputValue}
-          isError={isError}
-        />
-        {isOpenCalendar && (
-          <Calendar
-            setCurrentDate={setCurrentDate}
-            isStartWithMonday={isStartWithMonday}
-            areWeekendsHidden={areWeekendsHidden}
+        <WeekContext.Provider value={weekContext}>
+          <ResetStyles />
+          <DateInput
+            currentDate={currentDate}
+            toggleCalendar={toggleCalendar}
+            onInputValue={onInputValue}
+            isError={isError}
           />
-        )}
+          {isOpenCalendar && (
+            <Calendar
+              setCurrentDate={setCurrentDate}
+              isStartWithMonday={isStartWithMonday}
+              areWeekendsHidden={areWeekendsHidden}
+            />
+          )}
+        </WeekContext.Provider>
       </DateContext.Provider>
     </div>
   );

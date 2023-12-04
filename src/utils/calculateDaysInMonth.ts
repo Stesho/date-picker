@@ -3,7 +3,6 @@ import { Day } from '@/types/Day';
 interface CalculateDaysInMonthParams {
   year: number;
   month: number;
-  isStartWithMonday?: boolean;
   minDate?: Date;
   maxDate?: Date;
 }
@@ -14,26 +13,10 @@ const minLimitYear = 1970;
 const maxLimitYear = 2099;
 const minLimitMonth = 0;
 const maxLimitMonth = 11;
-const firstWeekDay = 0;
-const lastWeekDay = 6;
 
-const getFirstDayInMonth = (
-  firstDayInMonth: number,
-  isStartWithMonday: boolean,
-): number => {
-  if (isStartWithMonday && firstDayInMonth === firstWeekDay) {
-    return lastWeekDay;
-  }
-
-  return firstDayInMonth - (isStartWithMonday ? 1 : 0);
-};
-
-export const calculateDaysInMonth = ({
+export const getDaysInMonth = ({
   year,
   month,
-  isStartWithMonday = false,
-  minDate,
-  maxDate,
 }: CalculateDaysInMonthParams): Day[] | null => {
   if (
     year < minLimitYear ||
@@ -47,11 +30,7 @@ export const calculateDaysInMonth = ({
   const newDays: Day[] = [];
   const maxDays = new Date(year, month + 1, 0).getDate() + 1;
   const maxDaysInPrevMoth = new Date(year, month, 0).getDate() + 1;
-  const firstDayInMonthOffset = new Date(year, month, 1).getDay();
-  const firstDayInMonth = getFirstDayInMonth(
-    firstDayInMonthOffset,
-    isStartWithMonday,
-  );
+  const firstDayInMonth = new Date(year, month, 1).getDay();
   const lastDayInMonth = firstDayInMonth + maxDays - 1;
   let isCurrentMonth = false;
 
@@ -72,20 +51,6 @@ export const calculateDaysInMonth = ({
     let temp = false;
     if (i >= firstDayInMonth && i < lastDayInMonth) {
       temp = true;
-    }
-
-    if (minDate) {
-      const currentDate = new Date(year, month, dayNumber);
-      if (currentDate < minDate) {
-        temp = false;
-      }
-    }
-
-    if (maxDate) {
-      const currentDate = new Date(year, month, dayNumber);
-      if (currentDate > maxDate) {
-        temp = false;
-      }
     }
 
     newDays.push({

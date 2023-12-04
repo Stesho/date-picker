@@ -1,10 +1,12 @@
 import React, { useContext, useEffect, useMemo, useState } from 'react';
 
 import { CalendarWrapper } from '@/components/Calendar/Calendar.styled';
-import { Cells } from '@/components/Cells/Cells';
 import { Controllers } from '@/components/Controllers/Controllers';
+import { WEEK_DAYS_NAMES } from '@/constants/weekDaysNames';
 import { CalendarContext } from '@/context/calendarContext';
 import { DateContext } from '@/context/dateContext';
+import { useDays } from '@/hooks/useDays';
+import { configurationService } from '@/services/configurationService';
 
 interface CalendarProps {
   setCurrentDate: (date: Date) => void;
@@ -17,7 +19,7 @@ export const Calendar = ({
   isStartWithMonday,
   areWeekendsHidden,
 }: CalendarProps) => {
-  const { currentDate } = useContext(DateContext);
+  const { currentDate, minDate, maxDate } = useContext(DateContext);
 
   const initialYear = currentDate?.getFullYear();
   const initialMonth = currentDate?.getMonth();
@@ -28,6 +30,7 @@ export const Calendar = ({
   const [month, setMonth] = useState<number>(
     () => initialMonth || new Date().getMonth(),
   );
+  const [days] = useDays(year, month);
 
   const onSetMonth = (newMonth: number) => () => {
     if (currentDate) {
@@ -54,6 +57,13 @@ export const Calendar = ({
     [year, month],
   );
 
+  const CalendarBody = configurationService({
+    isStartWithMonday,
+    areWeekendsHidden,
+    minDate,
+    maxDate,
+  });
+
   return (
     <CalendarWrapper>
       <CalendarContext.Provider value={dateContext}>
@@ -63,10 +73,15 @@ export const Calendar = ({
           onSetPrevMonth={onSetMonth(month - 1)}
           onSetNextMonth={onSetMonth(month + 1)}
         />
-        <Cells
+        <CalendarBody
+          year={year}
+          month={month}
+          days={days}
+          minDate={minDate}
+          maxDate={maxDate}
+          weekDays={WEEK_DAYS_NAMES}
           areWeekendsHidden={areWeekendsHidden}
           onSetCurrentDate={onSetCurrentDate}
-          isStartWithMonday={isStartWithMonday}
         />
       </CalendarContext.Provider>
     </CalendarWrapper>

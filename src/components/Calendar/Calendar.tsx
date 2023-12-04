@@ -1,13 +1,11 @@
 import React, { useContext, useEffect, useMemo, useState } from 'react';
 
 import { CalendarWrapper } from '@/components/Calendar/Calendar.styled';
-import { Cells } from '@/components/Cells/Cells';
 import { Controllers } from '@/components/Controllers/Controllers';
 import { WEEK_DAYS_NAMES } from '@/constants/weekDaysNames';
 import { CalendarContext } from '@/context/calendarContext';
 import { DateContext } from '@/context/dateContext';
-import { withHiddenHolidays } from '@/hocs/withHiddenHolidays';
-import { withMondayStart } from '@/hocs/withMondayStart';
+import { configurationService } from '@/services/configurationService';
 import { Day } from '@/types/Day';
 import { calculateDaysInMonth } from '@/utils/calculateDaysInMonth';
 
@@ -82,13 +80,10 @@ export const Calendar = ({
     maxDate,
   ]);
 
-  const WithHiddenHolidays = areWeekendsHidden
-    ? withHiddenHolidays(Cells)
-    : Cells;
-
-  const WithMondayStartCells = isStartWithMonday
-    ? withMondayStart(WithHiddenHolidays)
-    : WithHiddenHolidays;
+  const CalendarBody = configurationService({
+    isStartWithMonday,
+    areWeekendsHidden,
+  });
 
   return (
     <CalendarWrapper>
@@ -99,14 +94,13 @@ export const Calendar = ({
           onSetPrevMonth={onSetMonth(month - 1)}
           onSetNextMonth={onSetMonth(month + 1)}
         />
-        <WithMondayStartCells
+        <CalendarBody
           year={year}
           month={month}
           days={days}
           weekDays={WEEK_DAYS_NAMES}
           areWeekendsHidden={areWeekendsHidden}
           onSetCurrentDate={onSetCurrentDate}
-          isStartWithMonday={isStartWithMonday}
         />
       </CalendarContext.Provider>
     </CalendarWrapper>

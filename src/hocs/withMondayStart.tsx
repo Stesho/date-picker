@@ -8,7 +8,6 @@ import { shiftDaysToRight } from '@/utils/shiftDaysToRight';
 interface WrappedComponentProps extends CellsProps {
   year: number;
   month: number;
-  isStartWithMonday: boolean;
 }
 
 export const withMondayStart = <T extends WrappedComponentProps>(

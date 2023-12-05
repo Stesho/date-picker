@@ -9,7 +9,7 @@ interface WrappedComponentProps extends CellsProps {
   weekDays: string[];
 }
 
-export const withHiddenHolidays = <T extends WrappedComponentProps>(
+export const withHiddenWeekends = <T extends WrappedComponentProps>(
   WrappedComponent: ComponentType<T>,
 ) =>
   function (props: T) {

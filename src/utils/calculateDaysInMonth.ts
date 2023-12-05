@@ -56,6 +56,7 @@ export const getDaysInMonth = ({
     newDays.push({
       number: dayNumber,
       isCurrentMoth: temp,
+      isHoliday: false,
     });
   }
 

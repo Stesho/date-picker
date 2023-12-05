@@ -5,25 +5,23 @@ import { Controllers } from '@/components/Controllers/Controllers';
 import { WEEK_DAYS_NAMES } from '@/constants/calendar/weekDaysNames';
 import { CalendarContext } from '@/context/calendarContext';
 import { DateContext } from '@/context/dateContext';
+import { WeekContext } from '@/context/weekContext';
 import { useDays } from '@/hooks/useDays';
 import { configurationService } from '@/services/configurationService';
 
 interface CalendarProps {
   setCurrentDate: (date: Date) => void;
-  isStartWithMonday: boolean;
-  areWeekendsHidden: boolean;
   isHolidays: boolean;
   country: string;
 }
 
 export const Calendar = ({
   setCurrentDate,
-  isStartWithMonday,
   isHolidays,
-  areWeekendsHidden,
   country,
 }: CalendarProps) => {
   const { currentDate, minDate, maxDate } = useContext(DateContext);
+  const { isStartWithMonday, areWeekendsHidden } = useContext(WeekContext);
 
   const initialYear = currentDate?.getFullYear();
   const initialMonth = currentDate?.getMonth();
@@ -87,7 +85,7 @@ export const Calendar = ({
           minDate={minDate}
           maxDate={maxDate}
           weekDays={WEEK_DAYS_NAMES}
-          areWeekendsHidden={areWeekendsHidden}
+          areWeekendsHidden={areWeekendsHidden!}
           onSetCurrentDate={onSetCurrentDate}
           country={country}
         />

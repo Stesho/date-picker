@@ -5,17 +5,12 @@ import { DateInput } from '@/components/DateInput/DateInput';
 import { DateContext } from '@/context/dateContext';
 import { WeekContext } from '@/context/weekContext';
 import { ResetStyles } from '@/styles/reset';
+import { DatepickerParams } from '@/types/DatepickerParams';
 import { isValidDateString } from '@/utils/isValidDateString';
 import { parseDateString } from '@/utils/parseDateString';
 
-interface DatepickerProps {
+interface DatepickerProps extends DatepickerParams {
   initialDate?: Date;
-  minDate?: Date;
-  maxDate?: Date;
-  isStartWithMonday?: boolean;
-  areWeekendsHidden?: boolean;
-  isHolidays?: boolean;
-  country?: string;
 }
 
 export const Datepicker = ({
@@ -58,8 +53,10 @@ export const Datepicker = ({
     () => ({
       isStartWithMonday,
       areWeekendsHidden,
+      isHolidays,
+      country,
     }),
-    [isStartWithMonday, areWeekendsHidden],
+    [isStartWithMonday, areWeekendsHidden, isHolidays, country],
   );
 
   return (
@@ -73,15 +70,7 @@ export const Datepicker = ({
             onInputValue={onInputValue}
             isError={isError}
           />
-          {isOpenCalendar && (
-            <Calendar
-              setCurrentDate={setCurrentDate}
-              isStartWithMonday={isStartWithMonday}
-              areWeekendsHidden={areWeekendsHidden}
-              isHolidays={isHolidays}
-              country={country}
-            />
-          )}
+          {isOpenCalendar && <Calendar setCurrentDate={setCurrentDate} />}
         </WeekContext.Provider>
       </DateContext.Provider>
     </div>

@@ -1,26 +1,30 @@
-import React, { useContext, useEffect, useMemo, useState } from 'react';
+import React, { useContext, useMemo, useState } from 'react';
 
 import { CalendarWrapper } from '@/components/Calendar/Calendar.styled';
-import { Cells } from '@/components/Cells/Cells';
 import { Controllers } from '@/components/Controllers/Controllers';
+import { RangeCells } from '@/components/RangeCells/RangeCells';
 import { WEEK_DAYS_NAMES } from '@/constants/calendar/weekDaysNames';
 import { CalendarContext } from '@/context/calendarContext';
-import { DateContext } from '@/context/dateContext';
+import { RangeDateContext } from '@/context/rangeDateContext';
 import { WeekContext } from '@/context/weekContext';
 import { useDays } from '@/hooks/useDays';
 import { configurationService } from '@/services/configurationService';
 
-interface CalendarProps {
-  setCurrentDate: (date: Date) => void;
+interface RangeCalendarProps {
+  setStartDate: (date: Date) => void;
+  setFinishDate: (date: Date) => void;
 }
 
-export const Calendar = ({ setCurrentDate }: CalendarProps) => {
-  const { currentDate, minDate, maxDate } = useContext(DateContext);
+export const RangeCalendar = ({
+  setStartDate,
+  setFinishDate,
+}: RangeCalendarProps) => {
+  const { startDate, minDate, maxDate } = useContext(RangeDateContext);
   const { isStartWithMonday, areWeekendsHidden, isHolidays, country } =
     useContext(WeekContext);
 
-  const initialYear = currentDate?.getFullYear();
-  const initialMonth = currentDate?.getMonth();
+  const initialYear = startDate?.getFullYear();
+  const initialMonth = startDate?.getMonth();
 
   const [year, setYear] = useState<number>(
     () => initialYear || new Date().getFullYear(),
@@ -29,23 +33,15 @@ export const Calendar = ({ setCurrentDate }: CalendarProps) => {
     () => initialMonth || new Date().getMonth(),
   );
   const [days] = useDays(year, month);
+  const [isStartDateSelect, setIsStartDateSelect] = useState(true);
 
-  const onSetMonth = (newMonth: number) => () => {
-    if (currentDate) {
-      setCurrentDate(new Date(year, newMonth, currentDate.getDate()));
-    }
+  const onSetStartDate = (date: Date) => {
+    setStartDate(date);
   };
 
-  const onSetCurrentDate = (date: Date) => {
-    setCurrentDate(date);
+  const onSetFinishDate = (date: Date) => {
+    setFinishDate(date);
   };
-
-  useEffect(() => {
-    if (currentDate) {
-      setYear(currentDate.getFullYear());
-      setMonth(currentDate.getMonth());
-    }
-  }, [currentDate]);
 
   const dateContext = useMemo(
     () => ({
@@ -56,7 +52,7 @@ export const Calendar = ({ setCurrentDate }: CalendarProps) => {
   );
 
   const CalendarBody = configurationService({
-    element: Cells,
+    element: RangeCells,
     year,
     isHolidays,
     isStartWithMonday,
@@ -69,12 +65,7 @@ export const Calendar = ({ setCurrentDate }: CalendarProps) => {
   return (
     <CalendarWrapper>
       <CalendarContext.Provider value={dateContext}>
-        <Controllers
-          setMonth={setMonth}
-          setYear={setYear}
-          onSetPrevMonth={onSetMonth(month - 1)}
-          onSetNextMonth={onSetMonth(month + 1)}
-        />
+        <Controllers setMonth={setMonth} setYear={setYear} />
         <CalendarBody
           year={year}
           month={month}
@@ -83,7 +74,10 @@ export const Calendar = ({ setCurrentDate }: CalendarProps) => {
           maxDate={maxDate}
           weekDays={WEEK_DAYS_NAMES}
           areWeekendsHidden={areWeekendsHidden!}
-          onSetCurrentDate={onSetCurrentDate}
+          onSetStartDate={onSetStartDate}
+          onSetFinishDate={onSetFinishDate}
+          isStartDateSelect={isStartDateSelect}
+          setIsStartDateSelect={setIsStartDateSelect}
           country={country}
         />
       </CalendarContext.Provider>

@@ -6,6 +6,9 @@ export const DayCell = styled(Cell)<{
   $hasTodos: boolean;
   $areWeekendsHidden: boolean;
   $isHoliday: boolean;
+  $isRange?: boolean;
+  $isStart?: boolean;
+  $isFinish?: boolean;
 }>`
   width: ${(props) => (props.$areWeekendsHidden ? '45.5px' : '32px')};
   height: ${(props) => (props.$areWeekendsHidden ? '45.5px' : '32px')};
@@ -22,11 +25,22 @@ export const DayCell = styled(Cell)<{
     justify-content: center;
     width: 100%;
     height: 100%;
-    border-radius: 8px;
+    background-color: ${(props) =>
+      props.$isRange ? 'rgba(47, 128, 237, 0.10)' : 'none'};
+    border-radius: ${(props) => {
+      if (props.$isStart) return '8px 0 0 8px';
+      if (props.$isFinish) return '0 8px 8px 0';
+      if (props.$isRange) return 'none';
+      return '8px';
+    }};
   }
 
   & input:not(:disabled) + label {
-    color: ${(props) => (props.$isHoliday ? 'red' : 'inherit')};
+    color: ${(props) => {
+      if (props.$isHoliday) return 'red';
+      if (props.$isRange) return '#2F80ED';
+      return 'inherit';
+    }};
   }
 
   & input:not(:disabled):not(:checked) + label:hover {
@@ -51,6 +65,7 @@ export const DayCell = styled(Cell)<{
 
   & input:checked + label {
     color: #fff;
-    background-color: #2f80ed;
+    background-color: ${(props) =>
+      props.$isStart ? 'rgba(47, 128, 237, 0.60)' : '#2f80ed'};
   }
 `;

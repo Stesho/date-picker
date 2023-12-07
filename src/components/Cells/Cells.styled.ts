@@ -2,7 +2,7 @@ import styled from 'styled-components';
 
 export const CellsWrapper = styled.div`
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
   flex-wrap: wrap;
 `;
 

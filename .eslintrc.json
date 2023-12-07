@@ -23,6 +23,7 @@
   "plugins": ["react", "@typescript-eslint", "simple-import-sort"],
   "rules": {
     "no-plusplus": "off",
+    "no-else-return": "off",
     "react/jsx-no-undef": "off",
     "import/prefer-default-export": "off",
     "import/extensions": "off",

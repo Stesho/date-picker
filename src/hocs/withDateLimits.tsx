@@ -1,18 +1,9 @@
 import React, { ComponentType } from 'react';
 
-import { CellsProps } from '@/components/Cells/Cells';
-import { Day } from '@/types/Day';
+import { ConfigurableElementProps } from '@/types/ConfigurableElementProps';
 import { setDatesLimits } from '@/utils/setDatesLimits';
 
-interface WrappedComponentProps extends CellsProps {
-  year: number;
-  month: number;
-  days: Day[];
-  minDate?: Date;
-  maxDate?: Date;
-}
-
-export const withDateLimits = <T extends WrappedComponentProps>(
+export const withDateLimits = <T extends ConfigurableElementProps>(
   WrappedComponent: ComponentType<T>,
 ) =>
   function (props: T) {

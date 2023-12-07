@@ -12,8 +12,8 @@ import {
 interface ControllersProps {
   setMonth: Dispatch<React.SetStateAction<number>>;
   setYear: Dispatch<React.SetStateAction<number>>;
-  onSetPrevMonth: () => void;
-  onSetNextMonth: () => void;
+  onSetPrevMonth?: () => void;
+  onSetNextMonth?: () => void;
 }
 
 export const Controllers = ({
@@ -32,7 +32,7 @@ export const Controllers = ({
       setMonth((current) => current + 1);
     }
 
-    onSetNextMonth();
+    onSetNextMonth?.();
   };
 
   const setPrevMonth = (): void => {
@@ -43,7 +43,7 @@ export const Controllers = ({
       setMonth((current) => current - 1);
     }
 
-    onSetPrevMonth();
+    onSetPrevMonth?.();
   };
 
   return (

@@ -1,0 +1,66 @@
+import React from 'react';
+import type { Meta, StoryObj } from '@storybook/react';
+
+import { RangeDatepicker } from '@/components/RangeDatepicker/RangeDatepicker';
+
+const meta: Meta<typeof RangeDatepicker> = {
+  component: RangeDatepicker,
+  argTypes: {
+    initialStartDate: {
+      control: 'date',
+    },
+    initialFinishDate: {
+      control: 'date',
+    },
+    minDate: {
+      control: 'date',
+    },
+    maxDate: {
+      control: 'date',
+    },
+    isHolidays: {
+      control: 'boolean',
+    },
+    isStartWithMonday: {
+      control: 'boolean',
+    },
+    areWeekendsHidden: {
+      control: 'boolean',
+    },
+    country: {
+      control: 'text',
+    },
+  },
+};
+
+export default meta;
+type Story = StoryObj<typeof RangeDatepicker>;
+
+export const Default: Story = {
+  render: (args) => {
+    const initialStartDate =
+      typeof args.initialStartDate === 'number'
+        ? new Date(args.initialStartDate)
+        : args.initialStartDate;
+    const initialFinishDate =
+      typeof args.initialFinishDate === 'number'
+        ? new Date(args.initialFinishDate)
+        : args.initialFinishDate;
+
+    return (
+      <RangeDatepicker
+        {...args}
+        initialStartDate={initialStartDate}
+        initialFinishDate={initialFinishDate}
+      />
+    );
+  },
+  args: {
+    initialStartDate: new Date(2023, 11, 9),
+    initialFinishDate: new Date(2023, 11, 10),
+    isStartWithMonday: false,
+    isHolidays: false,
+    areWeekendsHidden: false,
+    country: 'BY',
+  },
+};

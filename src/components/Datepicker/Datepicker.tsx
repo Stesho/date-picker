@@ -53,8 +53,10 @@ export const Datepicker = ({
     () => ({
       isStartWithMonday,
       areWeekendsHidden,
+      isHolidays,
+      country,
     }),
-    [isStartWithMonday, areWeekendsHidden],
+    [isStartWithMonday, areWeekendsHidden, isHolidays, country],
   );
 
   return (
@@ -68,13 +70,7 @@ export const Datepicker = ({
             onInputValue={onInputValue}
             isError={isError}
           />
-          {isOpenCalendar && (
-            <Calendar
-              setCurrentDate={setCurrentDate}
-              isHolidays={isHolidays}
-              country={country}
-            />
-          )}
+          {isOpenCalendar && <Calendar setCurrentDate={setCurrentDate} />}
         </WeekContext.Provider>
       </DateContext.Provider>
     </div>

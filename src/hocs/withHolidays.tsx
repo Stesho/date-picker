@@ -1,20 +1,11 @@
 import React, { ComponentType, useEffect, useState } from 'react';
 
 import { fetchHolidays } from '@/api/fetchHolidays';
-import { CellsProps } from '@/components/Cells/Cells';
 import { HOLIDAYS_STORAGE_KEY } from '@/constants/holidays/storage';
+import { ConfigurableElementProps } from '@/types/ConfigurableElementProps';
 import { Day } from '@/types/Day';
 import { Holiday } from '@/types/Holiday';
 import { holidaysToHolidaysByDate } from '@/utils/setHolidays';
-
-interface WrappedComponentProps extends CellsProps {
-  days: Day[];
-  year: number;
-  month: number;
-  country: string;
-  minDate?: Date;
-  maxDate?: Date;
-}
 
 interface HolidaysByDate {
   [K: string]: Holiday;
@@ -44,7 +35,7 @@ const addHolidaysToDays = (
     };
   });
 
-export const withHolidays = <T extends WrappedComponentProps>(
+export const withHolidays = <T extends ConfigurableElementProps>(
   WrappedComponent: ComponentType<T>,
 ) =>
   function (props: T) {

@@ -23,24 +23,23 @@ export const RangeDateInput = ({
   onInputValue,
   isError,
 }: RangeDateInputProps) => {
-  const numbersOrSlashSymbol = /^[\d\\/]*$/;
+  const numbersOrSlashSymbol = /^[\d\\/]* ?[-:]? ?[\d\\/]*$/;
   const separator = ' - ';
 
   const [value, setValue] = useState('');
 
   const onChange = (event: ChangeEvent<HTMLInputElement>) => {
     const dateString = event.target.value;
-    const [start, finish] = dateString.split(separator);
 
-    if (numbersOrSlashSymbol.test(start) && numbersOrSlashSymbol.test(finish)) {
+    if (numbersOrSlashSymbol.test(dateString)) {
       setValue(dateString);
       onInputValue(dateString);
     }
   };
 
   const onClearInput = () => {
-    setValue(separator);
-    onInputValue(separator);
+    setValue('');
+    onInputValue('');
   };
 
   useEffect(() => {

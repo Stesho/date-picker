@@ -1,19 +1,14 @@
 import React, { ComponentType } from 'react';
 
-import { CellsProps } from '@/components/Cells/Cells';
+import { ConfigurableElementProps } from '@/types/ConfigurableElementProps';
 import { shiftArrayToLeft } from '@/utils/shiftArrayToLeft';
 import { shiftDaysToLeft } from '@/utils/shiftDaysToLeft';
 import { shiftDaysToRight } from '@/utils/shiftDaysToRight';
 
-interface WrappedComponentProps extends CellsProps {
-  year: number;
-  month: number;
-}
-
-export const withMondayStart = <T extends WrappedComponentProps>(
+export const withMondayStart = <T extends ConfigurableElementProps>(
   WrappedComponent: ComponentType<T>,
 ) =>
-  function (props: T) {
+  function (props: Omit<T, keyof ConfigurableElementProps>) {
     const { year, month, days, weekDays, ...rest } = props as T;
     const daysInPrevMoth = new Date(year, month, 0).getDate();
 

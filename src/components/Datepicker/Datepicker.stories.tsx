@@ -18,7 +18,7 @@ export const Default: Story = {
       // maxDate={new Date(2024, 0, 15)}
       // areWeekendsHidden
       // isStartWithMonday
-      isHolidays
+      // isHolidays
     />
   ),
 };

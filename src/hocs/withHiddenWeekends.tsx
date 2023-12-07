@@ -1,15 +1,9 @@
 import React, { ComponentType } from 'react';
 
-import { CellsProps } from '@/components/Cells/Cells';
-import { Day } from '@/types/Day';
+import { ConfigurableElementProps } from '@/types/ConfigurableElementProps';
 import { cutWeekends } from '@/utils/cutWeekends';
 
-interface WrappedComponentProps extends CellsProps {
-  days: Day[];
-  weekDays: string[];
-}
-
-export const withHiddenWeekends = <T extends WrappedComponentProps>(
+export const withHiddenWeekends = <T extends ConfigurableElementProps>(
   WrappedComponent: ComponentType<T>,
 ) =>
   function (props: T) {

@@ -25,6 +25,8 @@ export const withMondayStart = <T extends ConfigurableElementProps>(
     return (
       <WrappedComponent
         {...(rest as T)}
+        year={year}
+        month={month}
         days={shiftDays()}
         weekDays={shiftArrayToLeft(weekDays, 1)}
       />

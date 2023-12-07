@@ -68,6 +68,7 @@ export const withHolidays = <T extends ConfigurableElementProps>(
         {...(rest as T)}
         days={daysWithHolidays}
         year={year}
+        month={month}
         country={country}
       />
     );

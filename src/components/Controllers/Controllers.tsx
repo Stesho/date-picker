@@ -2,6 +2,7 @@ import React, { Dispatch, SetStateAction, useContext } from 'react';
 
 import { CALENDAR_MONTH_NAMES } from '@/constants/calendar/calendarMonthNames';
 import { CalendarContext } from '@/context/calendarContext';
+import { weeksInMonth } from '@/utils/weeksInMonth';
 
 import {
   ControllersWrapper,
@@ -24,7 +25,7 @@ export const Controllers = ({
   onSetPrevMonth,
   onSetNextMonth,
 }: ControllersProps) => {
-  const { year, month, week, weeksInMonth } = useContext(CalendarContext);
+  const { year, month, week } = useContext(CalendarContext);
 
   const setNextMonth = (): void => {
     if (month === 11) {
@@ -50,17 +51,23 @@ export const Controllers = ({
 
   const setPrevWeek = () => {
     if (week === 1) {
-      setWeek(weeksInMonth);
+      const newYear = month === 0 ? year - 1 : year;
+      const newMonth = month === 0 ? 11 : month - 1;
+
       setPrevMonth();
+      setWeek(weeksInMonth(newYear, newMonth));
     } else {
       setWeek((prev) => prev - 1);
     }
   };
 
   const setNextWeek = () => {
-    if (week === weeksInMonth) {
-      setWeek(1);
+    const newYear = month === 11 ? 0 : month + 1;
+    const newMonth = month === 11 ? year + 1 : year;
+
+    if (week === weeksInMonth(newYear, newMonth)) {
       setNextMonth();
+      setWeek(1);
     } else {
       setWeek((prev) => prev + 1);
     }

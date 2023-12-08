@@ -1,13 +1,15 @@
 import React, { useContext, useState } from 'react';
 
 import { CellsWrapper } from '@/components/Cells/Cells.styled';
-import WeekCells from '@/components/Cells/WeekCells/WeekCells';
-import RangeDayCells from '@/components/RangeCells/RangeDayCells/RangeDayCells';
+import { WeekCells } from '@/components/Cells/WeekCells/WeekCells';
+import { RangeDayCells } from '@/components/RangeCells/RangeDayCells/RangeDayCells';
 import { TodoList } from '@/components/TodoList/TodoList';
 import { RangeDateContext } from '@/context/rangeDateContext';
+import { CalendarTypes } from '@/types/CalendarTypes';
 import { Day } from '@/types/Day';
 
 export interface RangeCellsProps {
+  type: CalendarTypes;
   days: Day[];
   weekDays: string[];
   onSetStartDate: (date: Date) => void;
@@ -18,6 +20,7 @@ export interface RangeCellsProps {
 }
 
 export const RangeCells = ({
+  type,
   days,
   weekDays,
   areWeekendsHidden,
@@ -38,6 +41,7 @@ export const RangeCells = ({
     <CellsWrapper>
       <WeekCells weekDays={weekDays} areWeekendsHidden={areWeekendsHidden} />
       <RangeDayCells
+        type={type}
         days={days}
         onSetStartDate={onSetStartDate}
         onSetFinishDate={onSetFinishDate}

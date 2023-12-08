@@ -5,6 +5,7 @@ import { DateInput } from '@/components/DateInput/DateInput';
 import { DateContext } from '@/context/dateContext';
 import { WeekContext } from '@/context/weekContext';
 import { ResetStyles } from '@/styles/reset';
+import { CalendarTypes } from '@/types/CalendarTypes';
 import { DatepickerParams } from '@/types/DatepickerParams';
 import { isValidDateString } from '@/utils/isValidDateString';
 import { parseDateString } from '@/utils/parseDateString';
@@ -14,6 +15,7 @@ interface DatepickerProps extends DatepickerParams {
 }
 
 export const Datepicker = ({
+  type = CalendarTypes.Month,
   initialDate,
   minDate,
   maxDate,
@@ -70,7 +72,9 @@ export const Datepicker = ({
             onInputValue={onInputValue}
             isError={isError}
           />
-          {isOpenCalendar && <Calendar setCurrentDate={setCurrentDate} />}
+          {isOpenCalendar && (
+            <Calendar type={type} setCurrentDate={setCurrentDate} />
+          )}
         </WeekContext.Provider>
       </DateContext.Provider>
     </div>

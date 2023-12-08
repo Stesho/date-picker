@@ -1,5 +1,6 @@
 import { ComponentType } from 'react';
 
+import { withControllers } from '@/hocs/withControllers';
 import { withDateLimits } from '@/hocs/withDateLimits';
 import { withHiddenWeekends } from '@/hocs/withHiddenWeekends';
 import { withHolidays } from '@/hocs/withHolidays';
@@ -26,8 +27,11 @@ export const configurationService = <T extends ConfigurableElementProps>({
   maxDate,
   country,
 }: ConfigurationServiceProps<T>) => {
+  const typedCalendar = withControllers(element);
+
   const daysWithDateLimits =
-    minDate || maxDate ? withDateLimits(element) : element;
+    minDate || maxDate ? withDateLimits(typedCalendar) : typedCalendar;
+
   const daysWithHolidays =
     isHolidays && country
       ? withHolidays(daysWithDateLimits)

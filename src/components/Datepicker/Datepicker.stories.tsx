@@ -6,6 +6,10 @@ import { Datepicker } from './Datepicker';
 const meta: Meta<typeof Datepicker> = {
   component: Datepicker,
   argTypes: {
+    type: {
+      options: ['month', 'week'],
+      control: 'select',
+    },
     initialDate: {
       control: 'date',
     },

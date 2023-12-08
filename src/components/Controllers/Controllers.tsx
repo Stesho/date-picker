@@ -1,4 +1,4 @@
-import React, { Dispatch, useContext } from 'react';
+import React, { Dispatch, SetStateAction, useContext } from 'react';
 
 import { CALENDAR_MONTH_NAMES } from '@/constants/calendar/calendarMonthNames';
 import { CalendarContext } from '@/context/calendarContext';
@@ -10,8 +10,9 @@ import {
 } from './Controllers.styled';
 
 interface ControllersProps {
-  setMonth: Dispatch<React.SetStateAction<number>>;
-  setYear: Dispatch<React.SetStateAction<number>>;
+  setMonth: Dispatch<SetStateAction<number>>;
+  setYear: Dispatch<SetStateAction<number>>;
+  setWeek: Dispatch<SetStateAction<number>>;
   onSetPrevMonth?: () => void;
   onSetNextMonth?: () => void;
 }
@@ -19,17 +20,18 @@ interface ControllersProps {
 export const Controllers = ({
   setMonth,
   setYear,
+  setWeek,
   onSetPrevMonth,
   onSetNextMonth,
 }: ControllersProps) => {
-  const { year, month } = useContext(CalendarContext);
+  const { year, month, week, weeksInMonth } = useContext(CalendarContext);
 
   const setNextMonth = (): void => {
     if (month === 11) {
       setMonth(0);
-      setYear((current) => current + 1);
+      setYear((prev) => prev + 1);
     } else {
-      setMonth((current) => current + 1);
+      setMonth((prev) => prev + 1);
     }
 
     onSetNextMonth?.();
@@ -38,21 +40,39 @@ export const Controllers = ({
   const setPrevMonth = (): void => {
     if (month === 0) {
       setMonth(11);
-      setYear((current) => current - 1);
+      setYear((prev) => prev - 1);
     } else {
-      setMonth((current) => current - 1);
+      setMonth((prev) => prev - 1);
     }
 
     onSetPrevMonth?.();
   };
 
+  const setPrevWeek = () => {
+    if (week === 1) {
+      setWeek(weeksInMonth);
+      setPrevMonth();
+    } else {
+      setWeek((prev) => prev - 1);
+    }
+  };
+
+  const setNextWeek = () => {
+    if (week === weeksInMonth) {
+      setWeek(1);
+      setNextMonth();
+    } else {
+      setWeek((prev) => prev + 1);
+    }
+  };
+
   return (
     <ControllersWrapper>
-      <PrevControllerIcon onClick={setPrevMonth} />
+      <PrevControllerIcon onClick={setPrevWeek} />
       <span>
-        {CALENDAR_MONTH_NAMES[month]} {year}
+        {week} week of {CALENDAR_MONTH_NAMES[month]} {year}
       </span>
-      <NextControllerIcon onClick={setNextMonth} />
+      <NextControllerIcon onClick={setNextWeek} />
     </ControllersWrapper>
   );
 };

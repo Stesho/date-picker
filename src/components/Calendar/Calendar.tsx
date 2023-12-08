@@ -9,10 +9,25 @@ import { DateContext } from '@/context/dateContext';
 import { WeekContext } from '@/context/weekContext';
 import { useDays } from '@/hooks/useDays';
 import { configurationService } from '@/services/configurationService';
+import { Day } from '@/types/Day';
 
 interface CalendarProps {
   setCurrentDate: (date: Date) => void;
 }
+
+const weeksInMonth = (days: Day[]) => {
+  let nextMonthFirstDayIndex = -1;
+
+  for (let i = days.length - 1; i >= 0; i--) {
+    if (days[i].number === 1) {
+      nextMonthFirstDayIndex = i;
+      break;
+    }
+  }
+
+  const currentMonthLastDayIndex = nextMonthFirstDayIndex - 1;
+  return Math.floor(currentMonthLastDayIndex / 7) + 1;
+};
 
 export const Calendar = ({ setCurrentDate }: CalendarProps) => {
   const { currentDate, minDate, maxDate } = useContext(DateContext);
@@ -28,6 +43,7 @@ export const Calendar = ({ setCurrentDate }: CalendarProps) => {
   const [month, setMonth] = useState<number>(
     () => initialMonth || new Date().getMonth(),
   );
+  const [week, setWeek] = useState<number>(1);
   const [days] = useDays(year, month);
 
   const onSetMonth = (newMonth: number) => () => {
@@ -51,8 +67,10 @@ export const Calendar = ({ setCurrentDate }: CalendarProps) => {
     () => ({
       year,
       month,
+      week,
+      weeksInMonth: weeksInMonth(days),
     }),
-    [year, month],
+    [year, month, week, days],
   );
 
   const CalendarBody = configurationService({
@@ -72,6 +90,7 @@ export const Calendar = ({ setCurrentDate }: CalendarProps) => {
         <Controllers
           setMonth={setMonth}
           setYear={setYear}
+          setWeek={setWeek}
           onSetPrevMonth={onSetMonth(month - 1)}
           onSetNextMonth={onSetMonth(month + 1)}
         />

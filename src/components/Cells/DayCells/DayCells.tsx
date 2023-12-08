@@ -19,7 +19,7 @@ const DayCells = ({
   toggleTodoList,
   areWeekendsHidden,
 }: DayCellsProps) => {
-  const { year, month } = useContext(CalendarContext);
+  const { year, month, week } = useContext(CalendarContext);
   const { currentDate } = useContext(DateContext);
 
   const hasTodos = (selectedDay: number) => {
@@ -36,7 +36,7 @@ const DayCells = ({
 
   return (
     <>
-      {days.map((day, index) => (
+      {days.slice((week - 1) * 7, (week - 1) * 7 + 7).map((day, index) => (
         <DayCell
           $hasTodos={hasTodos(day.number)}
           $areWeekendsHidden={areWeekendsHidden}

@@ -1,21 +1,23 @@
 import React, { useContext, useMemo, useState } from 'react';
 
 import { CalendarWrapper } from '@/components/Calendar/Calendar.styled';
-import { Controllers } from '@/components/Controllers/Controllers';
-import { RangeCells } from '@/components/RangeCells/RangeCells';
+import { RangeCalendarBody } from '@/components/RangeCalendarBody/RangeCalendarBody';
 import { WEEK_DAYS_NAMES } from '@/constants/calendar/weekDaysNames';
 import { CalendarContext } from '@/context/calendarContext';
 import { RangeDateContext } from '@/context/rangeDateContext';
 import { WeekContext } from '@/context/weekContext';
 import { useDays } from '@/hooks/useDays';
 import { configurationService } from '@/services/configurationService';
+import { CalendarTypes } from '@/types/CalendarTypes';
 
 interface RangeCalendarProps {
+  type: CalendarTypes;
   setStartDate: (date: Date) => void;
   setFinishDate: (date: Date) => void;
 }
 
 export const RangeCalendar = ({
+  type,
   setStartDate,
   setFinishDate,
 }: RangeCalendarProps) => {
@@ -32,6 +34,7 @@ export const RangeCalendar = ({
   const [month, setMonth] = useState<number>(
     () => initialMonth || new Date().getMonth(),
   );
+  const [week, setWeek] = useState<number>(1);
   const [days] = useDays(year, month);
   const [isStartDateSelect, setIsStartDateSelect] = useState(true);
 
@@ -47,12 +50,13 @@ export const RangeCalendar = ({
     () => ({
       year,
       month,
+      week,
     }),
-    [year, month],
+    [year, month, week],
   );
 
-  const CalendarBody = configurationService({
-    element: RangeCells,
+  const RangeCalendarBodyWrapper = configurationService({
+    element: RangeCalendarBody,
     year,
     isHolidays,
     isStartWithMonday,
@@ -65,10 +69,14 @@ export const RangeCalendar = ({
   return (
     <CalendarWrapper>
       <CalendarContext.Provider value={dateContext}>
-        <Controllers setMonth={setMonth} setYear={setYear} />
-        <CalendarBody
+        <RangeCalendarBodyWrapper
+          type={type}
+          week={week}
           year={year}
           month={month}
+          setMonth={setMonth}
+          setYear={setYear}
+          setWeek={setWeek}
           days={days}
           minDate={minDate}
           maxDate={maxDate}

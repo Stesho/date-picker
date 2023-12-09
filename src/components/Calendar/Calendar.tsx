@@ -1,20 +1,21 @@
 import React, { useContext, useEffect, useMemo, useState } from 'react';
 
 import { CalendarWrapper } from '@/components/Calendar/Calendar.styled';
-import { Cells } from '@/components/Cells/Cells';
-import { Controllers } from '@/components/Controllers/Controllers';
+import { CalendarBody } from '@/components/CalendarBody/CalendarBody';
 import { WEEK_DAYS_NAMES } from '@/constants/calendar/weekDaysNames';
 import { CalendarContext } from '@/context/calendarContext';
 import { DateContext } from '@/context/dateContext';
 import { WeekContext } from '@/context/weekContext';
 import { useDays } from '@/hooks/useDays';
 import { configurationService } from '@/services/configurationService';
+import { CalendarTypes } from '@/types/CalendarTypes';
 
 interface CalendarProps {
+  type: CalendarTypes;
   setCurrentDate: (date: Date) => void;
 }
 
-export const Calendar = ({ setCurrentDate }: CalendarProps) => {
+export const Calendar = ({ type, setCurrentDate }: CalendarProps) => {
   const { currentDate, minDate, maxDate } = useContext(DateContext);
   const { isStartWithMonday, areWeekendsHidden, isHolidays, country } =
     useContext(WeekContext);
@@ -28,13 +29,8 @@ export const Calendar = ({ setCurrentDate }: CalendarProps) => {
   const [month, setMonth] = useState<number>(
     () => initialMonth || new Date().getMonth(),
   );
+  const [week, setWeek] = useState<number>(1);
   const [days] = useDays(year, month);
-
-  const onSetMonth = (newMonth: number) => () => {
-    if (currentDate) {
-      setCurrentDate(new Date(year, newMonth, currentDate.getDate()));
-    }
-  };
 
   const onSetCurrentDate = (date: Date) => {
     setCurrentDate(date);
@@ -47,16 +43,17 @@ export const Calendar = ({ setCurrentDate }: CalendarProps) => {
     }
   }, [currentDate]);
 
-  const dateContext = useMemo(
+  const calendarContext = useMemo(
     () => ({
       year,
       month,
+      week,
     }),
-    [year, month],
+    [year, month, week],
   );
 
-  const CalendarBody = configurationService({
-    element: Cells,
+  const CalendarBodyWrapper = configurationService({
+    element: CalendarBody,
     year,
     isHolidays,
     isStartWithMonday,
@@ -68,14 +65,8 @@ export const Calendar = ({ setCurrentDate }: CalendarProps) => {
 
   return (
     <CalendarWrapper>
-      <CalendarContext.Provider value={dateContext}>
-        <Controllers
-          setMonth={setMonth}
-          setYear={setYear}
-          onSetPrevMonth={onSetMonth(month - 1)}
-          onSetNextMonth={onSetMonth(month + 1)}
-        />
-        <CalendarBody
+      <CalendarContext.Provider value={calendarContext}>
+        <CalendarBodyWrapper
           year={year}
           month={month}
           days={days}
@@ -85,6 +76,13 @@ export const Calendar = ({ setCurrentDate }: CalendarProps) => {
           areWeekendsHidden={areWeekendsHidden!}
           onSetCurrentDate={onSetCurrentDate}
           country={country}
+          setMonth={setMonth}
+          setYear={setYear}
+          setWeek={setWeek}
+          type={type}
+          week={week}
+          currentDate={currentDate}
+          setCurrentDate={setCurrentDate}
         />
       </CalendarContext.Provider>
     </CalendarWrapper>

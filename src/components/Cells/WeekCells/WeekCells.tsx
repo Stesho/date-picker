@@ -7,7 +7,7 @@ interface WeekCellsProps {
   areWeekendsHidden: boolean;
 }
 
-const WeekCells = ({ weekDays, areWeekendsHidden }: WeekCellsProps) => (
+export const WeekCells = ({ weekDays, areWeekendsHidden }: WeekCellsProps) => (
   <>
     {weekDays.map((weekDay) => (
       <WeekCell $areWeekendsHidden={areWeekendsHidden} key={weekDay}>
@@ -16,5 +16,3 @@ const WeekCells = ({ weekDays, areWeekendsHidden }: WeekCellsProps) => (
     ))}
   </>
 );
-
-export default WeekCells;

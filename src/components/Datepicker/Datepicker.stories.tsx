@@ -1,11 +1,17 @@
 import React from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
 
+import { CalendarTypes } from '@/types/CalendarTypes';
+
 import { Datepicker } from './Datepicker';
 
 const meta: Meta<typeof Datepicker> = {
   component: Datepicker,
   argTypes: {
+    type: {
+      options: CalendarTypes,
+      control: 'select',
+    },
     initialDate: {
       control: 'date',
     },
@@ -43,6 +49,7 @@ export const Default: Story = {
     return <Datepicker {...args} initialDate={initialDate} />;
   },
   args: {
+    type: CalendarTypes.Month,
     initialDate: new Date(2023, 11, 5),
     isStartWithMonday: false,
     isHolidays: false,

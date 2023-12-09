@@ -2,10 +2,15 @@ import React from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
 
 import { RangeDatepicker } from '@/components/RangeDatepicker/RangeDatepicker';
+import { CalendarTypes } from '@/types/CalendarTypes';
 
 const meta: Meta<typeof RangeDatepicker> = {
   component: RangeDatepicker,
   argTypes: {
+    type: {
+      options: CalendarTypes,
+      control: 'select',
+    },
     initialStartDate: {
       control: 'date',
     },
@@ -56,6 +61,7 @@ export const Default: Story = {
     );
   },
   args: {
+    type: CalendarTypes.Month,
     initialStartDate: new Date(2023, 11, 9),
     initialFinishDate: new Date(2023, 11, 10),
     isStartWithMonday: false,

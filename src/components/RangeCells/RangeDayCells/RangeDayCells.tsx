@@ -3,6 +3,7 @@ import React, { useContext } from 'react';
 import { DayCell } from '@/components/Cells/DayCells/DayCells.styled';
 import { CalendarContext } from '@/context/calendarContext';
 import { RangeDateContext } from '@/context/rangeDateContext';
+import { CalendarTypes } from '@/types/CalendarTypes';
 import { Day } from '@/types/Day';
 import { getTodosByDate } from '@/utils/getTodosByDate';
 import { isCheckedDate } from '@/utils/isCheckedDate';
@@ -10,6 +11,7 @@ import { isRangeDate } from '@/utils/isRangeDate';
 import { isSameDates } from '@/utils/isSameDates';
 
 interface RangeDayCellsProps {
+  type: CalendarTypes;
   days: Day[];
   onSetStartDate: (date: Date) => void;
   onSetFinishDate: (date: Date) => void;
@@ -19,7 +21,8 @@ interface RangeDayCellsProps {
   setIsStartDateSelect: (isStartDateSelect: boolean) => void;
 }
 
-const RangeDayCells = ({
+export const RangeDayCells = ({
+  type,
   days,
   onSetStartDate,
   onSetFinishDate,
@@ -28,8 +31,15 @@ const RangeDayCells = ({
   isStartDateSelect,
   setIsStartDateSelect,
 }: RangeDayCellsProps) => {
-  const { year, month } = useContext(CalendarContext);
+  const { year, month, week } = useContext(CalendarContext);
   const { startDate, finishDate } = useContext(RangeDateContext);
+
+  const weekSize = areWeekendsHidden ? 5 : 7;
+  const weekIndex = week - 1;
+  const typedDays =
+    type === CalendarTypes.Month
+      ? days
+      : days.slice(weekIndex * weekSize, weekIndex * weekSize + weekSize);
 
   const hasTodos = (selectedDay: number) => {
     const todosList = getTodosByDate(new Date(year, month, selectedDay));
@@ -60,7 +70,7 @@ const RangeDayCells = ({
 
   return (
     <>
-      {days.map((day, index) => (
+      {typedDays.map((day, index) => (
         <DayCell
           $hasTodos={hasTodos(day.number)}
           $areWeekendsHidden={areWeekendsHidden}
@@ -94,5 +104,3 @@ const RangeDayCells = ({
     </>
   );
 };
-
-export default RangeDayCells;

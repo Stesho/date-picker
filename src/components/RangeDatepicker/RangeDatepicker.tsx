@@ -11,6 +11,7 @@ import { RangeDateInput } from '@/components/RangeDateInput/RangeDateInput';
 import { RangeDateContext } from '@/context/rangeDateContext';
 import { WeekContext } from '@/context/weekContext';
 import { ResetStyles } from '@/styles/reset';
+import { CalendarTypes } from '@/types/CalendarTypes';
 import { DatepickerParams } from '@/types/DatepickerParams';
 import { addDayToDate } from '@/utils/addDayToDate';
 import { isValidDateString } from '@/utils/isValidDateString';
@@ -22,6 +23,7 @@ interface RangeDatepickerProps extends DatepickerParams {
 }
 
 export const RangeDatepicker = ({
+  type = CalendarTypes.Month,
   initialStartDate,
   initialFinishDate,
   minDate,
@@ -109,6 +111,7 @@ export const RangeDatepicker = ({
           {errorMessage.length > 0 && <span>{errorMessage}</span>}
           {isOpenCalendar && (
             <RangeCalendar
+              type={type}
               setStartDate={setStartDate}
               setFinishDate={setFinishDate}
             />

@@ -8,7 +8,7 @@ import {
 } from '@/components/DateInput/DateInput.styled';
 import { dateToString } from '@/utils/dateToString';
 
-interface RangeDateInputProps {
+export interface RangeDateInputProps {
   startDate: Date | null;
   finishDate: Date | null;
   toggleCalendar: () => void;

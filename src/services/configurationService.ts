@@ -1,12 +1,12 @@
 import { ComponentType } from 'react';
 
-import { withCalendarLogic } from '@/hocs/withCalendarLogic';
 import { withControllers } from '@/hocs/withControllers';
 import { withDateLimits } from '@/hocs/withDateLimits';
-import { withDatepickerLogic } from '@/hocs/withDatepickerLogic';
 import { withHiddenWeekends } from '@/hocs/withHiddenWeekends';
 import { withHolidays } from '@/hocs/withHolidays';
 import { withMondayStart } from '@/hocs/withMondayStart';
+import { withRangeCalendarLogic } from '@/hocs/withRangeCalendarLogic';
+import { withRangepickerLogic } from '@/hocs/withRangepickerLogic';
 import { CalendarTypes } from '@/types/CalendarTypes';
 import { ConfigurableElementProps } from '@/types/ConfigurableElementProps';
 
@@ -42,16 +42,16 @@ export const configurationService = <T extends ConfigurableElementProps>({
       : daysWithDateLimits;
 
   if (areWeekendsHidden) {
-    return withDatepickerLogic(
-      withCalendarLogic(withHiddenWeekends(daysWithHolidays)),
+    return withRangepickerLogic(
+      withRangeCalendarLogic(withHiddenWeekends(daysWithHolidays)),
     );
   }
 
   if (isStartWithMonday) {
-    return withDatepickerLogic(
-      withCalendarLogic(withMondayStart(daysWithHolidays)),
+    return withRangepickerLogic(
+      withRangeCalendarLogic(withMondayStart(daysWithHolidays)),
     );
   }
 
-  return withDatepickerLogic(withCalendarLogic(daysWithHolidays));
+  return withRangepickerLogic(withRangeCalendarLogic(daysWithHolidays));
 };

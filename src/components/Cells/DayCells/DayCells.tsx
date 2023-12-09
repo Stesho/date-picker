@@ -5,7 +5,9 @@ import { CalendarContext } from '@/context/calendarContext';
 import { DateContext } from '@/context/dateContext';
 import { CalendarTypes } from '@/types/CalendarTypes';
 import { Day } from '@/types/Day';
-import { getTodosByDate } from '@/utils/getTodosByDate';
+import { getDaysByCalendarType } from '@/utils/dayCells/getDaysByCalendarType';
+import { hasTodos } from '@/utils/dayCells/hasTodos';
+import { isChecked } from '@/utils/dayCells/isChecked';
 
 interface DayCellsProps {
   type: CalendarTypes;
@@ -24,21 +26,7 @@ export const DayCells = ({
 }: DayCellsProps) => {
   const { year, month, week } = useContext(CalendarContext);
   const { currentDate } = useContext(DateContext);
-
-  const weekSize = areWeekendsHidden ? 5 : 7;
-  const weekIndex = week - 1;
-  const typedDays =
-    type === CalendarTypes.Month
-      ? days
-      : days.slice(weekIndex * weekSize, weekIndex * weekSize + weekSize);
-
-  const hasTodos = (selectedDay: number) => {
-    const todosList = getTodosByDate(new Date(year, month, selectedDay));
-    return todosList.length !== 0;
-  };
-
-  const isChecked = (isCurrentMonth: boolean, dayNumber: number) =>
-    !!currentDate && isCurrentMonth && currentDate.getDate() === dayNumber;
+  const typedDays = getDaysByCalendarType(type, days, week, areWeekendsHidden);
 
   const selectDate = (selectedDay: number) => () => {
     onSetCurrentDate(new Date(year, month, selectedDay));
@@ -48,7 +36,7 @@ export const DayCells = ({
     <>
       {typedDays.map((day, index) => (
         <DayCell
-          $hasTodos={hasTodos(day.number)}
+          $hasTodos={hasTodos(year, month, day.number)}
           $areWeekendsHidden={areWeekendsHidden}
           $isHoliday={day.isHoliday}
           key={`${day.number}${day.isCurrentMoth}${index}`}
@@ -59,7 +47,7 @@ export const DayCells = ({
             id={`${index}${day.number}`}
             disabled={!day.isCurrentMoth}
             onChange={selectDate(day.number)}
-            checked={isChecked(day.isCurrentMoth, day.number)}
+            checked={isChecked(day.isCurrentMoth, day.number, currentDate)}
           />
           <label
             onDoubleClick={toggleTodoList}

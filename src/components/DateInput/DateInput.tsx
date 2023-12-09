@@ -8,7 +8,7 @@ import {
 } from '@/components/DateInput/DateInput.styled';
 import { useDateInput } from '@/hooks/useDateInput';
 
-interface DateInputProps {
+export interface DateInputProps {
   currentDate: Date | null;
   toggleCalendar: () => void;
   onInputValue: (dateString: string) => void;

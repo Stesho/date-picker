@@ -1,10 +1,11 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext } from 'react';
 
 import { CellsWrapper } from '@/components/Cells/Cells.styled';
 import { DayCells } from '@/components/Cells/DayCells/DayCells';
 import { WeekCells } from '@/components/Cells/WeekCells/WeekCells';
 import { TodoList } from '@/components/TodoList/TodoList';
 import { DateContext } from '@/context/dateContext';
+import { useTodos } from '@/hooks/useTodos';
 import { CalendarTypes } from '@/types/CalendarTypes';
 import { Day } from '@/types/Day';
 
@@ -24,11 +25,7 @@ export const Cells = ({
   areWeekendsHidden,
 }: CellsProps) => {
   const { currentDate } = useContext(DateContext);
-  const [isOpenTodoList, setIsOpenTodoList] = useState<boolean>(false);
-
-  const toggleTodoList = () => {
-    setIsOpenTodoList(!isOpenTodoList);
-  };
+  const { isOpenTodoList, toggleTodoList } = useTodos();
 
   return (
     <CellsWrapper>

@@ -4,6 +4,7 @@ import { Calendar } from '@/components/Calendar/Calendar';
 import { DateInput } from '@/components/DateInput/DateInput';
 import { DateContext } from '@/context/dateContext';
 import { WeekContext } from '@/context/weekContext';
+import { withCalendarLogic } from '@/hocs/withCalendarLogic';
 import { ResetStyles } from '@/styles/reset';
 import { CalendarTypes } from '@/types/CalendarTypes';
 import { DatepickerParams } from '@/types/DatepickerParams';
@@ -13,6 +14,8 @@ import { parseDateString } from '@/utils/parseDateString';
 interface DatepickerProps extends DatepickerParams {
   initialDate?: Date;
 }
+
+const CalendarBodyWrapper = withCalendarLogic(Calendar);
 
 export const Datepicker = ({
   type = CalendarTypes.Month,
@@ -73,7 +76,7 @@ export const Datepicker = ({
             isError={isError}
           />
           {isOpenCalendar && (
-            <Calendar type={type} setCurrentDate={setCurrentDate} />
+            <CalendarBodyWrapper type={type} setCurrentDate={setCurrentDate} />
           )}
         </WeekContext.Provider>
       </DateContext.Provider>

@@ -1,4 +1,4 @@
-import React, { ChangeEvent, useEffect, useState } from 'react';
+import React from 'react';
 
 import {
   CalendarIcon,
@@ -6,7 +6,7 @@ import {
   DateInputWrapper,
   Input,
 } from '@/components/DateInput/DateInput.styled';
-import { dateToString } from '@/utils/dateToString';
+import { useDateInput } from '@/hooks/useDateInput';
 
 interface DateInputProps {
   currentDate: Date | null;
@@ -21,29 +21,10 @@ export const DateInput = ({
   onInputValue,
   isError,
 }: DateInputProps) => {
-  const numbersOrSlashSymbol = /^[\d\\/]*$/;
-
-  const [value, setValue] = useState('');
-
-  const onChange = (event: ChangeEvent<HTMLInputElement>) => {
-    const dateString = event.target.value;
-    if (numbersOrSlashSymbol.test(dateString)) {
-      setValue(dateString);
-      onInputValue(dateString);
-    }
-  };
-
-  const onClearInput = () => {
-    setValue('');
-    onInputValue('');
-  };
-
-  useEffect(() => {
-    if (currentDate) {
-      const dateString = dateToString(currentDate);
-      setValue(dateString);
-    }
-  }, [currentDate]);
+  const { value, onClearInput, onChange } = useDateInput(
+    onInputValue,
+    currentDate,
+  );
 
   return (
     <DateInputWrapper>

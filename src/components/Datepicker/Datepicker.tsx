@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { DatepickerBody } from '@/components/DatepickerBody/DatepickerBody';
-import { withDatepickerLogic } from '@/hocs/withDatepickerLogic';
+import { configurationService } from '@/services/configurationService';
 import { ResetStyles } from '@/styles/reset';
 import { CalendarTypes } from '@/types/CalendarTypes';
 import { DatepickerParams } from '@/types/DatepickerParams';
@@ -20,21 +20,29 @@ export const Datepicker = ({
   isHolidays = false,
   country = 'BY',
 }: DatepickerProps) => {
-  const WithDatepickerWrapper = withDatepickerLogic(DatepickerBody, {
-    type,
-    initialDate,
-    minDate,
-    maxDate,
+  const WithDatepickerWrapper = configurationService({
+    element: DatepickerBody,
     isStartWithMonday,
     areWeekendsHidden,
     isHolidays,
+    minDate,
+    maxDate,
     country,
   });
 
   return (
     <div>
       <ResetStyles />
-      <WithDatepickerWrapper />
+      <WithDatepickerWrapper
+        type={type}
+        initialDate={initialDate}
+        minDate={minDate}
+        maxDate={maxDate}
+        isStartWithMonday={isStartWithMonday}
+        areWeekendsHidden={areWeekendsHidden}
+        isHolidays={isHolidays}
+        country={country}
+      />
     </div>
   );
 };

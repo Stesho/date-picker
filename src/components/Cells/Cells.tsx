@@ -13,7 +13,7 @@ export interface CellsProps {
   type: CalendarTypes;
   days: Day[];
   weekDays: string[];
-  onSetCurrentDate: (date: Date) => void;
+  onSetCurrentDate: (selectedDay: number) => () => void;
   areWeekendsHidden: boolean;
 }
 

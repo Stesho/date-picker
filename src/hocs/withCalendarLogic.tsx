@@ -11,7 +11,6 @@ import { CalendarContext } from '@/context/calendarContext';
 import { DateContext } from '@/context/dateContext';
 import { WeekContext } from '@/context/weekContext';
 import { useDays } from '@/hooks/useDays';
-import { configurationService } from '@/services/configurationService';
 import { ConfigurableElementProps } from '@/types/ConfigurableElementProps';
 
 export const withCalendarLogic = <T extends ConfigurableElementProps>(
@@ -21,8 +20,7 @@ export const withCalendarLogic = <T extends ConfigurableElementProps>(
     const { type, setCurrentDate, ...rest } = props as T;
 
     const { currentDate, minDate, maxDate } = useContext(DateContext);
-    const { isStartWithMonday, areWeekendsHidden, isHolidays, country } =
-      useContext(WeekContext);
+    const { areWeekendsHidden, country } = useContext(WeekContext);
 
     const initialYear = currentDate?.getFullYear();
     const initialMonth = currentDate?.getMonth();
@@ -36,8 +34,8 @@ export const withCalendarLogic = <T extends ConfigurableElementProps>(
     const [week, setWeek] = useState<number>(1);
     const [days] = useDays(year, month);
 
-    const onSetCurrentDate = (date: Date) => {
-      setCurrentDate(date);
+    const onSetCurrentDate = (selectedDay: number) => () => {
+      setCurrentDate(new Date(year, month, selectedDay));
     };
 
     useEffect(() => {
@@ -56,20 +54,9 @@ export const withCalendarLogic = <T extends ConfigurableElementProps>(
       [year, month, week],
     );
 
-    const CalendarBodyWrapper = configurationService({
-      element: WrappedComponent,
-      year,
-      isHolidays,
-      isStartWithMonday,
-      areWeekendsHidden,
-      minDate,
-      maxDate,
-      country,
-    });
-
     return (
       <CalendarContext.Provider value={calendarContext}>
-        <CalendarBodyWrapper
+        <WrappedComponent
           {...(rest as T)}
           year={year}
           month={month}

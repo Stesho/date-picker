@@ -1,6 +1,5 @@
 import React, { ComponentType, useCallback, useMemo, useState } from 'react';
 
-import { DatepickerProps } from '@/components/Datepicker/Datepicker';
 import { DateContext } from '@/context/dateContext';
 import { WeekContext } from '@/context/weekContext';
 import { ConfigurableElementProps } from '@/types/ConfigurableElementProps';
@@ -9,10 +8,8 @@ import { parseDateString } from '@/utils/parseDateString';
 
 export const withDatepickerLogic = <T extends ConfigurableElementProps>(
   WrappedComponent: ComponentType<T>,
-  options: DatepickerProps,
 ) =>
   function (props: T) {
-    const { ...rest } = props as T;
     const {
       type,
       initialDate,
@@ -22,7 +19,8 @@ export const withDatepickerLogic = <T extends ConfigurableElementProps>(
       areWeekendsHidden,
       isHolidays,
       country = 'BY',
-    } = options;
+      ...rest
+    } = props as T;
 
     const [isOpenCalendar, setIsOpenCalendar] = useState(false);
     const [isError, setIsError] = useState(false);

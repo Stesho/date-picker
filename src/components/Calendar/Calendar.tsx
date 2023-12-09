@@ -7,7 +7,7 @@ import {
   ControllersProps,
 } from '@/components/Controllers/Controllers';
 
-type CalendarBodyProps = CellsProps & ControllersProps;
+export type CalendarProps = CellsProps & ControllersProps;
 
 export const Calendar = ({
   controllersCaption,
@@ -18,7 +18,7 @@ export const Calendar = ({
   weekDays,
   areWeekendsHidden,
   onSetCurrentDate,
-}: CalendarBodyProps) => (
+}: CalendarProps) => (
   <CalendarWrapper>
     <Controllers
       controllersCaption={controllersCaption}

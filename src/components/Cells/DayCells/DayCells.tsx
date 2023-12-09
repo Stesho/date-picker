@@ -12,7 +12,7 @@ import { isChecked } from '@/utils/dayCells/isChecked';
 interface DayCellsProps {
   type: CalendarTypes;
   days: Day[];
-  onSetCurrentDate: (date: Date) => void;
+  onSetCurrentDate: (selectedDay: number) => () => void;
   toggleTodoList: () => void;
   areWeekendsHidden: boolean;
 }
@@ -28,10 +28,6 @@ export const DayCells = ({
   const { currentDate } = useContext(DateContext);
   const typedDays = getDaysByCalendarType(type, days, week, areWeekendsHidden);
 
-  const selectDate = (selectedDay: number) => () => {
-    onSetCurrentDate(new Date(year, month, selectedDay));
-  };
-
   return (
     <>
       {typedDays.map((day, index) => (
@@ -46,7 +42,7 @@ export const DayCells = ({
             name='day'
             id={`${index}${day.number}`}
             disabled={!day.isCurrentMoth}
-            onChange={selectDate(day.number)}
+            onChange={onSetCurrentDate(day.number)}
             checked={isChecked(day.isCurrentMoth, day.number, currentDate)}
           />
           <label

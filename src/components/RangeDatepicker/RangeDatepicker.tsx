@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { RangeDatepickerBody } from '@/components/RangeDatepickerBody/RangeDatepickerBody';
+import { DatepickerBody } from '@/components/DatepickerBody/DatepickerBody';
 import { withControllers } from '@/hocs/withControllers';
 import { withDateLimits } from '@/hocs/withDateLimits';
 import { withHiddenWeekends } from '@/hocs/withHiddenWeekends';
@@ -29,7 +29,7 @@ export const RangeDatepicker = ({
   isHolidays = false,
   country = 'BY',
 }: RangeDatepickerProps) => {
-  const WithDatepickerWrapper = configurationService(RangeDatepickerBody, {
+  const WithDatepickerWrapper = configurationService(DatepickerBody, {
     dateLimits: minDate || maxDate ? withDateLimits : null,
     holidays: isHolidays && country ? withHolidays : null,
     hiddenWeekends: areWeekendsHidden ? withHiddenWeekends : null,

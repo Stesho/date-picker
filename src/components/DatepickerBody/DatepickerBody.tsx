@@ -2,17 +2,16 @@ import React from 'react';
 
 import { Calendar, CalendarProps } from '@/components/Calendar/Calendar';
 import { DateInput, DateInputProps } from '@/components/DateInput/DateInput';
-import { CalendarTypes } from '@/types/CalendarTypes';
 
 type DatepickerBodyProps = DateInputProps &
   CalendarProps & {
-    type: CalendarTypes;
+    errorMessage: string;
     isOpenCalendar: boolean;
   };
 
 export const DatepickerBody = ({
   toggleCalendar,
-  isError,
+  errorMessage,
   isOpenCalendar,
   type,
   controllersCaption,
@@ -33,8 +32,9 @@ export const DatepickerBody = ({
       onClearInput={onClearInput}
       onChange={onChange}
       toggleCalendar={toggleCalendar}
-      isError={isError}
+      isError={errorMessage.length > 0}
     />
+    {errorMessage.length > 0 && <span>{errorMessage}</span>}
     {isOpenCalendar && (
       <Calendar
         type={type}

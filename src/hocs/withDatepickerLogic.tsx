@@ -24,16 +24,16 @@ export const withDatepickerLogic = <T extends ConfigurableElementProps>(
     } = props as T;
 
     const [isOpenCalendar, setIsOpenCalendar] = useState(false);
-    const [isError, setIsError] = useState(false);
+    const [errorMessage, setErrorMessage] = useState('');
     const [currentDate, setCurrentDate] = useState(initialDate || null);
 
     const onInputValue = useCallback((dateString: string) => {
       if (isValidDateString(dateString)) {
         setCurrentDate(dateString !== '' ? parseDateString(dateString) : null);
-        setIsError(false);
+        setErrorMessage('');
       } else {
         setCurrentDate(null);
-        setIsError(true);
+        setErrorMessage('Date should be in format dd/mm/yyyy');
       }
     }, []);
 
@@ -73,7 +73,7 @@ export const withDatepickerLogic = <T extends ConfigurableElementProps>(
             currentDate={currentDate}
             toggleCalendar={toggleCalendar}
             onInputValue={onInputValue}
-            isError={isError}
+            errorMessage={errorMessage}
             isOpenCalendar={isOpenCalendar}
             type={type}
             setCurrentDate={setCurrentDate}

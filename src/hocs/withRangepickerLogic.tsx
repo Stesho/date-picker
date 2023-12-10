@@ -1,7 +1,8 @@
-import React, { ComponentType, useMemo, useState } from 'react';
+import React, { ComponentType, useMemo } from 'react';
 
 import { RangeDateContext } from '@/context/rangeDateContext';
 import { WeekContext } from '@/context/weekContext';
+import { useCalendarToggle } from '@/hooks/useCalendarToggle';
 import { useRangeDate } from '@/hooks/useRangeDate';
 import { useRangeDateInput } from '@/hooks/useRangeDateInput';
 import { ConfigurableElementProps } from '@/types/ConfigurableElementProps';
@@ -22,7 +23,7 @@ export const withRangepickerLogic = <T extends ConfigurableElementProps>(
       country = 'BY',
       ...rest
     } = props as T;
-    const [isOpenCalendar, setIsOpenCalendar] = useState(false);
+
     const {
       startDate,
       finishDate,
@@ -36,10 +37,7 @@ export const withRangepickerLogic = <T extends ConfigurableElementProps>(
       startDate,
       finishDate,
     );
-
-    const toggleCalendar = () => {
-      setIsOpenCalendar(!isOpenCalendar);
-    };
+    const { isOpenCalendar, toggleCalendar } = useCalendarToggle();
 
     const dateContext = useMemo(
       () => ({

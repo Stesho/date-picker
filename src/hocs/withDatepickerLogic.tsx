@@ -1,7 +1,8 @@
-import React, { ComponentType, useMemo, useState } from 'react';
+import React, { ComponentType, useMemo } from 'react';
 
 import { DateContext } from '@/context/dateContext';
 import { WeekContext } from '@/context/weekContext';
+import { useCalendarToggle } from '@/hooks/useCalendarToggle';
 import { useDateInput } from '@/hooks/useDateInput';
 import { useDates } from '@/hooks/useDates';
 import { ConfigurableElementProps } from '@/types/ConfigurableElementProps';
@@ -22,17 +23,13 @@ export const withDatepickerLogic = <T extends ConfigurableElementProps>(
       ...rest
     } = props as T;
 
-    const [isOpenCalendar, setIsOpenCalendar] = useState(false);
     const { currentDate, errorMessage, onInputValue, setCurrentDate } =
       useDates(initialDate);
     const { value, onClearInput, onChange } = useDateInput(
       onInputValue,
       currentDate,
     );
-
-    const toggleCalendar = () => {
-      setIsOpenCalendar(!isOpenCalendar);
-    };
+    const { isOpenCalendar, toggleCalendar } = useCalendarToggle();
 
     const dateContext = useMemo(
       () => ({

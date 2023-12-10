@@ -1,16 +1,13 @@
 import React from 'react';
 
 import { CalendarWrapper } from '@/components/Calendar/Calendar.styled';
+import { Cells, CellsProps } from '@/components/Cells/Cells';
 import {
   Controllers,
   ControllersProps,
 } from '@/components/Controllers/Controllers';
-import {
-  RangeCells,
-  RangeCellsProps,
-} from '@/components/RangeCells/RangeCells';
 
-export type RangeCalendarProps = RangeCellsProps & ControllersProps;
+export type RangeCalendarProps = CellsProps & ControllersProps;
 
 export const RangeCalendar = ({
   type,
@@ -29,7 +26,7 @@ export const RangeCalendar = ({
       onPrevClick={onPrevClick}
       onNextClick={onNextClick}
     />
-    <RangeCells
+    <Cells
       type={type}
       days={days}
       weekDays={weekDays}

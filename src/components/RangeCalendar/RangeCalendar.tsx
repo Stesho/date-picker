@@ -19,11 +19,8 @@ export const RangeCalendar = ({
   onNextClick,
   days,
   weekDays,
-  onSetFinishDate,
-  onSetStartDate,
+  onSetCurrentDate,
   areWeekendsHidden,
-  isStartDateSelect,
-  setIsStartDateSelect,
 }: RangeCalendarProps) => (
   <CalendarWrapper>
     <Controllers
@@ -35,11 +32,8 @@ export const RangeCalendar = ({
       type={type}
       days={days}
       weekDays={weekDays}
-      onSetStartDate={onSetStartDate}
-      onSetFinishDate={onSetFinishDate}
+      onSetCurrentDate={onSetCurrentDate}
       areWeekendsHidden={areWeekendsHidden}
-      isStartDateSelect={isStartDateSelect}
-      setIsStartDateSelect={setIsStartDateSelect}
     />
   </CalendarWrapper>
 );

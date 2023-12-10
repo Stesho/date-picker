@@ -12,11 +12,8 @@ export interface RangeCellsProps {
   type: CalendarTypes;
   days: Day[];
   weekDays: string[];
-  onSetStartDate: (date: Date) => void;
-  onSetFinishDate: (date: Date) => void;
+  onSetCurrentDate: (selectedDay: number) => () => void;
   areWeekendsHidden: boolean;
-  isStartDateSelect: boolean;
-  setIsStartDateSelect: (isStartDateSelect: boolean) => void;
 }
 
 export const RangeCells = ({
@@ -24,10 +21,7 @@ export const RangeCells = ({
   days,
   weekDays,
   areWeekendsHidden,
-  onSetStartDate,
-  onSetFinishDate,
-  isStartDateSelect,
-  setIsStartDateSelect,
+  onSetCurrentDate,
 }: RangeCellsProps) => {
   const { startDate } = useContext(RangeDateContext);
 
@@ -43,12 +37,9 @@ export const RangeCells = ({
       <RangeDayCells
         type={type}
         days={days}
-        onSetStartDate={onSetStartDate}
-        onSetFinishDate={onSetFinishDate}
+        onSetCurrentDate={onSetCurrentDate}
         toggleTodoList={toggleTodoList}
         areWeekendsHidden={areWeekendsHidden}
-        isStartDateSelect={isStartDateSelect}
-        setIsStartDateSelect={setIsStartDateSelect}
       />
       {isOpenTodoList && (
         <TodoList onClose={toggleTodoList} date={startDate!} />

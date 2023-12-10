@@ -1,4 +1,4 @@
-export const isChecked = (
+export const isCheckedDayCell = (
   isCurrentMonth: boolean,
   dayNumber: number,
   currentDate: Date | null,

@@ -7,7 +7,7 @@ import { CalendarTypes } from '@/types/CalendarTypes';
 import { Day } from '@/types/Day';
 import { getDaysByCalendarType } from '@/utils/dayCells/getDaysByCalendarType';
 import { hasTodos } from '@/utils/dayCells/hasTodos';
-import { isChecked } from '@/utils/dayCells/isChecked';
+import { isCheckedDayCell } from '@/utils/dayCells/isCheckedDayCell';
 
 interface DayCellsProps {
   type: CalendarTypes;
@@ -43,7 +43,11 @@ export const DayCells = ({
             id={`${index}${day.number}`}
             disabled={!day.isCurrentMoth}
             onChange={onSetCurrentDate(day.number)}
-            checked={isChecked(day.isCurrentMoth, day.number, currentDate)}
+            checked={isCheckedDayCell(
+              day.isCurrentMoth,
+              day.number,
+              currentDate,
+            )}
           />
           <label
             onDoubleClick={toggleTodoList}

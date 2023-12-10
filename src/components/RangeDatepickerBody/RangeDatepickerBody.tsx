@@ -28,11 +28,8 @@ export const RangeDatepickerBody = ({
   onNextClick,
   days,
   weekDays,
-  onSetFinishDate,
-  onSetStartDate,
+  onSetCurrentDate,
   areWeekendsHidden,
-  isStartDateSelect,
-  setIsStartDateSelect,
 }: RangeDatepickerBodyProps) => (
   <>
     <RangeDateInput
@@ -51,11 +48,8 @@ export const RangeDatepickerBody = ({
         onNextClick={onNextClick}
         days={days}
         weekDays={weekDays}
-        onSetFinishDate={onSetFinishDate}
-        onSetStartDate={onSetStartDate}
+        onSetCurrentDate={onSetCurrentDate}
         areWeekendsHidden={areWeekendsHidden}
-        isStartDateSelect={isStartDateSelect}
-        setIsStartDateSelect={setIsStartDateSelect}
       />
     )}
   </>

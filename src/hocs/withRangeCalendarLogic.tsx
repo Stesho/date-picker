@@ -29,12 +29,17 @@ export const withRangeCalendarLogic = <T extends ConfigurableElementProps>(
     const [days] = useDays(year, month);
     const [isStartDateSelect, setIsStartDateSelect] = useState(true);
 
-    const onSetStartDate = (date: Date) => {
-      setStartDate(date);
-    };
+    const onSetCurrentDate = (selectedDay: number) => () => {
+      const newDate = new Date(year, month, selectedDay);
 
-    const onSetFinishDate = (date: Date) => {
-      setFinishDate(date);
+      if ((startDate && newDate < startDate) || isStartDateSelect) {
+        setStartDate(newDate);
+        setFinishDate(newDate);
+        return setIsStartDateSelect(false);
+      } else {
+        setFinishDate(newDate);
+        return setIsStartDateSelect(true);
+      }
     };
 
     const dateContext = useMemo(
@@ -62,10 +67,7 @@ export const withRangeCalendarLogic = <T extends ConfigurableElementProps>(
           maxDate={maxDate}
           weekDays={WEEK_DAYS_NAMES}
           areWeekendsHidden={areWeekendsHidden!}
-          onSetStartDate={onSetStartDate}
-          onSetFinishDate={onSetFinishDate}
-          isStartDateSelect={isStartDateSelect}
-          setIsStartDateSelect={setIsStartDateSelect}
+          onSetCurrentDate={onSetCurrentDate}
           country={country}
         />
       </CalendarContext.Provider>

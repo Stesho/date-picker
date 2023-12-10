@@ -1,6 +1,13 @@
 import React from 'react';
 
 import { RangeDatepickerBody } from '@/components/RangeDatepickerBody/RangeDatepickerBody';
+import { withControllers } from '@/hocs/withControllers';
+import { withDateLimits } from '@/hocs/withDateLimits';
+import { withHiddenWeekends } from '@/hocs/withHiddenWeekends';
+import { withHolidays } from '@/hocs/withHolidays';
+import { withMondayStart } from '@/hocs/withMondayStart';
+import { withRangeCalendarLogic } from '@/hocs/withRangeCalendarLogic';
+import { withRangepickerLogic } from '@/hocs/withRangepickerLogic';
 import { configurationService } from '@/services/configurationService';
 import { ResetStyles } from '@/styles/reset';
 import { CalendarTypes } from '@/types/CalendarTypes';
@@ -22,14 +29,15 @@ export const RangeDatepicker = ({
   isHolidays = false,
   country = 'BY',
 }: RangeDatepickerProps) => {
-  const WithDatepickerWrapper = configurationService({
-    element: RangeDatepickerBody,
-    isStartWithMonday,
-    areWeekendsHidden,
-    isHolidays,
-    minDate,
-    maxDate,
-    country,
+  const WithDatepickerWrapper = configurationService(RangeDatepickerBody, {
+    dateLimits: minDate || maxDate ? withDateLimits : null,
+    holidays: isHolidays && country ? withHolidays : null,
+    hiddenWeekends: areWeekendsHidden ? withHiddenWeekends : null,
+    isStartWithMonday:
+      !areWeekendsHidden && isStartWithMonday ? withMondayStart : null,
+    controllers: withControllers,
+    calendarLogic: withRangeCalendarLogic,
+    pickerLogic: withRangepickerLogic,
   });
 
   return (

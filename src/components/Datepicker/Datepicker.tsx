@@ -1,6 +1,13 @@
 import React from 'react';
 
 import { DatepickerBody } from '@/components/DatepickerBody/DatepickerBody';
+import { withCalendarLogic } from '@/hocs/withCalendarLogic';
+import { withControllers } from '@/hocs/withControllers';
+import { withDateLimits } from '@/hocs/withDateLimits';
+import { withDatepickerLogic } from '@/hocs/withDatepickerLogic';
+import { withHiddenWeekends } from '@/hocs/withHiddenWeekends';
+import { withHolidays } from '@/hocs/withHolidays';
+import { withMondayStart } from '@/hocs/withMondayStart';
 import { configurationService } from '@/services/configurationService';
 import { ResetStyles } from '@/styles/reset';
 import { CalendarTypes } from '@/types/CalendarTypes';
@@ -20,14 +27,15 @@ export const Datepicker = ({
   isHolidays = false,
   country = 'BY',
 }: DatepickerProps) => {
-  const WithDatepickerWrapper = configurationService({
-    element: DatepickerBody,
-    isStartWithMonday,
-    areWeekendsHidden,
-    isHolidays,
-    minDate,
-    maxDate,
-    country,
+  const WithDatepickerWrapper = configurationService(DatepickerBody, {
+    dateLimits: minDate || maxDate ? withDateLimits : null,
+    holidays: isHolidays && country ? withHolidays : null,
+    hiddenWeekends: areWeekendsHidden ? withHiddenWeekends : null,
+    isStartWithMonday:
+      !areWeekendsHidden && isStartWithMonday ? withMondayStart : null,
+    controllers: withControllers,
+    calendarLogic: withCalendarLogic,
+    pickerLogic: withDatepickerLogic,
   });
 
   return (

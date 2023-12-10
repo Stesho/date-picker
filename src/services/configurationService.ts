@@ -1,57 +1,40 @@
 import { ComponentType } from 'react';
 
-import { withControllers } from '@/hocs/withControllers';
-import { withDateLimits } from '@/hocs/withDateLimits';
-import { withHiddenWeekends } from '@/hocs/withHiddenWeekends';
-import { withHolidays } from '@/hocs/withHolidays';
-import { withMondayStart } from '@/hocs/withMondayStart';
-import { withRangeCalendarLogic } from '@/hocs/withRangeCalendarLogic';
-import { withRangepickerLogic } from '@/hocs/withRangepickerLogic';
-import { CalendarTypes } from '@/types/CalendarTypes';
 import { ConfigurableElementProps } from '@/types/ConfigurableElementProps';
 
-interface ConfigurationServiceProps<T extends ConfigurableElementProps> {
-  element: ComponentType<T>;
-  type: CalendarTypes;
-  initialDate: Date | null;
-  year?: number;
-  isStartWithMonday?: boolean;
-  areWeekendsHidden?: boolean;
-  isHolidays?: boolean;
-  minDate?: Date;
-  maxDate?: Date;
-  country?: string;
-}
+type HocType1<T> = (
+  WrappedComponent: ComponentType<T>,
+) => (props: Omit<T, keyof ConfigurableElementProps>) => JSX.Element;
+type HocType2<T> = (
+  WrappedComponent: ComponentType<T>,
+) => (props: T) => JSX.Element;
 
-export const configurationService = <T extends ConfigurableElementProps>({
-  element,
-  isStartWithMonday,
-  areWeekendsHidden,
-  isHolidays,
-  minDate,
-  maxDate,
-  country,
-}: ConfigurationServiceProps<T>) => {
-  const typedCalendar = withControllers(element);
-  const daysWithDateLimits =
-    minDate || maxDate ? withDateLimits(typedCalendar) : typedCalendar;
+type HocTypes<T> = HocType1<T> | HocType2<T>;
 
-  const daysWithHolidays =
-    isHolidays && country
-      ? withHolidays(daysWithDateLimits)
-      : daysWithDateLimits;
+type HocMapKeys =
+  | 'dateLimits'
+  | 'holidays'
+  | 'hiddenWeekends'
+  | 'isStartWithMonday'
+  | 'controllers'
+  | 'calendarLogic'
+  | 'pickerLogic';
 
-  if (areWeekendsHidden) {
-    return withRangepickerLogic(
-      withRangeCalendarLogic(withHiddenWeekends(daysWithHolidays)),
-    );
-  }
+type HocMap<T> = {
+  [K in HocMapKeys]: HocTypes<T> | null;
+};
 
-  if (isStartWithMonday) {
-    return withRangepickerLogic(
-      withRangeCalendarLogic(withMondayStart(daysWithHolidays)),
-    );
-  }
+export const configurationService = <T extends ConfigurableElementProps>(
+  component: ComponentType<T>,
+  hocMap: HocMap<T>,
+) => {
+  let enhancedElement = component;
 
-  return withRangepickerLogic(withRangeCalendarLogic(daysWithHolidays));
+  (Object.keys(hocMap) as (keyof HocMap<T>)[]).forEach((hoc) => {
+    if (hocMap[hoc]) {
+      enhancedElement = hocMap[hoc]!(enhancedElement);
+    }
+  });
+
+  return enhancedElement;
 };

@@ -1,16 +1,13 @@
 import React from 'react';
 
-import {
-  RangeCalendar,
-  RangeCalendarProps,
-} from '@/components/RangeCalendar/RangeCalendar';
+import { Calendar, CalendarProps } from '@/components/Calendar/Calendar';
 import {
   RangeDateInput,
   RangeDateInputProps,
 } from '@/components/RangeDateInput/RangeDateInput';
 
 type RangeDatepickerBodyProps = RangeDateInputProps &
-  RangeCalendarProps & {
+  CalendarProps & {
     errorMessage: string;
     isOpenCalendar: boolean;
   };
@@ -42,7 +39,7 @@ export const RangeDatepickerBody = ({
     />
     {errorMessage.length > 0 && <span>{errorMessage}</span>}
     {isOpenCalendar && (
-      <RangeCalendar
+      <Calendar
         type={type}
         controllersCaption={controllersCaption}
         onPrevClick={onPrevClick}

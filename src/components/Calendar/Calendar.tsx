@@ -10,14 +10,14 @@ import {
 export type CalendarProps = CellsProps & ControllersProps;
 
 export const Calendar = ({
-  controllersCaption,
   type,
+  controllersCaption,
   onPrevClick,
   onNextClick,
   days,
   weekDays,
-  areWeekendsHidden,
   onSetCurrentDate,
+  areWeekendsHidden,
   isCheckedCell,
 }: CalendarProps) => (
   <CalendarWrapper>

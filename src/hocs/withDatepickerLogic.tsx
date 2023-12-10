@@ -1,11 +1,10 @@
-import React, { ComponentType, useCallback, useMemo, useState } from 'react';
+import React, { ComponentType, useMemo, useState } from 'react';
 
 import { DateContext } from '@/context/dateContext';
 import { WeekContext } from '@/context/weekContext';
 import { useDateInput } from '@/hooks/useDateInput';
+import { useDates } from '@/hooks/useDates';
 import { ConfigurableElementProps } from '@/types/ConfigurableElementProps';
-import { isValidDateString } from '@/utils/isValidDateString';
-import { parseDateString } from '@/utils/parseDateString';
 
 export const withDatepickerLogic = <T extends ConfigurableElementProps>(
   WrappedComponent: ComponentType<T>,
@@ -24,19 +23,8 @@ export const withDatepickerLogic = <T extends ConfigurableElementProps>(
     } = props as T;
 
     const [isOpenCalendar, setIsOpenCalendar] = useState(false);
-    const [errorMessage, setErrorMessage] = useState('');
-    const [currentDate, setCurrentDate] = useState(initialDate || null);
-
-    const onInputValue = useCallback((dateString: string) => {
-      if (isValidDateString(dateString)) {
-        setCurrentDate(dateString !== '' ? parseDateString(dateString) : null);
-        setErrorMessage('');
-      } else {
-        setCurrentDate(null);
-        setErrorMessage('Date should be in format dd/mm/yyyy');
-      }
-    }, []);
-
+    const { currentDate, errorMessage, onInputValue, setCurrentDate } =
+      useDates(initialDate);
     const { value, onClearInput, onChange } = useDateInput(
       onInputValue,
       currentDate,

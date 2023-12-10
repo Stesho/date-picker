@@ -11,9 +11,7 @@ type DatepickerBodyProps = DateInputProps &
   };
 
 export const DatepickerBody = ({
-  currentDate,
   toggleCalendar,
-  onInputValue,
   isError,
   isOpenCalendar,
   type,
@@ -25,12 +23,16 @@ export const DatepickerBody = ({
   areWeekendsHidden,
   onSetCurrentDate,
   isCheckedCell,
+  value,
+  onClearInput,
+  onChange,
 }: DatepickerBodyProps) => (
   <>
     <DateInput
-      currentDate={currentDate}
+      value={value}
+      onClearInput={onClearInput}
+      onChange={onChange}
       toggleCalendar={toggleCalendar}
-      onInputValue={onInputValue}
       isError={isError}
     />
     {isOpenCalendar && (

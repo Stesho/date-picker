@@ -2,6 +2,7 @@ import React, { ComponentType, useCallback, useMemo, useState } from 'react';
 
 import { DateContext } from '@/context/dateContext';
 import { WeekContext } from '@/context/weekContext';
+import { useDateInput } from '@/hooks/useDateInput';
 import { ConfigurableElementProps } from '@/types/ConfigurableElementProps';
 import { isValidDateString } from '@/utils/isValidDateString';
 import { parseDateString } from '@/utils/parseDateString';
@@ -35,6 +36,11 @@ export const withDatepickerLogic = <T extends ConfigurableElementProps>(
         setIsError(true);
       }
     }, []);
+
+    const { value, onClearInput, onChange } = useDateInput(
+      onInputValue,
+      currentDate,
+    );
 
     const toggleCalendar = () => {
       setIsOpenCalendar(!isOpenCalendar);
@@ -71,6 +77,9 @@ export const withDatepickerLogic = <T extends ConfigurableElementProps>(
             isOpenCalendar={isOpenCalendar}
             type={type}
             setCurrentDate={setCurrentDate}
+            value={value}
+            onClearInput={onClearInput}
+            onChange={onChange}
           />
         </WeekContext.Provider>
       </DateContext.Provider>

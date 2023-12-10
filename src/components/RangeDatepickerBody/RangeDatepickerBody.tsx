@@ -1,10 +1,8 @@
 import React from 'react';
 
 import { Calendar, CalendarProps } from '@/components/Calendar/Calendar';
-import {
-  RangeDateInput,
-  RangeDateInputProps,
-} from '@/components/RangeDateInput/RangeDateInput';
+import { DateInput } from '@/components/DateInput/DateInput';
+import { RangeDateInputProps } from '@/components/RangeDateInput/RangeDateInput';
 
 type RangeDatepickerBodyProps = RangeDateInputProps &
   CalendarProps & {
@@ -15,10 +13,7 @@ type RangeDatepickerBodyProps = RangeDateInputProps &
 export const RangeDatepickerBody = ({
   isOpenCalendar,
   errorMessage,
-  startDate,
-  finishDate,
   toggleCalendar,
-  onInputValue,
   type,
   controllersCaption,
   onPrevClick,
@@ -28,13 +23,16 @@ export const RangeDatepickerBody = ({
   onSetCurrentDate,
   areWeekendsHidden,
   isCheckedCell,
+  value,
+  onClearInput,
+  onChange,
 }: RangeDatepickerBodyProps) => (
   <>
-    <RangeDateInput
-      startDate={startDate}
-      finishDate={finishDate}
+    <DateInput
+      value={value}
+      onClearInput={onClearInput}
+      onChange={onChange}
       toggleCalendar={toggleCalendar}
-      onInputValue={onInputValue}
       isError={errorMessage.length > 0}
     />
     {errorMessage.length > 0 && <span>{errorMessage}</span>}

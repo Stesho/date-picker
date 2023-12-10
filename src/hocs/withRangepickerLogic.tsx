@@ -9,6 +9,7 @@ import React, {
 
 import { RangeDateContext } from '@/context/rangeDateContext';
 import { WeekContext } from '@/context/weekContext';
+import { useRangeDateInput } from '@/hooks/useRangeDateInput';
 import { ConfigurableElementProps } from '@/types/ConfigurableElementProps';
 import { addDayToDate } from '@/utils/addDayToDate';
 import { isValidDateString } from '@/utils/isValidDateString';
@@ -41,6 +42,7 @@ export const withRangepickerLogic = <T extends ConfigurableElementProps>(
       initialFinishDate || tomorrow,
     );
     const [errorMessage, setErrorMessage] = useState('');
+
     const separator = ' - ';
 
     const setDate = (
@@ -67,6 +69,12 @@ export const withRangepickerLogic = <T extends ConfigurableElementProps>(
         }
       },
       [startDate, finishDate],
+    );
+
+    const { value, onClearInput, onChange } = useRangeDateInput(
+      onInputValue,
+      startDate,
+      finishDate,
     );
 
     const toggleCalendar = () => {
@@ -100,13 +108,13 @@ export const withRangepickerLogic = <T extends ConfigurableElementProps>(
             {...(rest as T)}
             isOpenCalendar={isOpenCalendar}
             errorMessage={errorMessage}
-            startDate={startDate}
-            finishDate={finishDate}
             toggleCalendar={toggleCalendar}
-            onInputValue={onInputValue}
             type={type}
             setStartDate={setStartDate}
             setFinishDate={setFinishDate}
+            value={value}
+            onClearInput={onClearInput}
+            onChange={onChange}
           />
         </WeekContext.Provider>
       </RangeDateContext.Provider>

@@ -12,6 +12,7 @@ import { DateContext } from '@/context/dateContext';
 import { WeekContext } from '@/context/weekContext';
 import { useDays } from '@/hooks/useDays';
 import { ConfigurableElementProps } from '@/types/ConfigurableElementProps';
+import { isCheckedDayCell } from '@/utils/dayCells/isCheckedDayCell';
 
 export const withCalendarLogic = <T extends ConfigurableElementProps>(
   WrappedComponent: ComponentType<T>,
@@ -33,6 +34,9 @@ export const withCalendarLogic = <T extends ConfigurableElementProps>(
     );
     const [week, setWeek] = useState<number>(1);
     const [days] = useDays(year, month);
+
+    const isCheckedCell = (isCurrentMoth: boolean, dayNumber: number) =>
+      isCheckedDayCell(isCurrentMoth, dayNumber, currentDate);
 
     const onSetCurrentDate = (selectedDay: number) => () => {
       setCurrentDate(new Date(year, month, selectedDay));
@@ -74,6 +78,7 @@ export const withCalendarLogic = <T extends ConfigurableElementProps>(
           week={week}
           currentDate={currentDate}
           setCurrentDate={setCurrentDate}
+          isCheckedCell={isCheckedCell}
         />
       </CalendarContext.Provider>
     );

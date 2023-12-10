@@ -18,6 +18,7 @@ export const Calendar = ({
   weekDays,
   areWeekendsHidden,
   onSetCurrentDate,
+  isCheckedCell,
 }: CalendarProps) => (
   <CalendarWrapper>
     <Controllers
@@ -31,6 +32,7 @@ export const Calendar = ({
       weekDays={weekDays}
       areWeekendsHidden={areWeekendsHidden}
       onSetCurrentDate={onSetCurrentDate}
+      isCheckedCell={isCheckedCell}
     />
   </CalendarWrapper>
 );

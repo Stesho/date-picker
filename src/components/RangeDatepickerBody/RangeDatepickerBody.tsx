@@ -30,6 +30,7 @@ export const RangeDatepickerBody = ({
   weekDays,
   onSetCurrentDate,
   areWeekendsHidden,
+  isCheckedCell,
 }: RangeDatepickerBodyProps) => (
   <>
     <RangeDateInput
@@ -50,6 +51,7 @@ export const RangeDatepickerBody = ({
         weekDays={weekDays}
         onSetCurrentDate={onSetCurrentDate}
         areWeekendsHidden={areWeekendsHidden}
+        isCheckedCell={isCheckedCell}
       />
     )}
   </>

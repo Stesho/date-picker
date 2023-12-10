@@ -24,6 +24,7 @@ export const DatepickerBody = ({
   weekDays,
   areWeekendsHidden,
   onSetCurrentDate,
+  isCheckedCell,
 }: DatepickerBodyProps) => (
   <>
     <DateInput
@@ -42,6 +43,7 @@ export const DatepickerBody = ({
         weekDays={weekDays}
         areWeekendsHidden={areWeekendsHidden}
         onSetCurrentDate={onSetCurrentDate}
+        isCheckedCell={isCheckedCell}
       />
     )}
   </>

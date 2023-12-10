@@ -6,6 +6,7 @@ import { RangeDateContext } from '@/context/rangeDateContext';
 import { WeekContext } from '@/context/weekContext';
 import { useDays } from '@/hooks/useDays';
 import { ConfigurableElementProps } from '@/types/ConfigurableElementProps';
+import { isCheckedRangeCell } from '@/utils/dayCells/isCheckedRangeCell';
 
 export const withRangeCalendarLogic = <T extends ConfigurableElementProps>(
   WrappedComponent: ComponentType<T>,
@@ -13,7 +14,8 @@ export const withRangeCalendarLogic = <T extends ConfigurableElementProps>(
   function (props: Omit<T, keyof ConfigurableElementProps>) {
     const { type, setStartDate, setFinishDate, ...rest } = props as T;
 
-    const { startDate, minDate, maxDate } = useContext(RangeDateContext);
+    const { startDate, finishDate, minDate, maxDate } =
+      useContext(RangeDateContext);
     const { areWeekendsHidden, country } = useContext(WeekContext);
 
     const initialYear = startDate?.getFullYear();
@@ -28,6 +30,16 @@ export const withRangeCalendarLogic = <T extends ConfigurableElementProps>(
     const [week, setWeek] = useState<number>(1);
     const [days] = useDays(year, month);
     const [isStartDateSelect, setIsStartDateSelect] = useState(true);
+
+    const isCheckedCell = (isCurrentMoth: boolean, dayNumber: number) =>
+      isCheckedRangeCell(
+        year,
+        month,
+        startDate,
+        finishDate,
+        isCurrentMoth,
+        dayNumber,
+      );
 
     const onSetCurrentDate = (selectedDay: number) => () => {
       const newDate = new Date(year, month, selectedDay);
@@ -69,6 +81,7 @@ export const withRangeCalendarLogic = <T extends ConfigurableElementProps>(
           areWeekendsHidden={areWeekendsHidden!}
           onSetCurrentDate={onSetCurrentDate}
           country={country}
+          isCheckedCell={isCheckedCell}
         />
       </CalendarContext.Provider>
     );

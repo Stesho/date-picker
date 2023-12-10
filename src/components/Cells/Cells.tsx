@@ -14,6 +14,7 @@ export interface CellsProps {
   days: Day[];
   weekDays: string[];
   onSetCurrentDate: (selectedDay: number) => () => void;
+  isCheckedCell: (isCurrentMoth: boolean, dayNumber: number) => boolean;
   areWeekendsHidden: boolean;
 }
 
@@ -22,6 +23,7 @@ export const Cells = ({
   days,
   weekDays,
   onSetCurrentDate,
+  isCheckedCell,
   areWeekendsHidden,
 }: CellsProps) => {
   const { currentDate } = useContext(DateContext);
@@ -36,6 +38,7 @@ export const Cells = ({
         onSetCurrentDate={onSetCurrentDate}
         toggleTodoList={toggleTodoList}
         areWeekendsHidden={areWeekendsHidden}
+        isCheckedCell={isCheckedCell}
       />
       {isOpenTodoList && (
         <TodoList onClose={toggleTodoList} date={currentDate!} />

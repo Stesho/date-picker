@@ -1,4 +1,6 @@
-import React from 'react';
+import React, { useContext } from 'react';
+
+import { ColorContext } from '@/context/colorContext';
 
 import {
   ControllersWrapper,
@@ -16,10 +18,14 @@ export const Controllers = ({
   controllersCaption,
   onPrevClick,
   onNextClick,
-}: ControllersProps) => (
-  <ControllersWrapper>
-    <PrevControllerIcon onClick={onPrevClick} />
-    <span>{controllersCaption}</span>
-    <NextControllerIcon onClick={onNextClick} />
-  </ControllersWrapper>
-);
+}: ControllersProps) => {
+  const colors = useContext(ColorContext);
+
+  return (
+    <ControllersWrapper $colors={colors.calendar?.controllers}>
+      <PrevControllerIcon onClick={onPrevClick} />
+      <span>{controllersCaption}</span>
+      <NextControllerIcon onClick={onNextClick} />
+    </ControllersWrapper>
+  );
+};

@@ -1,5 +1,6 @@
 import React, { ComponentType, useMemo } from 'react';
 
+import { ColorContext } from '@/context/colorContext';
 import { DateContext } from '@/context/dateContext';
 import { InputContext } from '@/context/inputContext';
 import { WeekContext } from '@/context/weekContext';
@@ -21,6 +22,7 @@ export const withDatepickerLogic = <T extends ConfigurableElementProps>(
       areWeekendsHidden,
       isHolidays,
       country = 'BY',
+      colorOptions,
       ...rest
     } = props as T;
 
@@ -72,11 +74,13 @@ export const withDatepickerLogic = <T extends ConfigurableElementProps>(
       <DateContext.Provider value={dateContext}>
         <WeekContext.Provider value={weekContext}>
           <InputContext.Provider value={inputContext}>
-            <WrappedComponent
-              {...(rest as T)}
-              errorMessage={errorMessage}
-              isOpenCalendar={isOpenCalendar}
-            />
+            <ColorContext.Provider value={colorOptions}>
+              <WrappedComponent
+                {...(rest as T)}
+                errorMessage={errorMessage}
+                isOpenCalendar={isOpenCalendar}
+              />
+            </ColorContext.Provider>
           </InputContext.Provider>
         </WeekContext.Provider>
       </DateContext.Provider>

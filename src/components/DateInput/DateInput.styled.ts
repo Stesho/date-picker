@@ -1,6 +1,7 @@
 import styled from 'styled-components';
 
 import { ReactComponent as CalendarIconSvg } from '@/assets/icons/Calendar.svg';
+import { ElementColorOptions } from '@/types/ColorOptions';
 
 export const DateInputWrapper = styled.div`
   position: relative;
@@ -10,14 +11,18 @@ export const DateInputWrapper = styled.div`
   margin: 0 0 8px 0;
 `;
 
-export const Input = styled.input`
+export const Input = styled.input<{
+  $colors?: ElementColorOptions;
+  $isError: boolean;
+}>`
   width: 100%;
   padding: 11px 39px;
-  color: #333;
+  color: ${(props) => props.$colors?.text || '#333'};
   font-size: 15px;
   border-radius: 8px;
-  border: 1px solid #ddd;
-  background: #fff;
+  border: 1px solid
+    ${(props) => (props.$isError ? 'red' : props.$colors?.border || '#ddd')};
+  background: ${(props) => props.$colors?.background || '#fff'};
   outline: none;
 
   &::placeholder {

@@ -33,6 +33,9 @@ const meta: Meta<typeof Datepicker> = {
     country: {
       control: 'text',
     },
+    colorOptions: {
+      control: 'object',
+    },
   },
 };
 

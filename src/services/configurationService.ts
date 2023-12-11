@@ -1,49 +1,35 @@
 import { ComponentType } from 'react';
 
-import { withControllers } from '@/hocs/withControllers';
-import { withDateLimits } from '@/hocs/withDateLimits';
-import { withHiddenWeekends } from '@/hocs/withHiddenWeekends';
-import { withHolidays } from '@/hocs/withHolidays';
-import { withMondayStart } from '@/hocs/withMondayStart';
 import { ConfigurableElementProps } from '@/types/ConfigurableElementProps';
 
-interface ConfigurationServiceProps<T extends ConfigurableElementProps> {
-  element: ComponentType<T>;
-  year?: number;
-  isStartWithMonday?: boolean;
-  areWeekendsHidden?: boolean;
-  isHolidays?: boolean;
-  minDate?: Date;
-  maxDate?: Date;
-  country?: string;
-}
+type HocType<T> = (
+  WrappedComponent: ComponentType<T>,
+) => (props: Omit<T, keyof ConfigurableElementProps>) => ComponentType<T>;
 
-export const configurationService = <T extends ConfigurableElementProps>({
-  element,
-  isStartWithMonday,
-  areWeekendsHidden,
-  isHolidays,
-  minDate,
-  maxDate,
-  country,
-}: ConfigurationServiceProps<T>) => {
-  const typedCalendar = withControllers(element);
+type HocMapKeys =
+  | 'dateLimits'
+  | 'holidays'
+  | 'hiddenWeekends'
+  | 'isStartWithMonday'
+  | 'controllers'
+  | 'calendarLogic'
+  | 'pickerLogic';
 
-  const daysWithDateLimits =
-    minDate || maxDate ? withDateLimits(typedCalendar) : typedCalendar;
+type HocMap<T> = {
+  [K in HocMapKeys]: HocType<T> | null;
+};
 
-  const daysWithHolidays =
-    isHolidays && country
-      ? withHolidays(daysWithDateLimits)
-      : daysWithDateLimits;
+export const configurationService = <T extends ConfigurableElementProps>(
+  component: ComponentType<T>,
+  hocMap: HocMap<T>,
+) => {
+  let enhancedElement = component;
 
-  if (areWeekendsHidden) {
-    return withHiddenWeekends(daysWithHolidays);
-  }
+  (Object.keys(hocMap) as (keyof HocMap<T>)[]).forEach((hoc) => {
+    if (hocMap[hoc]) {
+      enhancedElement = hocMap[hoc]!(enhancedElement);
+    }
+  });
 
-  if (isStartWithMonday) {
-    return withMondayStart(daysWithHolidays);
-  }
-
-  return daysWithHolidays;
+  return enhancedElement;
 };

@@ -3,63 +3,55 @@ import React, { useContext } from 'react';
 import { DayCell } from '@/components/Cells/DayCells/DayCells.styled';
 import { CalendarContext } from '@/context/calendarContext';
 import { DateContext } from '@/context/dateContext';
-import { CalendarTypes } from '@/types/CalendarTypes';
+import { WeekContext } from '@/context/weekContext';
 import { Day } from '@/types/Day';
-import { getTodosByDate } from '@/utils/getTodosByDate';
+import { getDaysByCalendarType } from '@/utils/dayCells/getDaysByCalendarType';
+import { hasTodos } from '@/utils/dayCells/hasTodos';
+import { isRangeDate } from '@/utils/isRangeDate';
+import { isSameDates } from '@/utils/isSameDates';
 
-interface DayCellsProps {
-  type: CalendarTypes;
+export interface DayCellsProps {
   days: Day[];
-  onSetCurrentDate: (date: Date) => void;
+  onSetCurrentDate: (selectedDay: number) => () => void;
+  isCheckedCell: (isCurrentMoth: boolean, dayNumber: number) => boolean;
   toggleTodoList: () => void;
-  areWeekendsHidden: boolean;
 }
 
 export const DayCells = ({
-  type,
   days,
   onSetCurrentDate,
+  isCheckedCell,
   toggleTodoList,
-  areWeekendsHidden,
 }: DayCellsProps) => {
   const { year, month, week } = useContext(CalendarContext);
-  const { currentDate } = useContext(DateContext);
-
-  const weekSize = areWeekendsHidden ? 5 : 7;
-  const weekIndex = week - 1;
-  const typedDays =
-    type === CalendarTypes.Month
-      ? days
-      : days.slice(weekIndex * weekSize, weekIndex * weekSize + weekSize);
-
-  const hasTodos = (selectedDay: number) => {
-    const todosList = getTodosByDate(new Date(year, month, selectedDay));
-    return todosList.length !== 0;
-  };
-
-  const isChecked = (isCurrentMonth: boolean, dayNumber: number) =>
-    !!currentDate && isCurrentMonth && currentDate.getDate() === dayNumber;
-
-  const selectDate = (selectedDay: number) => () => {
-    onSetCurrentDate(new Date(year, month, selectedDay));
-  };
+  const { startDate, finishDate } = useContext(DateContext);
+  const { type, areWeekendsHidden } = useContext(WeekContext);
+  const typedDays = getDaysByCalendarType(type, days, week, areWeekendsHidden);
 
   return (
     <>
       {typedDays.map((day, index) => (
         <DayCell
-          $hasTodos={hasTodos(day.number)}
+          key={`${day.number}${day.isCurrentMoth}${index}`}
+          $hasTodos={hasTodos(year, month, day.number)}
           $areWeekendsHidden={areWeekendsHidden}
           $isHoliday={day.isHoliday}
-          key={`${day.number}${day.isCurrentMoth}${index}`}
+          $isRange={isRangeDate(
+            startDate,
+            finishDate,
+            new Date(year, month, day.number),
+            day.isCurrentMoth,
+          )}
+          $isStart={isSameDates(startDate, new Date(year, month, day.number))}
+          $isFinish={isSameDates(finishDate, new Date(year, month, day.number))}
         >
           <input
-            type='radio'
+            type='checkbox'
             name='day'
             id={`${index}${day.number}`}
             disabled={!day.isCurrentMoth}
-            onChange={selectDate(day.number)}
-            checked={isChecked(day.isCurrentMoth, day.number)}
+            onChange={onSetCurrentDate(day.number)}
+            checked={isCheckedCell(day.isCurrentMoth, day.number)}
           />
           <label
             onDoubleClick={toggleTodoList}

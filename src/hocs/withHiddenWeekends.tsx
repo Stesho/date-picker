@@ -6,7 +6,7 @@ import { cutWeekends } from '@/utils/cutWeekends';
 export const withHiddenWeekends = <T extends ConfigurableElementProps>(
   WrappedComponent: ComponentType<T>,
 ) =>
-  function (props: T) {
+  function (props: Omit<T, keyof ConfigurableElementProps>) {
     const { days, weekDays, ...rest } = props as T;
 
     return (

@@ -1,18 +1,22 @@
-import React from 'react';
+import React, { useContext } from 'react';
 
 import { WeekCell } from '@/components/Cells/WeekCells/WeekCells.styled';
+import { WeekContext } from '@/context/weekContext';
 
-interface WeekCellsProps {
+export interface WeekCellsProps {
   weekDays: string[];
-  areWeekendsHidden: boolean;
 }
 
-export const WeekCells = ({ weekDays, areWeekendsHidden }: WeekCellsProps) => (
-  <>
-    {weekDays.map((weekDay) => (
-      <WeekCell $areWeekendsHidden={areWeekendsHidden} key={weekDay}>
-        {weekDay}
-      </WeekCell>
-    ))}
-  </>
-);
+export const WeekCells = ({ weekDays }: WeekCellsProps) => {
+  const { areWeekendsHidden } = useContext(WeekContext);
+
+  return (
+    <>
+      {weekDays.map((weekDay) => (
+        <WeekCell $areWeekendsHidden={areWeekendsHidden} key={weekDay}>
+          {weekDay}
+        </WeekCell>
+      ))}
+    </>
+  );
+};

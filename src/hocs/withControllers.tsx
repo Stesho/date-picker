@@ -1,6 +1,9 @@
-import React, { ComponentType } from 'react';
+import React, { ComponentType, useContext } from 'react';
 
 import { CALENDAR_MONTH_NAMES } from '@/constants/calendar/calendarMonthNames';
+import { CalendarContext } from '@/context/calendarContext';
+import { DateContext } from '@/context/dateContext';
+import { WeekContext } from '@/context/weekContext';
 import { CalendarTypes } from '@/types/CalendarTypes';
 import { ConfigurableElementProps } from '@/types/ConfigurableElementProps';
 import { weeksInMonth } from '@/utils/weeksInMonth';
@@ -9,18 +12,13 @@ export const withControllers = <T extends ConfigurableElementProps>(
   WrappedComponent: ComponentType<T>,
 ) =>
   function (props: Omit<T, keyof ConfigurableElementProps>) {
-    const {
-      type,
-      month,
-      setMonth,
-      year,
-      setYear,
-      week,
-      setWeek,
-      currentDate,
-      setCurrentDate,
-      ...rest
-    } = props as T;
+    const { ...rest } = props as T;
+
+    const { year, month, week, setYear, setMonth, setWeek } =
+      useContext(CalendarContext);
+    const { currentDate, setCurrentDate } = useContext(DateContext);
+    const { type } = useContext(WeekContext);
+
     const controllersCaption =
       type === CalendarTypes.Month
         ? `${CALENDAR_MONTH_NAMES[month]} ${year}`
@@ -79,15 +77,6 @@ export const withControllers = <T extends ConfigurableElementProps>(
     return (
       <WrappedComponent
         {...(rest as T)}
-        type={type}
-        month={month}
-        setMonth={setMonth}
-        year={year}
-        setYear={setYear}
-        week={week}
-        setWeek={setWeek}
-        currentDate={currentDate}
-        setCurrentDate={setCurrentDate}
         controllersCaption={controllersCaption}
         onPrevClick={type === CalendarTypes.Month ? setPrevMonth : setPrevWeek}
         onNextClick={type === CalendarTypes.Month ? setNextMonth : setNextWeek}

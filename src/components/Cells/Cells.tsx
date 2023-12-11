@@ -1,47 +1,37 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext } from 'react';
 
 import { CellsWrapper } from '@/components/Cells/Cells.styled';
-import { DayCells } from '@/components/Cells/DayCells/DayCells';
-import { WeekCells } from '@/components/Cells/WeekCells/WeekCells';
+import { DayCells, DayCellsProps } from '@/components/Cells/DayCells/DayCells';
+import {
+  WeekCells,
+  WeekCellsProps,
+} from '@/components/Cells/WeekCells/WeekCells';
 import { TodoList } from '@/components/TodoList/TodoList';
 import { DateContext } from '@/context/dateContext';
-import { CalendarTypes } from '@/types/CalendarTypes';
-import { Day } from '@/types/Day';
+import { useTodos } from '@/hooks/useTodos';
 
-export interface CellsProps {
-  type: CalendarTypes;
-  days: Day[];
-  weekDays: string[];
-  onSetCurrentDate: (date: Date) => void;
-  areWeekendsHidden: boolean;
-}
+export type CellsProps = WeekCellsProps & Omit<DayCellsProps, 'toggleTodoList'>;
 
 export const Cells = ({
-  type,
   days,
   weekDays,
   onSetCurrentDate,
-  areWeekendsHidden,
+  isCheckedCell,
 }: CellsProps) => {
-  const { currentDate } = useContext(DateContext);
-  const [isOpenTodoList, setIsOpenTodoList] = useState<boolean>(false);
-
-  const toggleTodoList = () => {
-    setIsOpenTodoList(!isOpenTodoList);
-  };
+  const { currentDate, startDate } = useContext(DateContext);
+  const { isOpenTodoList, toggleTodoList } = useTodos();
 
   return (
     <CellsWrapper>
-      <WeekCells weekDays={weekDays} areWeekendsHidden={areWeekendsHidden} />
+      <WeekCells weekDays={weekDays} />
       <DayCells
-        type={type}
         days={days}
         onSetCurrentDate={onSetCurrentDate}
         toggleTodoList={toggleTodoList}
-        areWeekendsHidden={areWeekendsHidden}
+        isCheckedCell={isCheckedCell}
       />
       {isOpenTodoList && (
-        <TodoList onClose={toggleTodoList} date={currentDate!} />
+        <TodoList onClose={toggleTodoList} date={currentDate! || startDate!} />
       )}
     </CellsWrapper>
   );

@@ -1,4 +1,4 @@
-import React, { ChangeEvent, useEffect, useState } from 'react';
+import React, { useContext } from 'react';
 
 import {
   CalendarIcon,
@@ -6,44 +6,11 @@ import {
   DateInputWrapper,
   Input,
 } from '@/components/DateInput/DateInput.styled';
-import { dateToString } from '@/utils/dateToString';
+import { InputContext } from '@/context/inputContext';
 
-interface DateInputProps {
-  currentDate: Date | null;
-  toggleCalendar: () => void;
-  onInputValue: (dateString: string) => void;
-  isError: boolean;
-}
-
-export const DateInput = ({
-  currentDate,
-  toggleCalendar,
-  onInputValue,
-  isError,
-}: DateInputProps) => {
-  const numbersOrSlashSymbol = /^[\d\\/]*$/;
-
-  const [value, setValue] = useState('');
-
-  const onChange = (event: ChangeEvent<HTMLInputElement>) => {
-    const dateString = event.target.value;
-    if (numbersOrSlashSymbol.test(dateString)) {
-      setValue(dateString);
-      onInputValue(dateString);
-    }
-  };
-
-  const onClearInput = () => {
-    setValue('');
-    onInputValue('');
-  };
-
-  useEffect(() => {
-    if (currentDate) {
-      const dateString = dateToString(currentDate);
-      setValue(dateString);
-    }
-  }, [currentDate]);
+export const DateInput = () => {
+  const { value, toggleCalendar, onChange, onClearInput, isError } =
+    useContext(InputContext);
 
   return (
     <DateInputWrapper>

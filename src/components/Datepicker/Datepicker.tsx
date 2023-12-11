@@ -1,16 +1,19 @@
-import React, { useCallback, useMemo, useState } from 'react';
+import React from 'react';
 
-import { Calendar } from '@/components/Calendar/Calendar';
-import { DateInput } from '@/components/DateInput/DateInput';
-import { DateContext } from '@/context/dateContext';
-import { WeekContext } from '@/context/weekContext';
+import { DatepickerBody } from '@/components/DatepickerBody/DatepickerBody';
+import { withCalendarLogic } from '@/hocs/withCalendarLogic';
+import { withControllers } from '@/hocs/withControllers';
+import { withDateLimits } from '@/hocs/withDateLimits';
+import { withDatepickerLogic } from '@/hocs/withDatepickerLogic';
+import { withHiddenWeekends } from '@/hocs/withHiddenWeekends';
+import { withHolidays } from '@/hocs/withHolidays';
+import { withMondayStart } from '@/hocs/withMondayStart';
+import { configurationService } from '@/services/configurationService';
 import { ResetStyles } from '@/styles/reset';
 import { CalendarTypes } from '@/types/CalendarTypes';
 import { DatepickerParams } from '@/types/DatepickerParams';
-import { isValidDateString } from '@/utils/isValidDateString';
-import { parseDateString } from '@/utils/parseDateString';
 
-interface DatepickerProps extends DatepickerParams {
+export interface DatepickerProps extends DatepickerParams {
   initialDate?: Date;
 }
 
@@ -24,59 +27,30 @@ export const Datepicker = ({
   isHolidays = false,
   country = 'BY',
 }: DatepickerProps) => {
-  const [isOpenCalendar, setIsOpenCalendar] = useState(false);
-  const [isError, setIsError] = useState(false);
-  const [currentDate, setCurrentDate] = useState(initialDate || null);
-
-  const onInputValue = useCallback((dateString: string) => {
-    if (isValidDateString(dateString)) {
-      setCurrentDate(dateString !== '' ? parseDateString(dateString) : null);
-      setIsError(false);
-    } else {
-      setCurrentDate(null);
-      setIsError(true);
-    }
-  }, []);
-
-  const toggleCalendar = () => {
-    setIsOpenCalendar(!isOpenCalendar);
-  };
-
-  const dateContext = useMemo(
-    () => ({
-      currentDate,
-      minDate,
-      maxDate,
-    }),
-    [currentDate, minDate, maxDate],
-  );
-
-  const weekContext = useMemo(
-    () => ({
-      isStartWithMonday,
-      areWeekendsHidden,
-      isHolidays,
-      country,
-    }),
-    [isStartWithMonday, areWeekendsHidden, isHolidays, country],
-  );
+  const WithDatepickerWrapper = configurationService(DatepickerBody, {
+    dateLimits: minDate || maxDate ? withDateLimits : null,
+    holidays: isHolidays && country ? withHolidays : null,
+    hiddenWeekends: areWeekendsHidden ? withHiddenWeekends : null,
+    isStartWithMonday:
+      !areWeekendsHidden && isStartWithMonday ? withMondayStart : null,
+    controllers: withControllers,
+    calendarLogic: withCalendarLogic,
+    pickerLogic: withDatepickerLogic,
+  });
 
   return (
     <div>
-      <DateContext.Provider value={dateContext}>
-        <WeekContext.Provider value={weekContext}>
-          <ResetStyles />
-          <DateInput
-            currentDate={currentDate}
-            toggleCalendar={toggleCalendar}
-            onInputValue={onInputValue}
-            isError={isError}
-          />
-          {isOpenCalendar && (
-            <Calendar type={type} setCurrentDate={setCurrentDate} />
-          )}
-        </WeekContext.Provider>
-      </DateContext.Provider>
+      <ResetStyles />
+      <WithDatepickerWrapper
+        type={type}
+        initialDate={initialDate}
+        minDate={minDate}
+        maxDate={maxDate}
+        isStartWithMonday={isStartWithMonday}
+        areWeekendsHidden={areWeekendsHidden}
+        isHolidays={isHolidays}
+        country={country}
+      />
     </div>
   );
 };

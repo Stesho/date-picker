@@ -1,6 +1,6 @@
 import { createContext, Dispatch, SetStateAction } from 'react';
 
-interface ICalendarContext {
+export interface ICalendarContext {
   year: number;
   month: number;
   week: number;

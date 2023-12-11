@@ -1,12 +1,15 @@
-import React, { ComponentType, useMemo } from 'react';
+import React, { ComponentType } from 'react';
 
 import { ColorContext } from '@/context/colorContext';
 import { DateContext } from '@/context/dateContext';
 import { InputContext } from '@/context/inputContext';
 import { WeekContext } from '@/context/weekContext';
 import { useCalendarToggle } from '@/hooks/useCalendarToggle';
+import { useDateContext } from '@/hooks/useDateContext';
 import { useDateInput } from '@/hooks/useDateInput';
 import { useDates } from '@/hooks/useDates';
+import { useInputContext } from '@/hooks/useInputContext';
+import { useWeekContext } from '@/hooks/useWeekContext';
 import { ConfigurableElementProps } from '@/types/ConfigurableElementProps';
 
 export const withDatepickerLogic = <T extends ConfigurableElementProps>(
@@ -34,41 +37,32 @@ export const withDatepickerLogic = <T extends ConfigurableElementProps>(
     );
     const { isOpenCalendar, toggleCalendar } = useCalendarToggle();
 
-    const dateContext = useMemo(
-      () => ({
-        currentDate,
-        startDate: null,
-        finishDate: null,
-        minDate,
-        maxDate,
-        setCurrentDate,
-        setStartDate: () => {},
-        setFinishDate: () => {},
-      }),
-      [currentDate, minDate, maxDate, setCurrentDate],
-    );
+    const dateContext = useDateContext({
+      currentDate,
+      startDate: null,
+      finishDate: null,
+      minDate,
+      maxDate,
+      setCurrentDate,
+      setStartDate: () => {},
+      setFinishDate: () => {},
+    });
 
-    const weekContext = useMemo(
-      () => ({
-        type,
-        isStartWithMonday,
-        areWeekendsHidden,
-        isHolidays,
-        country,
-      }),
-      [type, isStartWithMonday, areWeekendsHidden, isHolidays, country],
-    );
+    const weekContext = useWeekContext({
+      type,
+      isStartWithMonday,
+      areWeekendsHidden,
+      isHolidays,
+      country,
+    });
 
-    const inputContext = useMemo(
-      () => ({
-        value,
-        onClearInput,
-        onChange,
-        toggleCalendar,
-        isError: errorMessage.length > 0,
-      }),
-      [value, onClearInput, onChange, toggleCalendar, errorMessage.length],
-    );
+    const inputContext = useInputContext({
+      value,
+      onClearInput,
+      onChange,
+      toggleCalendar,
+      isError: errorMessage.length > 0,
+    });
 
     return (
       <DateContext.Provider value={dateContext}>

@@ -2,7 +2,7 @@ import { createContext } from 'react';
 
 import { CalendarTypes } from '@/types/CalendarTypes';
 
-interface IWeekContext {
+export interface IWeekContext {
   type: CalendarTypes;
   isStartWithMonday: boolean;
   areWeekendsHidden: boolean;

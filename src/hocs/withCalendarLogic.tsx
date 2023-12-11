@@ -9,7 +9,6 @@ import React, {
 import { WEEK_DAYS_NAMES } from '@/constants/calendar/weekDaysNames';
 import { CalendarContext } from '@/context/calendarContext';
 import { DateContext } from '@/context/dateContext';
-import { WeekContext } from '@/context/weekContext';
 import { useDays } from '@/hooks/useDays';
 import { ConfigurableElementProps } from '@/types/ConfigurableElementProps';
 import { isCheckedDayCell } from '@/utils/dayCells/isCheckedDayCell';
@@ -18,10 +17,9 @@ export const withCalendarLogic = <T extends ConfigurableElementProps>(
   WrappedComponent: ComponentType<T>,
 ) =>
   function (props: Omit<T, keyof ConfigurableElementProps>) {
-    const { type, setCurrentDate, ...rest } = props as T;
+    const { ...rest } = props as T;
 
-    const { currentDate, minDate, maxDate } = useContext(DateContext);
-    const { areWeekendsHidden, country } = useContext(WeekContext);
+    const { currentDate, setCurrentDate } = useContext(DateContext);
 
     const initialYear = currentDate?.getFullYear();
     const initialMonth = currentDate?.getMonth();
@@ -54,6 +52,9 @@ export const withCalendarLogic = <T extends ConfigurableElementProps>(
         year,
         month,
         week,
+        setYear,
+        setMonth,
+        setWeek,
       }),
       [year, month, week],
     );
@@ -62,21 +63,9 @@ export const withCalendarLogic = <T extends ConfigurableElementProps>(
       <CalendarContext.Provider value={calendarContext}>
         <WrappedComponent
           {...(rest as T)}
-          year={year}
-          month={month}
           days={days}
-          minDate={minDate}
-          maxDate={maxDate}
           weekDays={WEEK_DAYS_NAMES}
-          areWeekendsHidden={areWeekendsHidden!}
           onSetCurrentDate={onSetCurrentDate}
-          country={country}
-          setMonth={setMonth}
-          setYear={setYear}
-          setWeek={setWeek}
-          type={type}
-          week={week}
-          currentDate={currentDate}
           setCurrentDate={setCurrentDate}
           isCheckedCell={isCheckedCell}
         />

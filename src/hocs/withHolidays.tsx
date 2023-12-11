@@ -1,7 +1,9 @@
-import React, { ComponentType, useEffect, useState } from 'react';
+import React, { ComponentType, useContext, useEffect, useState } from 'react';
 
 import { fetchHolidays } from '@/api/fetchHolidays';
 import { HOLIDAYS_STORAGE_KEY } from '@/constants/holidays/storage';
+import { CalendarContext } from '@/context/calendarContext';
+import { WeekContext } from '@/context/weekContext';
 import { ConfigurableElementProps } from '@/types/ConfigurableElementProps';
 import { Day } from '@/types/Day';
 import { Holiday } from '@/types/Holiday';
@@ -39,7 +41,9 @@ export const withHolidays = <T extends ConfigurableElementProps>(
   WrappedComponent: ComponentType<T>,
 ) =>
   function (props: T) {
-    const { days, year, month, country, ...rest } = props as T;
+    const { days, ...rest } = props as T;
+    const { year, month } = useContext(CalendarContext);
+    const { country } = useContext(WeekContext);
     const [daysWithHolidays, setDaysWithHolidays] = useState<Day[]>([]);
 
     useEffect(() => {
@@ -63,13 +67,5 @@ export const withHolidays = <T extends ConfigurableElementProps>(
       }
     }, [country, days, year, month]);
 
-    return (
-      <WrappedComponent
-        {...(rest as T)}
-        days={daysWithHolidays}
-        year={year}
-        month={month}
-        country={country}
-      />
-    );
+    return <WrappedComponent {...(rest as T)} days={daysWithHolidays} />;
   };

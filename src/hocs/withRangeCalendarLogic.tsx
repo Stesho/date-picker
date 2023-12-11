@@ -2,8 +2,7 @@ import React, { ComponentType, useContext, useMemo, useState } from 'react';
 
 import { WEEK_DAYS_NAMES } from '@/constants/calendar/weekDaysNames';
 import { CalendarContext } from '@/context/calendarContext';
-import { RangeDateContext } from '@/context/rangeDateContext';
-import { WeekContext } from '@/context/weekContext';
+import { DateContext } from '@/context/dateContext';
 import { useDays } from '@/hooks/useDays';
 import { ConfigurableElementProps } from '@/types/ConfigurableElementProps';
 import { isCheckedRangeCell } from '@/utils/dayCells/isCheckedRangeCell';
@@ -12,11 +11,10 @@ export const withRangeCalendarLogic = <T extends ConfigurableElementProps>(
   WrappedComponent: ComponentType<T>,
 ) =>
   function (props: Omit<T, keyof ConfigurableElementProps>) {
-    const { type, setStartDate, setFinishDate, ...rest } = props as T;
+    const { ...rest } = props as T;
 
-    const { startDate, finishDate, minDate, maxDate } =
-      useContext(RangeDateContext);
-    const { areWeekendsHidden, country } = useContext(WeekContext);
+    const { startDate, finishDate, setStartDate, setFinishDate } =
+      useContext(DateContext);
 
     const initialYear = startDate?.getFullYear();
     const initialMonth = startDate?.getMonth();
@@ -54,33 +52,25 @@ export const withRangeCalendarLogic = <T extends ConfigurableElementProps>(
       }
     };
 
-    const dateContext = useMemo(
+    const calendarContext = useMemo(
       () => ({
         year,
         month,
         week,
+        setYear,
+        setMonth,
+        setWeek,
       }),
       [year, month, week],
     );
 
     return (
-      <CalendarContext.Provider value={dateContext}>
+      <CalendarContext.Provider value={calendarContext}>
         <WrappedComponent
           {...(rest as T)}
-          type={type}
-          week={week}
-          year={year}
-          month={month}
-          setMonth={setMonth}
-          setYear={setYear}
-          setWeek={setWeek}
           days={days}
-          minDate={minDate}
-          maxDate={maxDate}
           weekDays={WEEK_DAYS_NAMES}
-          areWeekendsHidden={areWeekendsHidden!}
           onSetCurrentDate={onSetCurrentDate}
-          country={country}
           isCheckedCell={isCheckedCell}
         />
       </CalendarContext.Provider>

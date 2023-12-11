@@ -10,14 +10,12 @@ import {
 export type CalendarProps = CellsProps & ControllersProps;
 
 export const Calendar = ({
-  type,
   controllersCaption,
   onPrevClick,
   onNextClick,
   days,
   weekDays,
   onSetCurrentDate,
-  areWeekendsHidden,
   isCheckedCell,
 }: CalendarProps) => (
   <CalendarWrapper>
@@ -27,10 +25,8 @@ export const Calendar = ({
       onNextClick={onNextClick}
     />
     <Cells
-      type={type}
       days={days}
       weekDays={weekDays}
-      areWeekendsHidden={areWeekendsHidden}
       onSetCurrentDate={onSetCurrentDate}
       isCheckedCell={isCheckedCell}
     />

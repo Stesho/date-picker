@@ -1,6 +1,7 @@
 import React, { ComponentType, useMemo } from 'react';
 
-import { RangeDateContext } from '@/context/rangeDateContext';
+import { DateContext } from '@/context/dateContext';
+import { InputContext } from '@/context/inputContext';
 import { WeekContext } from '@/context/weekContext';
 import { useCalendarToggle } from '@/hooks/useCalendarToggle';
 import { useRangeDate } from '@/hooks/useRangeDate';
@@ -41,40 +42,51 @@ export const withRangepickerLogic = <T extends ConfigurableElementProps>(
 
     const dateContext = useMemo(
       () => ({
+        currentDate: null,
         startDate,
         finishDate,
         minDate,
         maxDate,
+        setCurrentDate: () => {},
+        setStartDate,
+        setFinishDate,
       }),
-      [startDate, finishDate, minDate, maxDate],
+      [startDate, finishDate, minDate, maxDate, setStartDate, setFinishDate],
     );
 
     const weekContext = useMemo(
       () => ({
+        type,
         isStartWithMonday,
         areWeekendsHidden,
         isHolidays,
         country,
       }),
-      [isStartWithMonday, areWeekendsHidden, isHolidays, country],
+      [type, isStartWithMonday, areWeekendsHidden, isHolidays, country],
+    );
+
+    const inputContext = useMemo(
+      () => ({
+        value,
+        onClearInput,
+        onChange,
+        toggleCalendar,
+        isError: errorMessage.length > 0,
+      }),
+      [value, onClearInput, onChange, toggleCalendar, errorMessage.length],
     );
 
     return (
-      <RangeDateContext.Provider value={dateContext}>
+      <DateContext.Provider value={dateContext}>
         <WeekContext.Provider value={weekContext}>
-          <WrappedComponent
-            {...(rest as T)}
-            isOpenCalendar={isOpenCalendar}
-            errorMessage={errorMessage}
-            toggleCalendar={toggleCalendar}
-            type={type}
-            setStartDate={setStartDate}
-            setFinishDate={setFinishDate}
-            value={value}
-            onClearInput={onClearInput}
-            onChange={onChange}
-          />
+          <InputContext.Provider value={inputContext}>
+            <WrappedComponent
+              {...(rest as T)}
+              isOpenCalendar={isOpenCalendar}
+              errorMessage={errorMessage}
+            />
+          </InputContext.Provider>
         </WeekContext.Provider>
-      </RangeDateContext.Provider>
+      </DateContext.Provider>
     );
   };

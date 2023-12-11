@@ -1,14 +1,9 @@
-import React, {
-  ComponentType,
-  useContext,
-  useEffect,
-  useMemo,
-  useState,
-} from 'react';
+import React, { ComponentType, useContext, useEffect, useState } from 'react';
 
 import { WEEK_DAYS_NAMES } from '@/constants/calendar/weekDaysNames';
 import { CalendarContext } from '@/context/calendarContext';
 import { DateContext } from '@/context/dateContext';
+import { useCalendarContext } from '@/hooks/useCalendarContext';
 import { useDays } from '@/hooks/useDays';
 import { ConfigurableElementProps } from '@/types/ConfigurableElementProps';
 import { isCheckedDayCell } from '@/utils/dayCells/isCheckedDayCell';
@@ -47,17 +42,14 @@ export const withCalendarLogic = <T extends ConfigurableElementProps>(
       }
     }, [currentDate]);
 
-    const calendarContext = useMemo(
-      () => ({
-        year,
-        month,
-        week,
-        setYear,
-        setMonth,
-        setWeek,
-      }),
-      [year, month, week],
-    );
+    const calendarContext = useCalendarContext({
+      year,
+      month,
+      week,
+      setYear,
+      setMonth,
+      setWeek,
+    });
 
     return (
       <CalendarContext.Provider value={calendarContext}>

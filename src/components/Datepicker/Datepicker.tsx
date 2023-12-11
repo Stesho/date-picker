@@ -26,6 +26,7 @@ export const Datepicker = ({
   areWeekendsHidden = false,
   isHolidays = false,
   country = 'BY',
+  colorOptions = {},
 }: DatepickerProps) => {
   const WithDatepickerWrapper = configurationService(DatepickerBody, {
     dateLimits: minDate || maxDate ? withDateLimits : null,
@@ -50,6 +51,7 @@ export const Datepicker = ({
         areWeekendsHidden={areWeekendsHidden}
         isHolidays={isHolidays}
         country={country}
+        colorOptions={colorOptions}
       />
     </div>
   );

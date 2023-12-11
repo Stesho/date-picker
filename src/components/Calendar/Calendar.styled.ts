@@ -1,10 +1,14 @@
 import styled from 'styled-components';
 
-export const CalendarWrapper = styled.div`
+import { Color } from '@/types/Color';
+
+export const CalendarWrapper = styled.div<{
+  $background?: Color;
+}>`
   position: relative;
   width: 250px;
   padding: 10px;
-  background: #fff;
+  background: ${(props) => props.$background || '#fff'};
   border-radius: 8px;
   border: 1px solid #ddd;
 

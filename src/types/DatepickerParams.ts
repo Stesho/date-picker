@@ -1,4 +1,5 @@
 import { CalendarTypes } from '@/types/CalendarTypes';
+import { ColorOptions } from '@/types/ColorOptions';
 
 export interface DatepickerParams {
   type: CalendarTypes;
@@ -8,4 +9,5 @@ export interface DatepickerParams {
   areWeekendsHidden: boolean;
   isHolidays: boolean;
   country: string;
+  colorOptions: ColorOptions;
 }

@@ -1,6 +1,6 @@
 import { ChangeEvent, createContext } from 'react';
 
-interface IInputContext {
+export interface IInputContext {
   value: string;
   onClearInput: () => void;
   onChange: (event: ChangeEvent<HTMLInputElement>) => void;

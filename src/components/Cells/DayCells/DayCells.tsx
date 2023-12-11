@@ -2,6 +2,7 @@ import React, { useContext } from 'react';
 
 import { DayCell } from '@/components/Cells/DayCells/DayCells.styled';
 import { CalendarContext } from '@/context/calendarContext';
+import { ColorContext } from '@/context/colorContext';
 import { DateContext } from '@/context/dateContext';
 import { WeekContext } from '@/context/weekContext';
 import { Day } from '@/types/Day';
@@ -23,6 +24,7 @@ export const DayCells = ({
   isCheckedCell,
   toggleTodoList,
 }: DayCellsProps) => {
+  const colors = useContext(ColorContext);
   const { year, month, week } = useContext(CalendarContext);
   const { startDate, finishDate } = useContext(DateContext);
   const { type, areWeekendsHidden } = useContext(WeekContext);
@@ -44,6 +46,7 @@ export const DayCells = ({
           )}
           $isStart={isSameDates(startDate, new Date(year, month, day.number))}
           $isFinish={isSameDates(finishDate, new Date(year, month, day.number))}
+          $colors={colors.calendar?.cells}
         >
           <input
             type='checkbox'

@@ -28,6 +28,7 @@ export const RangeDatepicker = ({
   areWeekendsHidden = false,
   isHolidays = false,
   country = 'BY',
+  colorOptions = {},
 }: RangeDatepickerProps) => {
   const WithDatepickerWrapper = configurationService(DatepickerBody, {
     dateLimits: minDate || maxDate ? withDateLimits : null,
@@ -53,6 +54,7 @@ export const RangeDatepicker = ({
         areWeekendsHidden={areWeekendsHidden}
         isHolidays={isHolidays}
         country={country}
+        colorOptions={colorOptions}
       />
     </div>
   );

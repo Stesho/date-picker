@@ -6,9 +6,11 @@ import {
   DateInputWrapper,
   Input,
 } from '@/components/DateInput/DateInput.styled';
+import { ColorContext } from '@/context/colorContext';
 import { InputContext } from '@/context/inputContext';
 
 export const DateInput = () => {
+  const colors = useContext(ColorContext);
   const { value, toggleCalendar, onChange, onClearInput, isError } =
     useContext(InputContext);
 
@@ -20,9 +22,8 @@ export const DateInput = () => {
         onChange={onChange}
         placeholder='Choose Date'
         type='text'
-        style={{
-          borderColor: isError ? 'red' : '#ddd',
-        }}
+        $colors={colors.input}
+        $isError={isError}
       />
       {value.length > 0 && (
         <CrossButton onClick={onClearInput} type='button'>

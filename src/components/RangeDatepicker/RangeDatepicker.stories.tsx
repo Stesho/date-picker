@@ -35,6 +35,9 @@ const meta: Meta<typeof RangeDatepicker> = {
     country: {
       control: 'text',
     },
+    colorOptions: {
+      control: 'object',
+    },
   },
 };
 

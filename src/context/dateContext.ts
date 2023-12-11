@@ -1,6 +1,6 @@
 import { createContext, Dispatch, SetStateAction } from 'react';
 
-interface IDateContext {
+export interface IDateContext {
   currentDate: Date | null;
   startDate: Date | null;
   finishDate: Date | null;

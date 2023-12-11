@@ -13,7 +13,7 @@ import { ResetStyles } from '@/styles/reset';
 import { CalendarTypes } from '@/types/CalendarTypes';
 import { DatepickerParams } from '@/types/DatepickerParams';
 
-interface RangeDatepickerProps extends DatepickerParams {
+export interface RangeDatepickerProps extends DatepickerParams {
   initialStartDate?: Date;
   initialFinishDate?: Date;
 }

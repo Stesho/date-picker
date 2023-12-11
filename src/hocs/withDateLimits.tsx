@@ -8,7 +8,7 @@ import { setDatesLimits } from '@/utils/setDatesLimits';
 export const withDateLimits = <T extends ConfigurableElementProps>(
   WrappedComponent: ComponentType<T>,
 ) =>
-  function (props: T) {
+  function (props: Omit<T, keyof ConfigurableElementProps>) {
     const { days, ...rest } = props as T;
     const { minDate, maxDate } = useContext(DateContext);
     const { year, month } = useContext(CalendarContext);

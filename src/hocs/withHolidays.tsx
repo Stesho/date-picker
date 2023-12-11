@@ -40,7 +40,7 @@ const addHolidaysToDays = (
 export const withHolidays = <T extends ConfigurableElementProps>(
   WrappedComponent: ComponentType<T>,
 ) =>
-  function (props: T) {
+  function (props: Omit<T, keyof ConfigurableElementProps>) {
     const { days, ...rest } = props as T;
     const { year, month } = useContext(CalendarContext);
     const { country } = useContext(WeekContext);

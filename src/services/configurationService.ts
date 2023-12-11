@@ -2,14 +2,9 @@ import { ComponentType } from 'react';
 
 import { ConfigurableElementProps } from '@/types/ConfigurableElementProps';
 
-type HocType1<T> = (
+type HocType<T> = (
   WrappedComponent: ComponentType<T>,
-) => (props: Omit<T, keyof ConfigurableElementProps>) => JSX.Element;
-type HocType2<T> = (
-  WrappedComponent: ComponentType<T>,
-) => (props: T) => JSX.Element;
-
-type HocTypes<T> = HocType1<T> | HocType2<T>;
+) => (props: Omit<T, keyof ConfigurableElementProps>) => ComponentType<T>;
 
 type HocMapKeys =
   | 'dateLimits'
@@ -21,7 +16,7 @@ type HocMapKeys =
   | 'pickerLogic';
 
 type HocMap<T> = {
-  [K in HocMapKeys]: HocTypes<T> | null;
+  [K in HocMapKeys]: HocType<T> | null;
 };
 
 export const configurationService = <T extends ConfigurableElementProps>(

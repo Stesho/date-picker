@@ -11,7 +11,7 @@ import { ConfigurableElementProps } from '@/types/ConfigurableElementProps';
 export const withRangepickerLogic = <T extends ConfigurableElementProps>(
   WrappedComponent: ComponentType<T>,
 ) =>
-  function (props: T) {
+  function (props: Omit<T, keyof ConfigurableElementProps>) {
     const {
       type,
       initialStartDate,

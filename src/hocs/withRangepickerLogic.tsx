@@ -7,8 +7,8 @@ import { WeekContext } from '@/context/weekContext';
 import { useCalendarToggle } from '@/hooks/useCalendarToggle';
 import { useDateContext } from '@/hooks/useDateContext';
 import { useInputContext } from '@/hooks/useInputContext';
-import { useRangeDate } from '@/hooks/useRangeDate';
 import { useRangeDateInput } from '@/hooks/useRangeDateInput';
+import { useRangeDates } from '@/hooks/useRangeDates';
 import { useWeekContext } from '@/hooks/useWeekContext';
 import { ConfigurableElementProps } from '@/types/ConfigurableElementProps';
 
@@ -37,7 +37,7 @@ export const withRangepickerLogic = <T extends ConfigurableElementProps>(
       onInputValue,
       setStartDate,
       setFinishDate,
-    } = useRangeDate(initialStartDate, initialFinishDate);
+    } = useRangeDates(initialStartDate, initialFinishDate);
     const { value, onClearInput, onChange } = useRangeDateInput(
       onInputValue,
       startDate,

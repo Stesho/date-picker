@@ -7,6 +7,7 @@ import { useCalendarContext } from '@/hooks/useCalendarContext';
 import { useDays } from '@/hooks/useDays';
 import { ConfigurableElementProps } from '@/types/ConfigurableElementProps';
 import { isCheckedRangeCell } from '@/utils/dayCells/isCheckedRangeCell';
+import { isSameDates } from '@/utils/isSameDates';
 
 export const withRangeCalendarLogic = <T extends ConfigurableElementProps>(
   WrappedComponent: ComponentType<T>,
@@ -28,7 +29,6 @@ export const withRangeCalendarLogic = <T extends ConfigurableElementProps>(
     );
     const [week, setWeek] = useState<number>(1);
     const [days] = useDays(year, month);
-    const [isStartDateSelect, setIsStartDateSelect] = useState(true);
 
     const isCheckedCell = (isCurrentMoth: boolean, dayNumber: number) =>
       isCheckedRangeCell(
@@ -43,13 +43,14 @@ export const withRangeCalendarLogic = <T extends ConfigurableElementProps>(
     const onSetCurrentDate = (selectedDay: number) => () => {
       const newDate = new Date(year, month, selectedDay);
 
-      if ((startDate && newDate < startDate) || isStartDateSelect) {
+      if (
+        (startDate && newDate < startDate) ||
+        !isSameDates(startDate, finishDate)
+      ) {
         setStartDate(newDate);
         setFinishDate(newDate);
-        return setIsStartDateSelect(false);
       } else {
         setFinishDate(newDate);
-        return setIsStartDateSelect(true);
       }
     };
 

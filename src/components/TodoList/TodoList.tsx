@@ -44,7 +44,9 @@ export const TodoList = ({ onClose, date }: TodoListProps) => {
   };
 
   const onCloseClick = () => {
-    setTodosByDate(date, todos);
+    if (date) {
+      setTodosByDate(date, todos);
+    }
     onClose();
   };
 

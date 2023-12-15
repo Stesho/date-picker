@@ -23,9 +23,9 @@ export const Controllers = ({
 
   return (
     <ControllersWrapper $colors={colors.calendar?.controllers}>
-      <PrevControllerIcon onClick={onPrevClick} />
+      <PrevControllerIcon onClick={onPrevClick} data-testid='prevController' />
       <span>{controllersCaption}</span>
-      <NextControllerIcon onClick={onNextClick} />
+      <NextControllerIcon onClick={onNextClick} data-testid='nextController' />
     </ControllersWrapper>
   );
 };

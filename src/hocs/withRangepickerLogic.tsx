@@ -22,11 +22,11 @@ export const withRangepickerLogic = <T extends ConfigurableElementProps>(
       initialFinishDate,
       minDate,
       maxDate,
-      isStartWithMonday,
-      areWeekendsHidden,
-      isHolidays,
+      isStartWithMonday = false,
+      areWeekendsHidden = false,
+      isHolidays = false,
       country = 'BY',
-      colorOptions,
+      colorOptions = {},
       ...rest
     } = props as T;
 

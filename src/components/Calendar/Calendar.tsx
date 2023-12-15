@@ -22,7 +22,10 @@ export const Calendar = ({
   const colors = useContext(ColorContext);
 
   return (
-    <CalendarWrapper $background={colors.calendar?.background}>
+    <CalendarWrapper
+      $background={colors.calendar?.background}
+      data-testid='calendar'
+    >
       <Controllers
         controllersCaption={controllersCaption}
         onPrevClick={onPrevClick}

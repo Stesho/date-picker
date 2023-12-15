@@ -16,6 +16,7 @@ export const WeekCells = ({ weekDays }: WeekCellsProps) => {
     <>
       {weekDays.map((weekDay) => (
         <WeekCell
+          data-testid='weekCell'
           key={weekDay}
           $areWeekendsHidden={areWeekendsHidden}
           $colors={colors.calendar?.cells?.week}

@@ -53,7 +53,6 @@ export const Default: Story = {
   },
   args: {
     type: CalendarTypes.Month,
-    initialDate: new Date(2023, 11, 5),
     isStartWithMonday: false,
     isHolidays: false,
     areWeekendsHidden: false,

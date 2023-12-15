@@ -21,11 +21,11 @@ export const withDatepickerLogic = <T extends ConfigurableElementProps>(
       initialDate,
       minDate,
       maxDate,
-      isStartWithMonday,
-      areWeekendsHidden,
-      isHolidays,
+      isStartWithMonday = false,
+      areWeekendsHidden = false,
+      isHolidays = false,
       country = 'BY',
-      colorOptions,
+      colorOptions = {},
       ...rest
     } = props as T;
 

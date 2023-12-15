@@ -1,13 +1,14 @@
 import React, { useContext } from 'react';
 
+import { ColorContext } from '@/context/colorContext';
+import { InputContext } from '@/context/inputContext';
+
 import {
   CalendarIcon,
   CrossButton,
   DateInputWrapper,
   Input,
-} from '@/components/DateInput/DateInput.styled';
-import { ColorContext } from '@/context/colorContext';
-import { InputContext } from '@/context/inputContext';
+} from './DateInput.styled';
 
 export const DateInput = () => {
   const colors = useContext(ColorContext);
@@ -16,8 +17,9 @@ export const DateInput = () => {
 
   return (
     <DateInputWrapper>
-      <CalendarIcon onClick={toggleCalendar} />
+      <CalendarIcon onClick={toggleCalendar} data-testid='calendarIcon' />
       <Input
+        data-testid='dateInput'
         value={value}
         onChange={onChange}
         placeholder='Choose Date'

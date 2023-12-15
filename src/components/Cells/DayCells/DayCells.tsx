@@ -49,6 +49,7 @@ export const DayCells = ({
           $colors={colors.calendar?.cells}
         >
           <input
+            data-testid={`${index}${day.number}`}
             type='checkbox'
             name='day'
             id={`${index}${day.number}`}

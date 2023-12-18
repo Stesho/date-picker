@@ -9,15 +9,16 @@ import { shiftArrayToLeft } from '@/utils/shiftArrayToLeft';
 import 'jest-styled-components';
 import '@testing-library/jest-dom';
 
-import { Datepicker, DatepickerProps } from './Datepicker';
+import { RangeDatepicker, RangeDatepickerProps } from './RangeDatepicker';
 
 describe('Datepicker', () => {
-  let options: DatepickerProps;
+  let options: RangeDatepickerProps;
 
   beforeEach(() => {
     options = {
       type: CalendarTypes.Month,
-      initialDate: undefined,
+      initialStartDate: undefined,
+      initialFinishDate: undefined,
       minDate: undefined,
       maxDate: undefined,
       isStartWithMonday: false,
@@ -26,13 +27,13 @@ describe('Datepicker', () => {
     };
   });
 
-  it('should correctly render default datepicker', () => {
-    const { container } = render(<Datepicker {...options} />);
+  it('should correctly render default range picker', () => {
+    const { container } = render(<RangeDatepicker {...options} />);
     expect(container).toBeInTheDocument();
   });
 
   it('should open calendar by clicking calendar icon', () => {
-    const { getByTestId } = render(<Datepicker {...options} />);
+    const { getByTestId } = render(<RangeDatepicker {...options} />);
     const calendarIcon = getByTestId('calendarIcon');
     fireEvent.click(calendarIcon);
 
@@ -42,25 +43,33 @@ describe('Datepicker', () => {
   });
 
   it('should select initial date', () => {
-    const dayNumber = 5;
-    const cellIndex = 9;
-    options.initialDate = new Date(2023, 11, dayNumber);
+    const startDayNumber = 5;
+    const startCellIndex = 9;
+    const finishDayNumber = 10;
+    const finishCellIndex = 14;
 
-    const { getByTestId } = render(<Datepicker {...options} />);
+    options.initialStartDate = new Date(2023, 11, startDayNumber);
+    options.initialFinishDate = new Date(2023, 11, finishDayNumber);
+
+    const { getByTestId } = render(<RangeDatepicker {...options} />);
     const calendarIcon = getByTestId('calendarIcon');
     fireEvent.click(calendarIcon);
 
-    const selectedDate = getByTestId(`${cellIndex}${dayNumber}`);
+    const selectedStartDate = getByTestId(`${startCellIndex}${startDayNumber}`);
+    const selectedFinishDate = getByTestId(
+      `${finishCellIndex}${finishDayNumber}`,
+    );
 
-    expect(selectedDate).toBeChecked();
+    expect(selectedStartDate).toBeChecked();
+    expect(selectedFinishDate).toBeChecked();
   });
 
   it('should change selected date when input value', () => {
-    const dayNumber = 5;
-    const cellIndex = 9;
-    const newDate = `${dayNumber.toString().padStart(2, '0')}/12/2023`;
+    const startCellId = '1410';
+    const finishCellId = '1915';
+    const newDate = '10/12/2023 - 15/12/2023';
 
-    const { getByTestId } = render(<Datepicker {...options} />);
+    const { getByTestId } = render(<RangeDatepicker {...options} />);
 
     const calendarIcon = getByTestId('calendarIcon');
     fireEvent.click(calendarIcon);
@@ -68,95 +77,120 @@ describe('Datepicker', () => {
     const input = getByTestId('dateInput') as HTMLInputElement;
     fireEvent.change(input, { target: { value: newDate } });
 
-    const selectedDate = getByTestId(`${cellIndex}${dayNumber}`);
+    const selectedStartDate = getByTestId(startCellId);
+    const selectedFinishDate = getByTestId(finishCellId);
 
-    expect(input.value).toBe('05/12/2023');
-    expect(selectedDate).toBeChecked();
+    expect(input.value).toBe('10/12/2023 - 15/12/2023');
+    expect(selectedStartDate).toBeChecked();
+    expect(selectedFinishDate).toBeChecked();
   });
 
   it('should change input value when new date selected', () => {
-    const dayNumber = 25;
-    const cellIndex = 29;
-    const newDate = `${dayNumber.toString().padStart(2, '0')}/12/2023`;
-    const { getByTestId } = render(<Datepicker {...options} />);
+    const startCellId = '95';
+    const finishCellId = '1410';
+    const newDate = '05/12/2023 - 10/12/2023';
+
+    const { getByTestId } = render(<RangeDatepicker {...options} />);
 
     const calendarIcon = getByTestId('calendarIcon');
     fireEvent.click(calendarIcon);
 
-    const selectedDate = getByTestId(`${cellIndex}${dayNumber}`);
-    fireEvent.click(selectedDate);
+    const selectedStartDate = getByTestId(startCellId);
+    fireEvent.click(selectedStartDate);
+
+    const selectedFinishDate = getByTestId(finishCellId);
+    fireEvent.click(selectedFinishDate);
 
     const input = getByTestId('dateInput') as HTMLInputElement;
 
     expect(input.value).toBe(newDate);
-    expect(selectedDate).toBeChecked();
+    expect(selectedStartDate).toBeChecked();
+    expect(selectedFinishDate).toBeChecked();
   });
 
   it('should change month by previous month controller clicking', () => {
-    options.initialDate = new Date(2023, 9, 12);
-    const { getByTestId } = render(<Datepicker {...options} />);
+    options.initialStartDate = new Date(2023, 11, 12);
+    options.initialFinishDate = new Date(2023, 11, 15);
+
+    const { getByTestId, getByText } = render(<RangeDatepicker {...options} />);
 
     const calendarIcon = getByTestId('calendarIcon');
     fireEvent.click(calendarIcon);
 
-    const input = getByTestId('dateInput') as HTMLInputElement;
-    const prevInputValue = input.value;
+    const prevCaption = getByText('December 2023');
+
+    expect(prevCaption).toBeInTheDocument();
 
     const prevMonthController = getByTestId('prevController');
     fireEvent.click(prevMonthController);
 
-    const currentInputValue = input.value;
+    const currCaption = getByText('November 2023');
 
-    expect(prevInputValue).toBe('12/10/2023');
-    expect(currentInputValue).toBe('12/09/2023');
+    expect(currCaption).toBeInTheDocument();
   });
 
   it('should change month by next month controller clicking', () => {
-    options.initialDate = new Date(2023, 9, 12);
-    const { getByTestId } = render(<Datepicker {...options} />);
+    options.initialStartDate = new Date(2023, 11, 11);
+    options.initialFinishDate = new Date(2023, 11, 16);
+
+    const { getByTestId, getByText } = render(<RangeDatepicker {...options} />);
 
     const calendarIcon = getByTestId('calendarIcon');
     fireEvent.click(calendarIcon);
 
-    const input = getByTestId('dateInput') as HTMLInputElement;
-    const prevInputValue = input.value;
+    const prevCaption = getByText('December 2023');
+
+    expect(prevCaption).toBeInTheDocument();
 
     const nextMonthController = getByTestId('nextController');
     fireEvent.click(nextMonthController);
 
-    const currentInputValue = input.value;
+    const currCaption = getByText('January 2024');
 
-    expect(prevInputValue).toBe('12/10/2023');
-    expect(currentInputValue).toBe('12/11/2023');
+    expect(currCaption).toBeInTheDocument();
   });
 
   it('should show error message if date format is invalid', () => {
-    const invalidDateFormat = '5/2/23';
-    const { getByTestId, getByText } = render(<Datepicker {...options} />);
+    const invalidDateFormat = '05/12/2023-06/12/2023';
+    const { getByTestId, getByText } = render(<RangeDatepicker {...options} />);
 
     const input = getByTestId('dateInput') as HTMLInputElement;
     fireEvent.change(input, { target: { value: invalidDateFormat } });
 
-    const errorMessage = getByText(errorMessages.datepickerFormat);
+    const errorMessage = getByText(errorMessages.rangepickerFormat);
 
     expect(errorMessage).toBeInTheDocument();
   });
 
-  it('should show error message if date value is invalid', () => {
-    const invalidDateValue = '05/13/2023';
-    const { getByTestId, getByText } = render(<Datepicker {...options} />);
+  it('should show error message if start date value is invalid', () => {
+    const invalidDateValue = '05/13/2023 - 06/12/2023';
+    const { getByTestId, getByText } = render(<RangeDatepicker {...options} />);
 
     const input = getByTestId('dateInput') as HTMLInputElement;
     fireEvent.change(input, { target: { value: invalidDateValue } });
 
-    const errorMessage = getByText(errorMessages.datesValidation());
+    const errorMessage = getByText(errorMessages.datesValidation('start'));
+
+    expect(errorMessage).toBeInTheDocument();
+  });
+
+  it('should show error message if finish date value is invalid', () => {
+    const invalidDateValue = '05/12/2023 - 32/12/2023';
+    const { getByTestId, getByText } = render(<RangeDatepicker {...options} />);
+
+    const input = getByTestId('dateInput') as HTMLInputElement;
+    fireEvent.change(input, { target: { value: invalidDateValue } });
+
+    const errorMessage = getByText(errorMessages.datesValidation('finish'));
 
     expect(errorMessage).toBeInTheDocument();
   });
 
   it('should clear input value by cross button clicking', () => {
-    options.initialDate = new Date(2023, 5, 12);
-    const { getByTestId, getByText } = render(<Datepicker {...options} />);
+    options.initialStartDate = new Date(2023, 5, 29);
+    options.initialFinishDate = new Date(2023, 6, 4);
+
+    const { getByTestId, getByText } = render(<RangeDatepicker {...options} />);
 
     const input = getByTestId('dateInput') as HTMLInputElement;
     const prevInputValue = input.value;
@@ -166,13 +200,15 @@ describe('Datepicker', () => {
 
     const currentInputValue = input.value;
 
-    expect(prevInputValue).toBe('12/06/2023');
+    expect(prevInputValue).toBe('29/06/2023 - 04/07/2023');
     expect(currentInputValue).toBe('');
   });
 
   it('should move cells to the left if isStartWithMonday props is true', () => {
     options.isStartWithMonday = true;
-    const { getByTestId, getAllByTestId } = render(<Datepicker {...options} />);
+    const { getByTestId, getAllByTestId } = render(
+      <RangeDatepicker {...options} />,
+    );
 
     const calendarIcon = getByTestId('calendarIcon');
     fireEvent.click(calendarIcon);
@@ -184,7 +220,9 @@ describe('Datepicker', () => {
 
   it('should remove weekends cells if areWeekendsHidden props is true', () => {
     options.areWeekendsHidden = true;
-    const { getByTestId, getAllByTestId } = render(<Datepicker {...options} />);
+    const { getByTestId, getAllByTestId } = render(
+      <RangeDatepicker {...options} />,
+    );
 
     const calendarIcon = getByTestId('calendarIcon');
     fireEvent.click(calendarIcon);
@@ -196,10 +234,11 @@ describe('Datepicker', () => {
   });
 
   it('should forbid to select date less than minimal date', () => {
-    options.initialDate = new Date(2023, 11, 15);
+    options.initialStartDate = new Date(2023, 11, 15);
+    options.initialFinishDate = new Date(2023, 11, 16);
     options.minDate = new Date(2023, 11, 11);
 
-    const { getByTestId, getByText } = render(<Datepicker {...options} />);
+    const { getByTestId, getByText } = render(<RangeDatepicker {...options} />);
 
     const calendarIcon = getByTestId('calendarIcon');
     fireEvent.click(calendarIcon);
@@ -217,10 +256,11 @@ describe('Datepicker', () => {
   });
 
   it('should forbid to select date bigger than maximum date', () => {
-    options.initialDate = new Date(2023, 11, 15);
+    options.initialStartDate = new Date(2023, 11, 15);
+    options.initialFinishDate = new Date(2023, 11, 16);
     options.maxDate = new Date(2023, 11, 17);
 
-    const { getByTestId, getByText } = render(<Datepicker {...options} />);
+    const { getByTestId, getByText } = render(<RangeDatepicker {...options} />);
 
     const calendarIcon = getByTestId('calendarIcon');
     fireEvent.click(calendarIcon);
@@ -238,9 +278,10 @@ describe('Datepicker', () => {
   });
 
   it('should open todolist by double click on cell', () => {
-    options.initialDate = new Date(2023, 11, 25);
+    options.initialStartDate = new Date(2023, 11, 25);
+    options.initialFinishDate = new Date(2023, 11, 26);
 
-    const { getByTestId, getByText } = render(<Datepicker {...options} />);
+    const { getByTestId, getByText } = render(<RangeDatepicker {...options} />);
 
     const calendarIcon = getByTestId('calendarIcon');
     fireEvent.click(calendarIcon);

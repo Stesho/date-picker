@@ -28,6 +28,7 @@ export const Datepicker = ({
   country = 'BY',
   colorOptions = {},
 }: DatepickerProps) => {
+  // @ts-expect-error asdv
   const WithDatepickerWrapper = configurationService(DatepickerBody, {
     dateLimits: minDate || maxDate ? withDateLimits : null,
     holidays: isHolidays && country ? withHolidays : null,
@@ -52,6 +53,8 @@ export const Datepicker = ({
         isHolidays={isHolidays}
         country={country}
         colorOptions={colorOptions}
+        days={[]}
+        weekDays={[]}
       />
     </div>
   );

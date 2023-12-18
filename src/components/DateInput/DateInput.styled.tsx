@@ -1,3 +1,4 @@
+import React from 'react';
 import styled from 'styled-components';
 
 import { ReactComponent as CalendarIconSvg } from '@/assets/icons/Calendar.svg';
@@ -30,7 +31,9 @@ export const Input = styled.input<{
   }
 `;
 
-export const CalendarIcon = styled(CalendarIconSvg)`
+export const CalendarIcon = styled((props: { onClick: () => void }) => (
+  <CalendarIconSvg {...props} />
+))`
   position: absolute;
   width: 16px;
   height: 16px;

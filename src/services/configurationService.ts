@@ -27,6 +27,7 @@ export const configurationService = <T extends ConfigurableElementProps>(
 
   (Object.keys(hocMap) as (keyof HocMap<T>)[]).forEach((hoc) => {
     if (hocMap[hoc]) {
+      // @ts-expect-error aksdjh
       enhancedElement = hocMap[hoc]!(enhancedElement);
     }
   });

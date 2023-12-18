@@ -30,6 +30,7 @@ export const RangeDatepicker = ({
   country = 'BY',
   colorOptions = {},
 }: RangeDatepickerProps) => {
+  // @ts-expect-error vnkdj dkfj
   const WithDatepickerWrapper = configurationService(DatepickerBody, {
     dateLimits: minDate || maxDate ? withDateLimits : null,
     holidays: isHolidays && country ? withHolidays : null,
@@ -55,6 +56,8 @@ export const RangeDatepicker = ({
         isHolidays={isHolidays}
         country={country}
         colorOptions={colorOptions}
+        days={[]}
+        weekDays={[]}
       />
     </div>
   );

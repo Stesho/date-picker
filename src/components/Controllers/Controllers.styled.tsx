@@ -1,3 +1,4 @@
+import React from 'react';
 import styled from 'styled-components';
 
 import { ReactComponent as NextIcon } from '@/assets/icons/Next.svg';
@@ -16,9 +17,13 @@ export const ControllersWrapper = styled.div<{
   background-color: ${(props) => props.$colors?.background || 'none'};
 `;
 
-export const PrevControllerIcon = styled(PrevIcon)`
+export const PrevControllerIcon = styled((props: { onClick: () => void }) => (
+  <PrevIcon {...props} />
+))`
   cursor: pointer;
 `;
-export const NextControllerIcon = styled(NextIcon)`
+export const NextControllerIcon = styled((props: { onClick: () => void }) => (
+  <NextIcon {...props} />
+))`
   cursor: pointer;
 `;

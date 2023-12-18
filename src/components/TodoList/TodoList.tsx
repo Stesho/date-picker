@@ -51,7 +51,7 @@ export const TodoList = ({ onClose, date }: TodoListProps) => {
   };
 
   return (
-    <TodoListWrapper>
+    <TodoListWrapper data-testid='todoList'>
       <CloseButton onClick={onCloseClick} type='button'>
         ✖
       </CloseButton>

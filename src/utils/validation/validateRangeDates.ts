@@ -50,6 +50,12 @@ export const validateRangeDates = (dateString: string): ValidatedDates => {
     };
   }
 
+  if (parseDateString(start) > parseDateString(finish)) {
+    return {
+      errorMessage: errorMessages.datesRange,
+    };
+  }
+
   return {
     startDate: parseDateString(start),
     finishDate: parseDateString(finish),

@@ -9,7 +9,6 @@ export const DateInputWrapper = styled.div`
   display: flex;
   align-items: center;
   width: 250px;
-  margin: 0 0 8px 0;
 `;
 
 export const Input = styled.input<{

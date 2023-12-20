@@ -20,7 +20,7 @@ const addHolidaysToDays = (
   holidaysByDate: HolidaysByDate,
 ) =>
   days.map((day) => {
-    const date = new Date(year, month, day.number - 1)
+    const date = new Date(year, month, day.number + 1)
       .toISOString()
       .split('T')[0];
 

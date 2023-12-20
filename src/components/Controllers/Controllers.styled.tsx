@@ -15,6 +15,8 @@ export const ControllersWrapper = styled.div<{
   font-weight: 700;
   color: ${(props) => props.$colors?.text || 'inherit'};
   background-color: ${(props) => props.$colors?.background || 'none'};
+
+  user-select: none;
 `;
 
 export const PrevControllerIcon = styled((props: { onClick: () => void }) => (

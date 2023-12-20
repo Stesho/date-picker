@@ -3,13 +3,19 @@ import React, { ChangeEvent, useState } from 'react';
 import {
   AddTodoButton,
   CloseButton,
+  Date,
   DeleteButton,
+  Head,
+  Input,
   InputWrapper,
   List,
   ListItem,
-  TodoListWrapper,
+  TodoListModal,
+  TodoListOverlay,
 } from '@/components/TodoList/TodoList.styled';
+import { useOutsideClick } from '@/hooks/useOutsideClick';
 import { Todo } from '@/types/Todos';
+import { dateToString } from '@/utils/dateToString';
 import { getTodosByDate } from '@/utils/getTodosByDate';
 import { setTodosByDate } from '@/utils/setTodosByDate';
 
@@ -20,6 +26,7 @@ interface TodoListProps {
 export const TodoList = ({ onClose, date }: TodoListProps) => {
   const [todos, setTodos] = useState<Todo[]>(() => getTodosByDate(date));
   const [todoText, setTodoText] = useState<string>('');
+  const todoListModalRef = useOutsideClick(onClose);
 
   const onInputNewTodo = (event: ChangeEvent<HTMLInputElement>) => {
     setTodoText(event.target.value);
@@ -51,26 +58,36 @@ export const TodoList = ({ onClose, date }: TodoListProps) => {
   };
 
   return (
-    <TodoListWrapper data-testid='todoList'>
-      <CloseButton onClick={onCloseClick} type='button'>
-        ✖
-      </CloseButton>
-      <InputWrapper>
-        <input type='text' value={todoText} onChange={onInputNewTodo} />
-        <AddTodoButton type='button' onClick={addTodo}>
-          add todo
-        </AddTodoButton>
-      </InputWrapper>
-      <List>
-        {todos.map((todo) => (
-          <ListItem key={todo.id}>
-            <span>{todo.text}</span>
-            <DeleteButton type='button' onClick={deleteTodo(todo.id)}>
-              ✖
-            </DeleteButton>
-          </ListItem>
-        ))}
-      </List>
-    </TodoListWrapper>
+    <TodoListOverlay data-testid='todoList'>
+      <TodoListModal ref={todoListModalRef}>
+        <Head>
+          <Date>{dateToString(date)}</Date>
+          <CloseButton onClick={onCloseClick} type='button'>
+            ✖
+          </CloseButton>
+        </Head>
+        <InputWrapper>
+          <Input
+            type='text'
+            placeholder='Enter a task...'
+            value={todoText}
+            onChange={onInputNewTodo}
+          />
+          <AddTodoButton type='button' onClick={addTodo}>
+            add todo
+          </AddTodoButton>
+        </InputWrapper>
+        <List>
+          {todos.map((todo) => (
+            <ListItem key={todo.id}>
+              <span>{todo.text}</span>
+              <DeleteButton type='button' onClick={deleteTodo(todo.id)}>
+                ✖
+              </DeleteButton>
+            </ListItem>
+          ))}
+        </List>
+      </TodoListModal>
+    </TodoListOverlay>
   );
 };

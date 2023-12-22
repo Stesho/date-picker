@@ -25,6 +25,7 @@ export const Calendar = ({
   return (
     <CalendarWrapper
       $background={colors.calendar?.background}
+      $border={colors.calendar?.border}
       data-testid='calendar'
     >
       <Controllers

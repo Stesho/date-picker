@@ -7,7 +7,7 @@ import {
   ErrorMessage,
 } from '@/components/DatepickerBody/DatepickerBody.styled';
 
-type DatepickerBodyProps = CalendarProps & {
+export type DatepickerBodyProps = CalendarProps & {
   errorMessage: string;
   isOpenCalendar: boolean;
 };

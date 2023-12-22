@@ -2,9 +2,9 @@ import { ComponentType } from 'react';
 
 import { ConfigurableElementProps } from '@/types/ConfigurableElementProps';
 
-type HocType<T> = (
+type HocType = <T extends ConfigurableElementProps>(
   WrappedComponent: ComponentType<T>,
-) => (props: Omit<T, keyof ConfigurableElementProps>) => ComponentType<T>;
+) => (props: Omit<T, keyof ConfigurableElementProps>) => JSX.Element;
 
 type HocMapKeys =
   | 'dateLimits'
@@ -15,19 +15,18 @@ type HocMapKeys =
   | 'calendarLogic'
   | 'pickerLogic';
 
-type HocMap<T> = {
-  [K in HocMapKeys]: HocType<T> | null;
+type HocMap = {
+  [K in HocMapKeys]: HocType | null;
 };
 
 export const configurationService = <T extends ConfigurableElementProps>(
   component: ComponentType<T>,
-  hocMap: HocMap<T>,
+  hocMap: HocMap,
 ) => {
   let enhancedElement = component;
 
-  (Object.keys(hocMap) as (keyof HocMap<T>)[]).forEach((hoc) => {
+  (Object.keys(hocMap) as (keyof HocMap)[]).forEach((hoc) => {
     if (hocMap[hoc]) {
-      // @ts-expect-error aksdjh
       enhancedElement = hocMap[hoc]!(enhancedElement);
     }
   });

@@ -26,7 +26,7 @@ export const Head = styled.div`
   padding: 5px 0 15px 0;
 `;
 
-export const Date = styled.span`
+export const TodoDate = styled.span`
   font-weight: 600;
   font-size: 18px;
 `;

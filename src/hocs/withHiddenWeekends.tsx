@@ -1,7 +1,7 @@
 import React, { ComponentType } from 'react';
 
 import { ConfigurableElementProps } from '@/types/ConfigurableElementProps';
-import { cutWeekends } from '@/utils/cutWeekends';
+import { cutWeekends } from '@/utils/calendar/cutWeekends';
 
 export const withHiddenWeekends = <T extends ConfigurableElementProps>(
   WrappedComponent: ComponentType<T>,

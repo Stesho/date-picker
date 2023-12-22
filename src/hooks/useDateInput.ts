@@ -1,6 +1,6 @@
 import { ChangeEvent, useEffect, useState } from 'react';
 
-import { dateToString } from '@/utils/dateToString';
+import { dateToString } from '@/utils/dates/dateToString';
 
 export const useDateInput = (
   onInputValue: (dateString: string) => void,

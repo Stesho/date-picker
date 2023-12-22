@@ -1,5 +1,5 @@
 import { Day } from '@/types/Day';
-import { shiftArrayToLeft } from '@/utils/shiftArrayToLeft';
+import { shiftArrayToLeft } from '@/utils/helpers/shiftArrayToLeft';
 
 export const shiftDaysToLeft = (days: Day[]) => {
   const daysStartWithMonday = shiftArrayToLeft(days, 1);

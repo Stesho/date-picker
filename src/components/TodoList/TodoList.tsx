@@ -15,10 +15,10 @@ import {
 } from '@/components/TodoList/TodoList.styled';
 import { useOutsideClick } from '@/hooks/useOutsideClick';
 import { Todo } from '@/types/Todos';
-import { dateToString } from '@/utils/dateToString';
-import { getTodosByDate } from '@/utils/getTodosByDate';
+import { dateToString } from '@/utils/dates/dateToString';
 import { addTodo } from '@/utils/todos/addTodo';
 import { deleteTodo } from '@/utils/todos/deleteTodo';
+import { getTodosByDate } from '@/utils/todos/getTodosByDate';
 import { onCloseClick } from '@/utils/todos/onCloseClick';
 
 interface TodoListProps {

@@ -7,7 +7,7 @@ import { WeekContext } from '@/context/weekContext';
 import { ConfigurableElementProps } from '@/types/ConfigurableElementProps';
 import { Day } from '@/types/Day';
 import { Holiday } from '@/types/Holiday';
-import { holidaysToHolidaysByDate } from '@/utils/setHolidays';
+import { holidaysToHolidaysByDate } from '@/utils/holidays/setHolidays';
 
 interface HolidaysByDate {
   [K: string]: Holiday;
@@ -23,7 +23,6 @@ const addHolidaysToDays = (
     const formattedMonth = (month + 1).toString().padStart(2, '0');
     const formattedDay = day.number.toString().padStart(2, '0');
     const date = `${formattedMonth}-${formattedDay}`;
-    console.log(date);
 
     if (day.isCurrentMoth && holidaysByDate[date]) {
       return {

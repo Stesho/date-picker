@@ -1,5 +1,5 @@
 import { errorMessages } from '@/constants/errorMessages/errorMessages';
-import { parseDateString } from '@/utils/parseDateString';
+import { parseDateString } from '@/utils/dates/parseDateString';
 import { isValidDateFormat } from '@/utils/validation/isValidDateFormat';
 
 // validated date in format dd/mm/yyyy. 0 < dd < 32; 0 < mm < 13;

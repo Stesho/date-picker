@@ -1,5 +1,5 @@
 import { errorMessages } from '@/constants/errorMessages/errorMessages';
-import { parseDateString } from '@/utils/parseDateString';
+import { parseDateString } from '@/utils/dates/parseDateString';
 
 // date in format dd/mm/yyyy - dd/mm/yyyy
 const dateFormatPattern =

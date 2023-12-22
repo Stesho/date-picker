@@ -1,4 +1,4 @@
-import { deleteEveryNthElement } from '@/utils/deleteEveryNthElement';
+import { deleteEveryNthElement } from '@/utils/helpers/deleteEveryNthElement';
 
 export const cutWeekends = <T>(days: T[]) => {
   const daysInWeek = 7;

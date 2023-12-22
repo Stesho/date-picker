@@ -1,5 +1,5 @@
 import { Todo } from '@/types/Todos';
-import { setTodosByDate } from '@/utils/setTodosByDate';
+import { setTodosByDate } from '@/utils/todos/setTodosByDate';
 
 export const onCloseClick =
   (date: Date, todos: Todo[], onClose: () => void) => () => {

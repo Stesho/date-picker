@@ -1,6 +1,6 @@
 import { useState } from 'react';
 
-import { addDayToDate } from '@/utils/addDayToDate';
+import { addDayToDate } from '@/utils/dates/addDayToDate';
 import { validateRangeDates } from '@/utils/validation/validateRangeDates';
 
 const yesterday = addDayToDate(new Date(), -1);

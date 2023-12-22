@@ -6,7 +6,7 @@ import { DateContext } from '@/context/dateContext';
 import { WeekContext } from '@/context/weekContext';
 import { CalendarTypes } from '@/types/CalendarTypes';
 import { ConfigurableElementProps } from '@/types/ConfigurableElementProps';
-import { weeksInMonth } from '@/utils/weeksInMonth';
+import { weeksInMonth } from '@/utils/calendar/weeksInMonth';
 
 export const withControllers = <T extends ConfigurableElementProps>(
   WrappedComponent: ComponentType<T>,

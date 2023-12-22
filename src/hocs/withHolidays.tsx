@@ -20,9 +20,10 @@ const addHolidaysToDays = (
   holidaysByDate: HolidaysByDate,
 ) =>
   days.map((day) => {
-    const date = new Date(year, month, day.number + 1)
-      .toISOString()
-      .split('T')[0];
+    const formattedMonth = (month + 1).toString().padStart(2, '0');
+    const formattedDay = day.number.toString().padStart(2, '0');
+    const date = `${formattedMonth}-${formattedDay}`;
+    console.log(date);
 
     if (day.isCurrentMoth && holidaysByDate[date]) {
       return {

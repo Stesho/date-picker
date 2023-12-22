@@ -3,7 +3,7 @@ import React, { ComponentType, useContext } from 'react';
 import { CalendarContext } from '@/context/calendarContext';
 import { DateContext } from '@/context/dateContext';
 import { ConfigurableElementProps } from '@/types/ConfigurableElementProps';
-import { setDatesLimits } from '@/utils/setDatesLimits';
+import { setDatesLimits } from '@/utils/dates/setDatesLimits';
 
 export const withDateLimits = <T extends ConfigurableElementProps>(
   WrappedComponent: ComponentType<T>,

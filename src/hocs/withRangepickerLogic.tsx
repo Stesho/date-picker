@@ -37,8 +37,10 @@ export const withRangepickerLogic = <T extends ConfigurableElementProps>(
       onInputValue,
       setStartDate,
       setFinishDate,
-    } = useRangeDates(initialStartDate, initialFinishDate);
+      setErrorMessage,
+    } = useRangeDates(initialStartDate, initialFinishDate, minDate, maxDate);
     const { value, onClearInput, onChange } = useRangeDateInput(
+      setErrorMessage,
       onInputValue,
       startDate,
       finishDate,

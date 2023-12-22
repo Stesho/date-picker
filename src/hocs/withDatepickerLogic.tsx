@@ -29,9 +29,15 @@ export const withDatepickerLogic = <T extends ConfigurableElementProps>(
       ...rest
     } = props as T;
 
-    const { currentDate, errorMessage, onInputValue, setCurrentDate } =
-      useDates(initialDate);
+    const {
+      currentDate,
+      errorMessage,
+      onInputValue,
+      setCurrentDate,
+      setErrorMessage,
+    } = useDates(initialDate, minDate, maxDate);
     const { value, onClearInput, onChange } = useDateInput(
+      setErrorMessage,
       onInputValue,
       currentDate,
     );

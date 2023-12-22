@@ -8,7 +8,10 @@ export const holidaysToHolidaysByDate = (holidays: Holiday[]) => {
   const holidaysByDate: HolidaysByDate = {};
 
   holidays.forEach((holiday) => {
-    holidaysByDate[holiday.date] = holiday;
+    const [, month, day] = holiday.date.split('-');
+    const date = `${month}-${day}`;
+
+    holidaysByDate[date] = holiday;
   });
 
   return holidaysByDate;

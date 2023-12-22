@@ -1,21 +1,39 @@
 import styled from 'styled-components';
 
-export const TodoListWrapper = styled.div`
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  padding: 30px 10px 10px 10px;
+export const TodoListOverlay = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: fixed;
+  width: 100vw;
+  height: 100vh;
   top: 0;
   left: 0;
   background-color: #00000090;
 `;
 
+export const TodoListModal = styled.div`
+  position: relative;
+  padding: 0 20px 20px 20px;
+  background-color: #fff;
+  border-radius: 10px;
+`;
+
+export const Head = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  padding: 5px 0 15px 0;
+`;
+
+export const TodoDate = styled.span`
+  font-weight: 600;
+  font-size: 18px;
+`;
+
 export const CloseButton = styled.button`
-  position: absolute;
-  top: 0;
-  left: calc(100% - 30px);
   font-size: 25px;
-  color: #fff;
+  color: #000;
 
   cursor: pointer;
 `;
@@ -27,15 +45,34 @@ export const InputWrapper = styled.div`
   }
 `;
 
+export const Input = styled.input`
+  width: 100%;
+  padding: 11px;
+  margin: 0 15px 0 0;
+  color: #333;
+  font-size: 15px;
+  border-radius: 8px;
+  border: 1px solid #ddd;
+  background: #fff;
+  outline: none;
+
+  &::placeholder {
+    color: #bbb;
+  }
+`;
+
 export const AddTodoButton = styled.button`
-  width: 30%;
-  background-color: #aaa;
+  padding: 0 10px;
+  white-space: nowrap;
+  border-radius: 8px;
+  background-color: #2f80ed;
+  text-transform: capitalize;
+  color: white;
   cursor: pointer;
 `;
 
 export const List = styled.ul`
   width: 100%;
-  height: 200px;
   overflow: auto;
   padding: 0;
   margin: 10px 0 0 0;
@@ -45,8 +82,15 @@ export const List = styled.ul`
 export const ListItem = styled.li`
   display: flex;
   justify-content: space-between;
-  padding: 5px;
+  align-items: center;
+  padding: 10px 5px;
+  border-radius: 5px;
   background-color: #fff;
+
+  &:hover {
+    color: #fff;
+    background-color: rgba(47, 128, 237, 0.6);
+  }
 `;
 
 export const DeleteButton = styled.button`

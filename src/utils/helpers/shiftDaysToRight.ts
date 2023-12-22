@@ -1,5 +1,5 @@
 import { Day } from '@/types/Day';
-import { shiftArrayToRight } from '@/utils/shiftArrayToRight';
+import { shiftArrayToRight } from '@/utils/helpers/shiftArrayToRight';
 
 export const shiftDaysToRight = (days: Day[], daysInPrevMonth: number) => {
   const shiftCount = 6;

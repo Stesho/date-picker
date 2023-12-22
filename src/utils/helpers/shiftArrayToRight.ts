@@ -1,4 +1,4 @@
-import { shiftArray } from '@/utils/shiftArray';
+import { shiftArray } from '@/utils/helpers/shiftArray';
 
 export const shiftArrayToRight = <T>(arr: T[], shiftCount: number): T[] =>
   shiftArray(

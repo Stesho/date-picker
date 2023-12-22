@@ -4,7 +4,7 @@ import { fireEvent, render } from '@testing-library/react';
 import { WEEK_DAYS_NAMES } from '@/constants/calendar/weekDaysNames';
 import { errorMessages } from '@/constants/errorMessages/errorMessages';
 import { CalendarTypes } from '@/types/CalendarTypes';
-import { shiftArrayToLeft } from '@/utils/shiftArrayToLeft';
+import { shiftArrayToLeft } from '@/utils/helpers/shiftArrayToLeft';
 
 import 'jest-styled-components';
 import '@testing-library/jest-dom';

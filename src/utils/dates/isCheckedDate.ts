@@ -1,4 +1,4 @@
-import { isSameDates } from '@/utils/isSameDates';
+import { isSameDates } from '@/utils/dates/isSameDates';
 
 export const isCheckedDate = (
   date: Date | null,

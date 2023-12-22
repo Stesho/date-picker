@@ -8,11 +8,10 @@ import { useDays } from '@/hooks/useDays';
 import { ConfigurableElementProps } from '@/types/ConfigurableElementProps';
 import { isCheckedDayCell } from '@/utils/dayCells/isCheckedDayCell';
 
-export const withCalendarLogic = <T extends ConfigurableElementProps>(
-  WrappedComponent: ComponentType<T>,
-) =>
-  function (props: Omit<T, keyof ConfigurableElementProps>) {
-    const { ...rest } = props as T;
+export const withCalendarLogic =
+  <T extends ConfigurableElementProps>(WrappedComponent: ComponentType<T>) =>
+  (props: Omit<T, keyof ConfigurableElementProps>) => {
+    const { ...rest } = props;
 
     const { currentDate, setCurrentDate } = useContext(DateContext);
 

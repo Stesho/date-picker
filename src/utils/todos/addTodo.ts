@@ -5,14 +5,13 @@ import { Todo } from '@/types/Todos';
 export const addTodo =
   (
     todoText: string,
-    todos: Todo[],
     setTodoText: Dispatch<SetStateAction<string>>,
     setTodos: Dispatch<SetStateAction<Todo[]>>,
   ) =>
   () => {
     if (todoText.trim().length !== 0) {
       setTodoText('');
-      setTodos([
+      setTodos((todos) => [
         ...todos,
         {
           id: todos.length + 1,

@@ -26,6 +26,7 @@ interface Elements {
   input: ElementColorOptions;
   calendar: {
     background?: Color;
+    border?: Color;
     controllers?: ElementColorOptions;
     cells?: CellsColors;
   };

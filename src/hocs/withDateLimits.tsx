@@ -5,10 +5,9 @@ import { DateContext } from '@/context/dateContext';
 import { ConfigurableElementProps } from '@/types/ConfigurableElementProps';
 import { setDatesLimits } from '@/utils/dates/setDatesLimits';
 
-export const withDateLimits = <T extends ConfigurableElementProps>(
-  WrappedComponent: ComponentType<T>,
-) =>
-  function (props: Omit<T, keyof ConfigurableElementProps>) {
+export const withDateLimits =
+  <T extends ConfigurableElementProps>(WrappedComponent: ComponentType<T>) =>
+  (props: Omit<T, keyof ConfigurableElementProps>) => {
     const { days, ...rest } = props as T;
     const { minDate, maxDate } = useContext(DateContext);
     const { year, month } = useContext(CalendarContext);

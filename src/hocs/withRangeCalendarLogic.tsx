@@ -9,11 +9,10 @@ import { ConfigurableElementProps } from '@/types/ConfigurableElementProps';
 import { isSameDates } from '@/utils/dates/isSameDates';
 import { isCheckedRangeCell } from '@/utils/dayCells/isCheckedRangeCell';
 
-export const withRangeCalendarLogic = <T extends ConfigurableElementProps>(
-  WrappedComponent: ComponentType<T>,
-) =>
-  function (props: Omit<T, keyof ConfigurableElementProps>) {
-    const { ...rest } = props as T;
+export const withRangeCalendarLogic =
+  <T extends ConfigurableElementProps>(WrappedComponent: ComponentType<T>) =>
+  (props: Omit<T, keyof ConfigurableElementProps>) => {
+    const { ...rest } = props;
 
     const { startDate, finishDate, setStartDate, setFinishDate } =
       useContext(DateContext);

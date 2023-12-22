@@ -1,6 +1,5 @@
 import React, { useContext } from 'react';
 
-import { CellsWrapper } from '@/components/Cells/Cells.styled';
 import { DayCells, DayCellsProps } from '@/components/Cells/DayCells/DayCells';
 import {
   WeekCells,
@@ -9,6 +8,8 @@ import {
 import { TodoList } from '@/components/TodoList/TodoList';
 import { DateContext } from '@/context/dateContext';
 import { useTodos } from '@/hooks/useTodos';
+
+import { CellsWrapper } from './Cells.styled';
 
 export type CellsProps = WeekCellsProps & Omit<DayCellsProps, 'toggleTodoList'>;
 

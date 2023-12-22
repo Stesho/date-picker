@@ -30,7 +30,7 @@ export const withDatepickerLogic = <T extends ConfigurableElementProps>(
     } = props as T;
 
     const { currentDate, errorMessage, onInputValue, setCurrentDate } =
-      useDates(initialDate);
+      useDates(initialDate, minDate, maxDate);
     const { value, onClearInput, onChange } = useDateInput(
       onInputValue,
       currentDate,

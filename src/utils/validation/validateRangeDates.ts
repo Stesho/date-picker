@@ -17,7 +17,11 @@ interface ValidatedDates {
   errorMessage: string;
 }
 
-export const validateRangeDates = (dateString: string): ValidatedDates => {
+export const validateRangeDates = (
+  dateString: string,
+  minDate?: Date,
+  maxDate?: Date,
+): ValidatedDates => {
   const [start, finish] = dateString.split(separator);
 
   if (dateString === '') {
@@ -53,6 +57,22 @@ export const validateRangeDates = (dateString: string): ValidatedDates => {
   if (parseDateString(start) > parseDateString(finish)) {
     return {
       errorMessage: errorMessages.datesRange,
+    };
+  }
+
+  if (minDate && parseDateString(start) < minDate) {
+    return {
+      startDate: null,
+      finishDate: null,
+      errorMessage: errorMessages.minRangeDate,
+    };
+  }
+
+  if (maxDate && parseDateString(finish) > maxDate) {
+    return {
+      startDate: null,
+      finishDate: null,
+      errorMessage: errorMessages.maxRangeDate,
     };
   }
 

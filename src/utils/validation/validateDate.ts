@@ -11,7 +11,11 @@ interface ValidatedDate {
   errorMessage: string;
 }
 
-export const validateDate = (dateString: string): ValidatedDate => {
+export const validateDate = (
+  dateString: string,
+  minDate?: Date,
+  maxDate?: Date,
+): ValidatedDate => {
   if (dateString === '') {
     return {
       currentDate: null,
@@ -23,6 +27,20 @@ export const validateDate = (dateString: string): ValidatedDate => {
     return {
       currentDate: null,
       errorMessage: errorMessages.datepickerFormat,
+    };
+  }
+
+  if (minDate && parseDateString(dateString) < minDate) {
+    return {
+      currentDate: parseDateString(dateString),
+      errorMessage: errorMessages.minDate,
+    };
+  }
+
+  if (maxDate && parseDateString(dateString) > maxDate) {
+    return {
+      currentDate: parseDateString(dateString),
+      errorMessage: errorMessages.maxDate,
     };
   }
 

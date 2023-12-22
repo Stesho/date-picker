@@ -30,29 +30,29 @@ export const validateDate = (
     };
   }
 
+  if (!dateValidationPattern.test(dateString)) {
+    return {
+      currentDate: null,
+      errorMessage: errorMessages.datesValidation(''),
+    };
+  }
+
   if (minDate && parseDateString(dateString) < minDate) {
     return {
-      currentDate: parseDateString(dateString),
+      currentDate: null,
       errorMessage: errorMessages.minDate,
     };
   }
 
   if (maxDate && parseDateString(dateString) > maxDate) {
     return {
-      currentDate: parseDateString(dateString),
+      currentDate: null,
       errorMessage: errorMessages.maxDate,
     };
   }
 
-  if (dateValidationPattern.test(dateString)) {
-    return {
-      currentDate: dateString !== '' ? parseDateString(dateString) : null,
-      errorMessage: '',
-    };
-  }
-
   return {
-    currentDate: null,
-    errorMessage: errorMessages.datesValidation(''),
+    currentDate: parseDateString(dateString),
+    errorMessage: '',
   };
 };

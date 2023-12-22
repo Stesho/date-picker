@@ -3,6 +3,7 @@ import { ChangeEvent, useEffect, useState } from 'react';
 import { dateToString } from '@/utils/dates/dateToString';
 
 export const useRangeDateInput = (
+  setErrorMessage: (errorMessage: string) => void,
   onInputValue: (dateString: string) => void,
   startDate: Date | null,
   finishDate: Date | null,
@@ -31,8 +32,9 @@ export const useRangeDateInput = (
       const startDateString = dateToString(startDate);
       const finishDateString = dateToString(finishDate);
       setValue(`${startDateString}${separator}${finishDateString}`);
+      setErrorMessage('');
     }
-  }, [startDate, finishDate]);
+  }, [startDate, finishDate, setErrorMessage]);
 
   return {
     value,

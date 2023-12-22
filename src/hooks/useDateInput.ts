@@ -3,6 +3,7 @@ import { ChangeEvent, useEffect, useState } from 'react';
 import { dateToString } from '@/utils/dates/dateToString';
 
 export const useDateInput = (
+  setErrorMessage: (errorMessage: string) => void,
   onInputValue: (dateString: string) => void,
   currentDate: Date | null,
 ) => {
@@ -27,8 +28,9 @@ export const useDateInput = (
     if (currentDate) {
       const dateString = dateToString(currentDate);
       setValue(dateString);
+      setErrorMessage('');
     }
-  }, [currentDate]);
+  }, [currentDate, setErrorMessage]);
 
   return {
     value,

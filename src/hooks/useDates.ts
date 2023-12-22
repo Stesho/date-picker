@@ -21,5 +21,6 @@ export const useDates = (
     errorMessage,
     onInputValue,
     setCurrentDate,
+    setErrorMessage,
   };
 };

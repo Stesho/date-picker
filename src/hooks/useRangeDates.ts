@@ -40,5 +40,6 @@ export const useRangeDates = (
     onInputValue,
     setStartDate,
     setFinishDate,
+    setErrorMessage,
   };
 };

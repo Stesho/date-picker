@@ -12,10 +12,9 @@ import { useInputContext } from '@/hooks/useInputContext';
 import { useWeekContext } from '@/hooks/useWeekContext';
 import { ConfigurableElementProps } from '@/types/ConfigurableElementProps';
 
-export const withDatepickerLogic = <T extends ConfigurableElementProps>(
-  WrappedComponent: ComponentType<T>,
-) =>
-  function (props: Omit<T, keyof ConfigurableElementProps>) {
+export const withDatepickerLogic =
+  <T extends ConfigurableElementProps>(WrappedComponent: ComponentType<T>) =>
+  (props: Omit<T, keyof ConfigurableElementProps>) => {
     const {
       type,
       initialDate,
@@ -29,9 +28,15 @@ export const withDatepickerLogic = <T extends ConfigurableElementProps>(
       ...rest
     } = props as T;
 
-    const { currentDate, errorMessage, onInputValue, setCurrentDate } =
-      useDates(initialDate);
+    const {
+      currentDate,
+      errorMessage,
+      onInputValue,
+      setCurrentDate,
+      setErrorMessage,
+    } = useDates(initialDate, minDate, maxDate);
     const { value, onClearInput, onChange } = useDateInput(
+      setErrorMessage,
       onInputValue,
       currentDate,
     );

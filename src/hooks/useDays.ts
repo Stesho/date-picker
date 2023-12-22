@@ -9,7 +9,7 @@ import {
 import { DateContext } from '@/context/dateContext';
 import { WeekContext } from '@/context/weekContext';
 import { Day } from '@/types/Day';
-import { getDaysInMonth } from '@/utils/calculateDaysInMonth';
+import { getDaysInMonth } from '@/utils/calendar/calculateDaysInMonth';
 
 type UseDaysReturnType = [Day[], Dispatch<SetStateAction<Day[]>>];
 

@@ -2,14 +2,13 @@ import React, { ComponentType, useContext } from 'react';
 
 import { CalendarContext } from '@/context/calendarContext';
 import { ConfigurableElementProps } from '@/types/ConfigurableElementProps';
-import { shiftArrayToLeft } from '@/utils/shiftArrayToLeft';
-import { shiftDaysToLeft } from '@/utils/shiftDaysToLeft';
-import { shiftDaysToRight } from '@/utils/shiftDaysToRight';
+import { shiftArrayToLeft } from '@/utils/helpers/shiftArrayToLeft';
+import { shiftDaysToLeft } from '@/utils/helpers/shiftDaysToLeft';
+import { shiftDaysToRight } from '@/utils/helpers/shiftDaysToRight';
 
-export const withMondayStart = <T extends ConfigurableElementProps>(
-  WrappedComponent: ComponentType<T>,
-) =>
-  function (props: Omit<T, keyof ConfigurableElementProps>) {
+export const withMondayStart =
+  <T extends ConfigurableElementProps>(WrappedComponent: ComponentType<T>) =>
+  (props: Omit<T, keyof ConfigurableElementProps>) => {
     const { days, weekDays, ...rest } = props as T;
     const { year, month } = useContext(CalendarContext);
 

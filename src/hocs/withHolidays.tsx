@@ -7,7 +7,7 @@ import { WeekContext } from '@/context/weekContext';
 import { ConfigurableElementProps } from '@/types/ConfigurableElementProps';
 import { Day } from '@/types/Day';
 import { Holiday } from '@/types/Holiday';
-import { holidaysToHolidaysByDate } from '@/utils/setHolidays';
+import { holidaysToHolidaysByDate } from '@/utils/holidays/setHolidays';
 
 interface HolidaysByDate {
   [K: string]: Holiday;
@@ -20,9 +20,9 @@ const addHolidaysToDays = (
   holidaysByDate: HolidaysByDate,
 ) =>
   days.map((day) => {
-    const date = new Date(year, month, day.number - 1)
-      .toISOString()
-      .split('T')[0];
+    const formattedMonth = (month + 1).toString().padStart(2, '0');
+    const formattedDay = day.number.toString().padStart(2, '0');
+    const date = `${formattedMonth}-${formattedDay}`;
 
     if (day.isCurrentMoth && holidaysByDate[date]) {
       return {
@@ -37,10 +37,9 @@ const addHolidaysToDays = (
     };
   });
 
-export const withHolidays = <T extends ConfigurableElementProps>(
-  WrappedComponent: ComponentType<T>,
-) =>
-  function (props: Omit<T, keyof ConfigurableElementProps>) {
+export const withHolidays =
+  <T extends ConfigurableElementProps>(WrappedComponent: ComponentType<T>) =>
+  (props: Omit<T, keyof ConfigurableElementProps>) => {
     const { days, ...rest } = props as T;
     const { year, month } = useContext(CalendarContext);
     const { country } = useContext(WeekContext);

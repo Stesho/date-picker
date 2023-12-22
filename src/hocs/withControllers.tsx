@@ -6,13 +6,12 @@ import { DateContext } from '@/context/dateContext';
 import { WeekContext } from '@/context/weekContext';
 import { CalendarTypes } from '@/types/CalendarTypes';
 import { ConfigurableElementProps } from '@/types/ConfigurableElementProps';
-import { weeksInMonth } from '@/utils/weeksInMonth';
+import { weeksInMonth } from '@/utils/calendar/weeksInMonth';
 
-export const withControllers = <T extends ConfigurableElementProps>(
-  WrappedComponent: ComponentType<T>,
-) =>
-  function (props: Omit<T, keyof ConfigurableElementProps>) {
-    const { ...rest } = props as T;
+export const withControllers =
+  <T extends ConfigurableElementProps>(WrappedComponent: ComponentType<T>) =>
+  (props: Omit<T, keyof ConfigurableElementProps>) => {
+    const { ...rest } = props;
 
     const { year, month, week, setYear, setMonth, setWeek } =
       useContext(CalendarContext);

@@ -3,7 +3,9 @@ import React from 'react';
 import { Calendar, CalendarProps } from '@/components/Calendar/Calendar';
 import { DateInput } from '@/components/DateInput/DateInput';
 
-type DatepickerBodyProps = CalendarProps & {
+import { DatepickerBodyWrapper, ErrorMessage } from './DatepickerBody.styled';
+
+export type DatepickerBodyProps = CalendarProps & {
   errorMessage: string;
   isOpenCalendar: boolean;
 };
@@ -19,9 +21,9 @@ export const DatepickerBody = ({
   onSetCurrentDate,
   isCheckedCell,
 }: DatepickerBodyProps) => (
-  <>
+  <DatepickerBodyWrapper>
     <DateInput />
-    {errorMessage.length > 0 && <span>{errorMessage}</span>}
+    {errorMessage.length > 0 && <ErrorMessage>{errorMessage}</ErrorMessage>}
     {isOpenCalendar && (
       <Calendar
         controllersCaption={controllersCaption}
@@ -33,5 +35,5 @@ export const DatepickerBody = ({
         isCheckedCell={isCheckedCell}
       />
     )}
-  </>
+  </DatepickerBodyWrapper>
 );

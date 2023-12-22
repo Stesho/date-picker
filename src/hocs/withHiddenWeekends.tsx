@@ -1,12 +1,11 @@
 import React, { ComponentType } from 'react';
 
 import { ConfigurableElementProps } from '@/types/ConfigurableElementProps';
-import { cutWeekends } from '@/utils/cutWeekends';
+import { cutWeekends } from '@/utils/calendar/cutWeekends';
 
-export const withHiddenWeekends = <T extends ConfigurableElementProps>(
-  WrappedComponent: ComponentType<T>,
-) =>
-  function (props: Omit<T, keyof ConfigurableElementProps>) {
+export const withHiddenWeekends =
+  <T extends ConfigurableElementProps>(WrappedComponent: ComponentType<T>) =>
+  (props: Omit<T, keyof ConfigurableElementProps>) => {
     const { days, weekDays, ...rest } = props as T;
 
     return (

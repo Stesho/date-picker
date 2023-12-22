@@ -1,15 +1,16 @@
 import React, { useContext } from 'react';
 
-import { DayCell } from '@/components/Cells/DayCells/DayCells.styled';
 import { CalendarContext } from '@/context/calendarContext';
 import { ColorContext } from '@/context/colorContext';
 import { DateContext } from '@/context/dateContext';
 import { WeekContext } from '@/context/weekContext';
 import { Day } from '@/types/Day';
+import { isRangeDate } from '@/utils/dates/isRangeDate';
+import { isSameDates } from '@/utils/dates/isSameDates';
 import { getDaysByCalendarType } from '@/utils/dayCells/getDaysByCalendarType';
 import { hasTodos } from '@/utils/dayCells/hasTodos';
-import { isRangeDate } from '@/utils/isRangeDate';
-import { isSameDates } from '@/utils/isSameDates';
+
+import { DayCell } from './DayCells.styled';
 
 export interface DayCellsProps {
   days: Day[];

@@ -12,10 +12,9 @@ import { useRangeDates } from '@/hooks/useRangeDates';
 import { useWeekContext } from '@/hooks/useWeekContext';
 import { ConfigurableElementProps } from '@/types/ConfigurableElementProps';
 
-export const withRangepickerLogic = <T extends ConfigurableElementProps>(
-  WrappedComponent: ComponentType<T>,
-) =>
-  function (props: Omit<T, keyof ConfigurableElementProps>) {
+export const withRangepickerLogic =
+  <T extends ConfigurableElementProps>(WrappedComponent: ComponentType<T>) =>
+  (props: Omit<T, keyof ConfigurableElementProps>) => {
     const {
       type,
       initialStartDate,
@@ -37,8 +36,10 @@ export const withRangepickerLogic = <T extends ConfigurableElementProps>(
       onInputValue,
       setStartDate,
       setFinishDate,
-    } = useRangeDates(initialStartDate, initialFinishDate);
+      setErrorMessage,
+    } = useRangeDates(initialStartDate, initialFinishDate, minDate, maxDate);
     const { value, onClearInput, onChange } = useRangeDateInput(
+      setErrorMessage,
       onInputValue,
       startDate,
       finishDate,

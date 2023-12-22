@@ -1,12 +1,13 @@
 import React, { useContext } from 'react';
 
-import { CalendarWrapper } from '@/components/Calendar/Calendar.styled';
 import { Cells, CellsProps } from '@/components/Cells/Cells';
 import {
   Controllers,
   ControllersProps,
 } from '@/components/Controllers/Controllers';
 import { ColorContext } from '@/context/colorContext';
+
+import { CalendarWrapper } from './Calendar.styled';
 
 export type CalendarProps = CellsProps & ControllersProps;
 
@@ -24,6 +25,7 @@ export const Calendar = ({
   return (
     <CalendarWrapper
       $background={colors.calendar?.background}
+      $border={colors.calendar?.border}
       data-testid='calendar'
     >
       <Controllers

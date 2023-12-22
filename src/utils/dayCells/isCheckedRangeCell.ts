@@ -1,4 +1,4 @@
-import { isCheckedDate } from '@/utils/isCheckedDate';
+import { isCheckedDate } from '@/utils/dates/isCheckedDate';
 
 export const isCheckedRangeCell = (
   year: number,

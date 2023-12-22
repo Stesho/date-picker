@@ -1,5 +1,5 @@
 import { errorMessages } from '@/constants/errorMessages/errorMessages';
-import { parseDateString } from '@/utils/parseDateString';
+import { parseDateString } from '@/utils/dates/parseDateString';
 import { isValidDateFormat } from '@/utils/validation/isValidDateFormat';
 
 // validated date in format dd/mm/yyyy. 0 < dd < 32; 0 < mm < 13;
@@ -11,7 +11,11 @@ interface ValidatedDate {
   errorMessage: string;
 }
 
-export const validateDate = (dateString: string): ValidatedDate => {
+export const validateDate = (
+  dateString: string,
+  minDate?: Date,
+  maxDate?: Date,
+): ValidatedDate => {
   if (dateString === '') {
     return {
       currentDate: null,
@@ -26,15 +30,29 @@ export const validateDate = (dateString: string): ValidatedDate => {
     };
   }
 
-  if (dateValidationPattern.test(dateString)) {
+  if (!dateValidationPattern.test(dateString)) {
     return {
-      currentDate: dateString !== '' ? parseDateString(dateString) : null,
-      errorMessage: '',
+      currentDate: null,
+      errorMessage: errorMessages.datesValidation(''),
+    };
+  }
+
+  if (minDate && parseDateString(dateString) < minDate) {
+    return {
+      currentDate: null,
+      errorMessage: errorMessages.minDate,
+    };
+  }
+
+  if (maxDate && parseDateString(dateString) > maxDate) {
+    return {
+      currentDate: null,
+      errorMessage: errorMessages.maxDate,
     };
   }
 
   return {
-    currentDate: null,
-    errorMessage: errorMessages.datesValidation(''),
+    currentDate: parseDateString(dateString),
+    errorMessage: '',
   };
 };

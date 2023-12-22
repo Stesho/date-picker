@@ -1,8 +1,9 @@
 import React, { useContext } from 'react';
 
-import { WeekCell } from '@/components/Cells/WeekCells/WeekCells.styled';
 import { ColorContext } from '@/context/colorContext';
 import { WeekContext } from '@/context/weekContext';
+
+import { WeekCell } from './WeekCells.styled';
 
 export interface WeekCellsProps {
   weekDays: string[];

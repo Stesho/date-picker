@@ -1,5 +1,13 @@
 import React, { ChangeEvent, useState } from 'react';
 
+import { useOutsideClick } from '@/hooks/useOutsideClick';
+import { Todo } from '@/types/Todos';
+import { dateToString } from '@/utils/dates/dateToString';
+import { addTodo } from '@/utils/todos/addTodo';
+import { deleteTodo } from '@/utils/todos/deleteTodo';
+import { getTodosByDate } from '@/utils/todos/getTodosByDate';
+import { onCloseClick } from '@/utils/todos/onCloseClick';
+
 import {
   AddTodoButton,
   CloseButton,
@@ -12,14 +20,7 @@ import {
   TodoDate,
   TodoListModal,
   TodoListOverlay,
-} from '@/components/TodoList/TodoList.styled';
-import { useOutsideClick } from '@/hooks/useOutsideClick';
-import { Todo } from '@/types/Todos';
-import { dateToString } from '@/utils/dates/dateToString';
-import { addTodo } from '@/utils/todos/addTodo';
-import { deleteTodo } from '@/utils/todos/deleteTodo';
-import { getTodosByDate } from '@/utils/todos/getTodosByDate';
-import { onCloseClick } from '@/utils/todos/onCloseClick';
+} from './TodoList.styled';
 
 interface TodoListProps {
   onClose: () => void;

@@ -2,10 +2,8 @@ import React from 'react';
 
 import { Calendar, CalendarProps } from '@/components/Calendar/Calendar';
 import { DateInput } from '@/components/DateInput/DateInput';
-import {
-  DatepickerBodyWrapper,
-  ErrorMessage,
-} from '@/components/DatepickerBody/DatepickerBody.styled';
+
+import { DatepickerBodyWrapper, ErrorMessage } from './DatepickerBody.styled';
 
 export type DatepickerBodyProps = CalendarProps & {
   errorMessage: string;

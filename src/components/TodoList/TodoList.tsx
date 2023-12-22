@@ -56,7 +56,7 @@ export const TodoList = ({ onClose, date }: TodoListProps) => {
           />
           <AddTodoButton
             type='button'
-            onClick={addTodo(todoText, todos, setTodoText, setTodos)}
+            onClick={addTodo(todoText, setTodoText, setTodos)}
           >
             add todo
           </AddTodoButton>

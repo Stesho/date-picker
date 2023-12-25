@@ -54,7 +54,8 @@
       }
     ],
     "simple-import-sort/exports": "error",
-    "@typescript-eslint/no-unused-vars": "off",
+    "@typescript-eslint/no-unused-vars": "warn",
+    "react-hooks/rules-of-hooks": "warn",
     "react/jsx-props-no-spreading": "off",
     "react/require-default-props": "warn",
     "react/no-unescaped-entities": "warn",

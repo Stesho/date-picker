@@ -10,14 +10,16 @@ import { useDateInput } from '@/hooks/useDateInput';
 import { useDates } from '@/hooks/useDates';
 import { useInputContext } from '@/hooks/useInputContext';
 import { useWeekContext } from '@/hooks/useWeekContext';
+import { CalendarTypes } from '@/types/CalendarTypes';
 import { ConfigurableElementProps } from '@/types/ConfigurableElementProps';
 
 export const withDatepickerLogic =
   <T extends ConfigurableElementProps>(WrappedComponent: ComponentType<T>) =>
   (props: Omit<T, keyof ConfigurableElementProps>) => {
     const {
-      type,
-      initialDate,
+      type = CalendarTypes.Month,
+      currentDate,
+      setCurrentDate,
       minDate,
       maxDate,
       isStartWithMonday = false,
@@ -28,13 +30,12 @@ export const withDatepickerLogic =
       ...rest
     } = props as T;
 
-    const {
+    const { errorMessage, onInputValue, setErrorMessage } = useDates(
       currentDate,
-      errorMessage,
-      onInputValue,
       setCurrentDate,
-      setErrorMessage,
-    } = useDates(initialDate, minDate, maxDate);
+      minDate,
+      maxDate,
+    );
     const { value, onClearInput, onChange } = useDateInput(
       setErrorMessage,
       onInputValue,

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
 
 import { CalendarTypes } from '@/types/CalendarTypes';
@@ -12,7 +12,7 @@ const meta: Meta<typeof Datepicker> = {
       options: CalendarTypes,
       control: 'select',
     },
-    initialDate: {
+    currentDate: {
       control: 'date',
     },
     minDate: {
@@ -44,12 +44,9 @@ type Story = StoryObj<typeof Datepicker>;
 
 export const Default: Story = {
   render: (args) => {
-    const initialDate =
-      typeof args.initialDate === 'number'
-        ? new Date(args.initialDate)
-        : args.initialDate;
+    const [date, setDate] = useState<Date | null>(args.currentDate || null);
 
-    return <Datepicker {...args} initialDate={initialDate} />;
+    return <Datepicker {...args} currentDate={date} setCurrentDate={setDate} />;
   },
   args: {
     type: CalendarTypes.Month,

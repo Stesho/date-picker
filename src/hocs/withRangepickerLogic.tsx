@@ -10,15 +10,18 @@ import { useInputContext } from '@/hooks/useInputContext';
 import { useRangeDateInput } from '@/hooks/useRangeDateInput';
 import { useRangeDates } from '@/hooks/useRangeDates';
 import { useWeekContext } from '@/hooks/useWeekContext';
+import { CalendarTypes } from '@/types/CalendarTypes';
 import { ConfigurableElementProps } from '@/types/ConfigurableElementProps';
 
 export const withRangepickerLogic =
   <T extends ConfigurableElementProps>(WrappedComponent: ComponentType<T>) =>
   (props: Omit<T, keyof ConfigurableElementProps>) => {
     const {
-      type,
-      initialStartDate,
-      initialFinishDate,
+      type = CalendarTypes.Month,
+      startDate,
+      finishDate,
+      setStartDate,
+      setFinishDate,
       minDate,
       maxDate,
       isStartWithMonday = false,
@@ -29,15 +32,14 @@ export const withRangepickerLogic =
       ...rest
     } = props as T;
 
-    const {
+    const { errorMessage, onInputValue, setErrorMessage } = useRangeDates(
       startDate,
       finishDate,
-      errorMessage,
-      onInputValue,
       setStartDate,
       setFinishDate,
-      setErrorMessage,
-    } = useRangeDates(initialStartDate, initialFinishDate, minDate, maxDate);
+      minDate,
+      maxDate,
+    );
     const { value, onClearInput, onChange } = useRangeDateInput(
       setErrorMessage,
       onInputValue,

@@ -1,4 +1,12 @@
-import React from 'react';
+import React, {
+  ComponentType,
+  Dispatch,
+  memo,
+  SetStateAction,
+  useLayoutEffect,
+  useMemo,
+  useState,
+} from 'react';
 
 import { DatepickerBody } from '@/components/DatepickerBody/DatepickerBody';
 import { emptyProps } from '@/constants/datepicker/emptyProps';
@@ -15,37 +23,52 @@ import { CalendarTypes } from '@/types/CalendarTypes';
 import { DatepickerParams } from '@/types/DatepickerParams';
 
 export interface DatepickerProps extends DatepickerParams {
-  initialDate?: Date;
+  currentDate: Date | null;
+  setCurrentDate: Dispatch<SetStateAction<Date | null>>;
 }
 
 export const Datepicker = ({
   type = CalendarTypes.Month,
-  initialDate,
+  currentDate,
+  setCurrentDate,
   minDate,
   maxDate,
   isStartWithMonday = false,
   areWeekendsHidden = false,
   isHolidays = false,
   country = 'BY',
-  colorOptions = {},
+  colorOptions,
 }: DatepickerProps) => {
-  const WithDatepickerWrapper = configurationService(DatepickerBody, {
-    dateLimits: minDate || maxDate ? withDateLimits : null,
-    holidays: isHolidays && country ? withHolidays : null,
-    hiddenWeekends: areWeekendsHidden ? withHiddenWeekends : null,
-    isStartWithMonday:
-      !areWeekendsHidden && isStartWithMonday ? withMondayStart : null,
-    controllers: withControllers,
-    calendarLogic: withCalendarLogic,
-    pickerLogic: withDatepickerLogic,
-  });
+  const WithDatepickerWrapper = useMemo(
+    () =>
+      configurationService(DatepickerBody, {
+        dateLimits: minDate || maxDate ? withDateLimits : null,
+        holidays: isHolidays && country ? withHolidays : null,
+        hiddenWeekends: areWeekendsHidden ? withHiddenWeekends : null,
+        isStartWithMonday:
+          !areWeekendsHidden && isStartWithMonday ? withMondayStart : null,
+        controllers: withControllers,
+        calendarLogic: withCalendarLogic,
+        pickerLogic: withDatepickerLogic,
+      }),
+    [
+      areWeekendsHidden,
+      minDate,
+      maxDate,
+      country,
+      isStartWithMonday,
+      isHolidays,
+    ],
+  );
 
   return (
     <div>
       <ResetStyles />
       <WithDatepickerWrapper
+        {...emptyProps}
         type={type}
-        initialDate={initialDate}
+        currentDate={currentDate}
+        setCurrentDate={setCurrentDate}
         minDate={minDate}
         maxDate={maxDate}
         isStartWithMonday={isStartWithMonday}
@@ -53,7 +76,6 @@ export const Datepicker = ({
         isHolidays={isHolidays}
         country={country}
         colorOptions={colorOptions}
-        {...emptyProps}
       />
     </div>
   );

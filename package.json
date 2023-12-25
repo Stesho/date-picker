@@ -1,13 +1,19 @@
 {
-  "name": "date-picker",
+  "name": "@stesho/date-picker",
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com/stesho"
+  },
   "version": "0.1.0",
-  "private": true,
+  "private": false,
+  "license": "ISC",
   "main": "dist/cjs/index.js",
   "module": "dist/esm/index.js",
   "files": [
     "dist"
   ],
   "types": "dist/index.d.ts",
+  "author": "Stesho",
+  "description": "Datepicker library",
   "peerDependencies": {
     "axios": "^1.6.2",
     "react": "^18.2.0",

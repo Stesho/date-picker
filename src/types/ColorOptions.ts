@@ -1,12 +1,14 @@
 import { Color } from '@/types/Color';
 
-interface ElementColor {
+export interface ElementColor {
   background: Color;
   border: Color;
   text: Color;
+  placeholder: Color;
   hover: {
-    background: Color;
-    text: Color;
+    background?: Color;
+    border?: Color;
+    text?: Color;
   };
 }
 
@@ -16,20 +18,26 @@ export interface CellsColors {
   week?: ElementColorOptions;
   disabled?: ElementColorOptions;
   common?: ElementColorOptions;
+  holiday?: ElementColorOptions;
   currentDate?: ElementColorOptions;
   startDate?: ElementColorOptions;
   finishDate?: ElementColorOptions;
   rangeDate?: ElementColorOptions;
 }
 
-interface Elements {
-  input: ElementColorOptions;
-  calendar: {
-    background?: Color;
-    border?: Color;
-    controllers?: ElementColorOptions;
-    cells?: CellsColors;
-  };
+interface InputColorOptions extends ElementColor {
+  crossButton: ElementColorOptions;
+  error: ElementColorOptions;
+}
+
+interface CalendarColorOptions extends ElementColor {
+  controllers: ElementColorOptions;
+  cells: Partial<CellsColors>;
+}
+
+export interface Elements {
+  input: Partial<InputColorOptions>;
+  calendar: Partial<CalendarColorOptions>;
 }
 
 export type ColorOptions = Partial<Elements>;

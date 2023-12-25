@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
 
 import { CalendarTypes } from '@/types/CalendarTypes';
@@ -12,7 +12,7 @@ const meta: Meta<typeof Datepicker> = {
       options: CalendarTypes,
       control: 'select',
     },
-    initialDate: {
+    currentDate: {
       control: 'date',
     },
     minDate: {
@@ -44,12 +44,9 @@ type Story = StoryObj<typeof Datepicker>;
 
 export const Default: Story = {
   render: (args) => {
-    const initialDate =
-      typeof args.initialDate === 'number'
-        ? new Date(args.initialDate)
-        : args.initialDate;
+    const [date, setDate] = useState<Date | null>(args.currentDate || null);
 
-    return <Datepicker {...args} initialDate={initialDate} />;
+    return <Datepicker {...args} currentDate={date} setCurrentDate={setDate} />;
   },
   args: {
     type: CalendarTypes.Month,
@@ -57,5 +54,54 @@ export const Default: Story = {
     isHolidays: false,
     areWeekendsHidden: false,
     country: 'BY',
+    colorOptions: {
+      input: {
+        placeholder: '#bbb',
+        text: '#333',
+        background: '#fff',
+        border: '#ddd',
+        error: {
+          text: '#ff0000',
+          border: '#ff0000',
+        },
+        crossButton: {
+          text: '#fff',
+          background: '#aaa',
+        },
+      },
+      calendar: {
+        background: '#fff',
+        border: '#ddd',
+        controllers: {
+          text: '#000',
+          background: '#fff',
+        },
+        cells: {
+          week: {
+            text: '#000',
+            background: '#fff',
+          },
+          disabled: {
+            text: '#aaa',
+            background: '#fff',
+          },
+          common: {
+            text: '#000',
+            background: '#fff',
+            hover: {
+              text: '#000',
+              background: '#f1f1f1',
+            },
+          },
+          holiday: {
+            text: '#ff0000',
+          },
+          currentDate: {
+            text: '#fff',
+            background: '#2f80ed',
+          },
+        },
+      },
+    },
   },
 };

@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 
 import { ReactComponent as CalendarIconSvg } from '@/assets/icons/Calendar.svg';
-import { ElementColorOptions } from '@/types/ColorOptions';
+import { ElementColor, ElementColorOptions } from '@/types/ColorOptions';
 
 export const DateInputWrapper = styled.div`
   position: relative;
@@ -13,6 +13,7 @@ export const DateInputWrapper = styled.div`
 
 export const Input = styled.input<{
   $colors?: ElementColorOptions;
+  $errorBorder?: ElementColorOptions;
   $isError: boolean;
 }>`
   width: 100%;
@@ -21,12 +22,15 @@ export const Input = styled.input<{
   font-size: 15px;
   border-radius: 8px;
   border: 1px solid
-    ${(props) => (props.$isError ? 'red' : props.$colors?.border || '#ddd')};
+    ${(props) =>
+      props.$isError
+        ? props.$errorBorder?.border || 'red'
+        : props.$colors?.border || '#ddd'};
   background: ${(props) => props.$colors?.background || '#fff'};
   outline: none;
 
   &::placeholder {
-    color: #bbb;
+    color: ${(props) => props.$colors?.placeholder || '#bbb'};
   }
 `;
 
@@ -41,7 +45,9 @@ export const CalendarIcon = styled((props: { onClick: () => void }) => (
   cursor: pointer;
 `;
 
-export const CrossButton = styled.button`
+export const CrossButton = styled.button<{
+  $colors?: ElementColorOptions;
+}>`
   position: absolute;
   display: flex;
   align-items: center;
@@ -49,9 +55,9 @@ export const CrossButton = styled.button`
   left: calc(100% - 16px - 15px);
   width: 16px;
   height: 16px;
-  color: #fff;
+  color: ${(props) => props.$colors?.text || '#fff'};
   border-radius: 50%;
-  background-color: #aaa;
+  background-color: ${(props) => props.$colors?.background || '#aaa'};
   font-size: 10px;
   line-height: 100%;
   outline: none;

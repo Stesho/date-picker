@@ -25,10 +25,15 @@ export const DateInput = () => {
         placeholder='Choose Date'
         type='text'
         $colors={colors.input}
+        $errorBorder={colors.input?.error}
         $isError={isError}
       />
       {value.length > 0 && (
-        <CrossButton onClick={onClearInput} type='button'>
+        <CrossButton
+          onClick={onClearInput}
+          type='button'
+          $colors={colors.input?.crossButton}
+        >
           ✖
         </CrossButton>
       )}

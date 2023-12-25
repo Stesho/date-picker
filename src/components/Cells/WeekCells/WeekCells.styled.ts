@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 
 import { Cell } from '@/components/Cells/Cells.styled';
-import { ElementColorOptions } from '@/types/ColorOptions';
+import { ElementColor, ElementColorOptions } from '@/types/ColorOptions';
 
 export const WeekCell = styled(Cell)<{
   $areWeekendsHidden: boolean;

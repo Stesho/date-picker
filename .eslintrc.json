@@ -54,8 +54,11 @@
       }
     ],
     "simple-import-sort/exports": "error",
+    "@typescript-eslint/no-unused-vars": "warn",
+    "react/destructuring-assignment": "warn",
+    "react-hooks/rules-of-hooks": "warn",
+    "react/jsx-props-no-spreading": "off",
     "react/require-default-props": "warn",
-    "react/jsx-props-no-spreading": "warn",
     "react/no-unescaped-entities": "warn",
     "react/no-array-index-key": "warn",
     "react/function-component-definition": [

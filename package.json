@@ -8,13 +8,11 @@
     "dist"
   ],
   "types": "dist/index.d.ts",
-  "dependencies": {
+  "peerDependencies": {
     "axios": "^1.6.2",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "react-scripts": "5.0.1",
-    "styled-components": "^6.1.1",
-    "web-vitals": "^2.1.4"
+    "styled-components": "^6.1.1"
   },
   "scripts": {
     "start": "react-scripts start",
@@ -99,6 +97,7 @@
     "lint-staged": "^15.1.0",
     "prettier": "3.1.0",
     "prop-types": "^15.8.1",
+    "react-scripts": "^5.0.1",
     "rollup": "^4.6.0",
     "rollup-plugin-dts": "^6.1.0",
     "rollup-plugin-peer-deps-external": "^2.2.4",

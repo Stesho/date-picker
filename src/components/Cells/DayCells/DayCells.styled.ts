@@ -30,9 +30,7 @@ export const DayCell = styled(Cell)<{
     color: ${(props) => props.$colors?.common?.text || 'inherit'};
     background-color: ${(props) => {
       if (props.$isRange)
-        return (
-          props.$colors?.rangeDate?.background || 'rgba(47, 128, 237, 0.10)'
-        );
+        return props.$colors?.rangeDate?.background || '#2F80ED19';
       return props.$colors?.common?.background || 'none';
     }};
     border-radius: ${(props) => {
@@ -45,7 +43,7 @@ export const DayCell = styled(Cell)<{
 
   & input:not(:disabled) + label {
     color: ${(props) => {
-      if (props.$isHoliday) return 'red';
+      if (props.$isHoliday) return props.$colors?.holiday?.text || 'red';
       if (props.$isRange) return props.$colors?.rangeDate?.text || '#2F80ED';
       return 'inherit';
     }};
@@ -83,9 +81,7 @@ export const DayCell = styled(Cell)<{
     }};
     background-color: ${(props) => {
       if (props.$isStart)
-        return (
-          props.$colors?.startDate?.background || 'rgba(47, 128, 237, 0.60)'
-        );
+        return props.$colors?.startDate?.background || '#2F80ED99';
       if (props.$isFinish)
         return props.$colors?.finishDate?.background || '#2f80ed';
       return props.$colors?.currentDate?.background || '#2f80ed';

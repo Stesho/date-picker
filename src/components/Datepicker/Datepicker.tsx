@@ -1,12 +1,4 @@
-import React, {
-  ComponentType,
-  Dispatch,
-  memo,
-  SetStateAction,
-  useLayoutEffect,
-  useMemo,
-  useState,
-} from 'react';
+import React, { Dispatch, SetStateAction, useMemo } from 'react';
 
 import { DatepickerBody } from '@/components/DatepickerBody/DatepickerBody';
 import { emptyProps } from '@/constants/datepicker/emptyProps';

@@ -1,6 +1,6 @@
 import { Color } from '@/types/Color';
 
-interface ElementColor {
+export interface ElementColor {
   background: Color;
   border: Color;
   text: Color;
@@ -35,7 +35,7 @@ interface CalendarColorOptions extends ElementColor {
   cells: Partial<CellsColors>;
 }
 
-interface Elements {
+export interface Elements {
   input: Partial<InputColorOptions>;
   calendar: Partial<CalendarColorOptions>;
 }

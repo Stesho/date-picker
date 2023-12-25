@@ -3,7 +3,7 @@ import styled from 'styled-components';
 
 import { ReactComponent as NextIcon } from '@/assets/icons/Next.svg';
 import { ReactComponent as PrevIcon } from '@/assets/icons/Prev.svg';
-import { ElementColorOptions } from '@/types/ColorOptions';
+import { ElementColor, ElementColorOptions } from '@/types/ColorOptions';
 
 export const ControllersWrapper = styled.div<{
   $colors?: ElementColorOptions;

@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 
 import { ReactComponent as CalendarIconSvg } from '@/assets/icons/Calendar.svg';
-import { ElementColorOptions } from '@/types/ColorOptions';
+import { ElementColor, ElementColorOptions } from '@/types/ColorOptions';
 
 export const DateInputWrapper = styled.div`
   position: relative;

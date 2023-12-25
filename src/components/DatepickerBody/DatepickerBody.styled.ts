@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-import { ElementColorOptions } from '@/types/ColorOptions';
+import { ElementColor, ElementColorOptions } from '@/types/ColorOptions';
 
 export const DatepickerBodyWrapper = styled.div`
   position: relative;

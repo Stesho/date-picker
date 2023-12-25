@@ -15,14 +15,14 @@ interface ElementColor {
 export type ElementColorOptions = Partial<ElementColor>;
 
 export interface CellsColors {
-  week: ElementColorOptions;
-  disabled: ElementColorOptions;
-  common: ElementColorOptions;
-  holiday: ElementColorOptions;
-  currentDate: ElementColorOptions;
-  startDate: ElementColorOptions;
-  finishDate: ElementColorOptions;
-  rangeDate: ElementColorOptions;
+  week?: ElementColorOptions;
+  disabled?: ElementColorOptions;
+  common?: ElementColorOptions;
+  holiday?: ElementColorOptions;
+  currentDate?: ElementColorOptions;
+  startDate?: ElementColorOptions;
+  finishDate?: ElementColorOptions;
+  rangeDate?: ElementColorOptions;
 }
 
 interface InputColorOptions extends ElementColor {

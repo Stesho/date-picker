@@ -15,6 +15,9 @@ export const fetchHolidays = async (country: string, year: number) => {
       headers: {
         Accept: 'text/json',
         'X-Api-Key': HOLIDAYS_API_KEY,
+        'Cache-Control': 'no-cache',
+        Pragma: 'no-cache',
+        Expires: '0',
       },
     },
   );

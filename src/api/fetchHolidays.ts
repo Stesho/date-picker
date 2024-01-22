@@ -1,20 +1,23 @@
-import { holidaysInstance } from '@/api/config';
 import { HOLIDAYS_API_KEY } from '@/constants/environment/environment';
-import { ALL_HOLIDAYS_URL } from '@/constants/holidays/endpoints';
+import { ALL_HOLIDAYS_URL, BASE_URL } from '@/constants/holidays/endpoints';
 import { Holiday } from '@/types/Holiday';
 
 export const fetchHolidays = async (country: string, year: number) => {
-  console.log('fetchHolidays:', HOLIDAYS_API_KEY);
-  const received: Holiday[] = await holidaysInstance.get(
-    `${ALL_HOLIDAYS_URL}`,
+  const searchParams = new URLSearchParams({
+    type: 'major_holiday',
+    country: country.toString(),
+    year: year.toString(),
+  });
+
+  const holidays = await fetch(
+    `${BASE_URL}${ALL_HOLIDAYS_URL}?${searchParams}`,
     {
-      params: {
-        type: 'major_holiday',
-        country,
-        year,
+      headers: {
+        Accept: 'text/json',
+        'X-Api-Key': HOLIDAYS_API_KEY,
       },
     },
   );
 
-  return received;
+  return (await holidays.json()) as Promise<Holiday[]>;
 };

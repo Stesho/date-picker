@@ -15,6 +15,7 @@ export const TodoListOverlay = styled.div`
 export const TodoListModal = styled.div`
   position: relative;
   padding: 0 20px 20px 20px;
+  color: #000;
   background-color: #fff;
   border-radius: 10px;
 `;

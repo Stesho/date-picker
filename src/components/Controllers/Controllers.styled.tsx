@@ -13,7 +13,7 @@ export const ControllersWrapper = styled.div<{
   align-items: center;
   padding: 5px 0;
   font-weight: 700;
-  color: ${(props) => props.$colors?.text || 'inherit'};
+  color: ${(props) => props.$colors?.text || '#000'};
   background-color: ${(props) => props.$colors?.background || 'none'};
 
   user-select: none;

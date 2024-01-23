@@ -27,7 +27,7 @@ export const DayCell = styled(Cell)<{
     justify-content: center;
     width: 100%;
     height: 100%;
-    color: ${(props) => props.$colors?.common?.text || 'inherit'};
+    color: ${(props) => props.$colors?.common?.text || '#000'};
     background-color: ${(props) => {
       if (props.$isRange)
         return props.$colors?.rangeDate?.background || '#2F80ED19';
@@ -45,7 +45,7 @@ export const DayCell = styled(Cell)<{
     color: ${(props) => {
       if (props.$isHoliday) return props.$colors?.holiday?.text || 'red';
       if (props.$isRange) return props.$colors?.rangeDate?.text || '#2F80ED';
-      return 'inherit';
+      return '#000';
     }};
   }
 

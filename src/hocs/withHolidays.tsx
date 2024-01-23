@@ -1,7 +1,7 @@
 import React, { ComponentType, useContext, useEffect, useState } from 'react';
 
 import { fetchHolidays } from '@/api/fetchHolidays';
-import staticHolidays from '@/constants/holidays/staticHolidays.json';
+import { staticHolidays } from '@/constants/holidays/staticHolidays';
 import { HOLIDAYS_STORAGE_KEY } from '@/constants/holidays/storage';
 import { CalendarContext } from '@/context/calendarContext';
 import { WeekContext } from '@/context/weekContext';

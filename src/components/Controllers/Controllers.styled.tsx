@@ -1,8 +1,8 @@
 import React from 'react';
 import styled from 'styled-components';
 
-import { ReactComponent as NextIcon } from '@/assets/icons/Next.svg';
-import { ReactComponent as PrevIcon } from '@/assets/icons/Prev.svg';
+import { NextIconSvg } from '@/assets/icons/NextIcon/NextIcon';
+import { PrevIconSvg } from '@/assets/icons/PrevIcon/PrevIcon';
 import { ElementColor, ElementColorOptions } from '@/types/ColorOptions';
 
 export const ControllersWrapper = styled.div<{
@@ -19,13 +19,9 @@ export const ControllersWrapper = styled.div<{
   user-select: none;
 `;
 
-export const PrevControllerIcon = styled((props: { onClick: () => void }) => (
-  <PrevIcon {...props} />
-))`
+export const PrevControllerIcon = styled(PrevIconSvg)`
   cursor: pointer;
 `;
-export const NextControllerIcon = styled((props: { onClick: () => void }) => (
-  <NextIcon {...props} />
-))`
+export const NextControllerIcon = styled(NextIconSvg)`
   cursor: pointer;
 `;

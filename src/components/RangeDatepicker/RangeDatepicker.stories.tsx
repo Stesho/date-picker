@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
 
 import { RangeDatepicker } from '@/components/RangeDatepicker/RangeDatepicker';
@@ -11,10 +11,10 @@ const meta: Meta<typeof RangeDatepicker> = {
       options: CalendarTypes,
       control: 'select',
     },
-    initialStartDate: {
+    startDate: {
       control: 'date',
     },
-    initialFinishDate: {
+    finishDate: {
       control: 'date',
     },
     minDate: {
@@ -46,30 +46,86 @@ type Story = StoryObj<typeof RangeDatepicker>;
 
 export const Default: Story = {
   render: (args) => {
-    const initialStartDate =
-      typeof args.initialStartDate === 'number'
-        ? new Date(args.initialStartDate)
-        : args.initialStartDate;
-    const initialFinishDate =
-      typeof args.initialFinishDate === 'number'
-        ? new Date(args.initialFinishDate)
-        : args.initialFinishDate;
+    const [startDate, setStartDate] = useState<Date | null>(
+      args.startDate || null,
+    );
+    const [finishDate, setFinishDate] = useState<Date | null>(
+      args.finishDate || null,
+    );
 
     return (
       <RangeDatepicker
         {...args}
-        initialStartDate={initialStartDate}
-        initialFinishDate={initialFinishDate}
+        startDate={startDate}
+        setStartDate={setStartDate}
+        finishDate={finishDate}
+        setFinishDate={setFinishDate}
       />
     );
   },
   args: {
     type: CalendarTypes.Month,
-    initialStartDate: new Date(2023, 11, 5),
-    initialFinishDate: new Date(2023, 11, 7),
+    startDate: new Date(2023, 11, 5),
+    finishDate: new Date(2023, 11, 7),
     isStartWithMonday: false,
     isHolidays: false,
     areWeekendsHidden: false,
     country: 'BY',
+    colorOptions: {
+      input: {
+        placeholder: '#bbb',
+        text: '#333',
+        background: '#fff',
+        border: '#ddd',
+        error: {
+          text: '#ff0000',
+          border: '#ff0000',
+        },
+        crossButton: {
+          text: '#fff',
+          background: '#aaa',
+        },
+      },
+      calendar: {
+        background: '#fff',
+        border: '#ddd',
+        controllers: {
+          text: '#000',
+          background: '#fff',
+        },
+        cells: {
+          week: {
+            text: '#000',
+            background: '#fff',
+          },
+          disabled: {
+            text: '#aaa',
+            background: '#fff',
+          },
+          common: {
+            text: '#000',
+            background: '#fff',
+            hover: {
+              background: '#f1f1f1',
+            },
+          },
+          holiday: {
+            text: '#ff0000',
+          },
+          startDate: {
+            text: '#fff',
+            background: '#2F80ED99',
+          },
+          finishDate: {
+            text: '#fff',
+            background: '#2f80ed',
+          },
+          rangeDate: {
+            text: '#2F80ED',
+            background: '#2F80ED19',
+          },
+        },
+      },
+    },
   },
 };

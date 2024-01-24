@@ -20,6 +20,10 @@ const config: StorybookConfig = {
     }
     return config;
   },
+  env: (config) => ({
+    ...config,
+    HOLIDAYS_API_KEY: process.env.HOLIDAYS_API_KEY as string,
+  }),
   framework: {
     name: '@storybook/react-webpack5',
     options: {},

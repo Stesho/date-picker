@@ -1,23 +1,15 @@
-import { useState } from 'react';
+import { Dispatch, SetStateAction, useState } from 'react';
 
-import { addDayToDate } from '@/utils/dates/addDayToDate';
 import { validateRangeDates } from '@/utils/validation/validateRangeDates';
 
-const yesterday = addDayToDate(new Date(), -1);
-const tomorrow = addDayToDate(new Date(), 1);
-
 export const useRangeDates = (
-  initialStartDate?: Date,
-  initialFinishDate?: Date,
+  startDate: Date | null,
+  finishDate: Date | null,
+  setStartDate: Dispatch<SetStateAction<Date | null>>,
+  setFinishDate: Dispatch<SetStateAction<Date | null>>,
   minDate?: Date,
   maxDate?: Date,
 ) => {
-  const [startDate, setStartDate] = useState<Date | null>(
-    initialStartDate || yesterday,
-  );
-  const [finishDate, setFinishDate] = useState<Date | null>(
-    initialFinishDate || tomorrow,
-  );
   const [errorMessage, setErrorMessage] = useState('');
 
   const onInputValue = (dateString: string) => {
@@ -34,12 +26,8 @@ export const useRangeDates = (
   };
 
   return {
-    startDate,
-    finishDate,
     errorMessage,
     onInputValue,
-    setStartDate,
-    setFinishDate,
     setErrorMessage,
   };
 };

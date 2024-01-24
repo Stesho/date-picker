@@ -1,14 +1,14 @@
-import { useState } from 'react';
+import { Dispatch, SetStateAction, useState } from 'react';
 
 import { validateDate } from '@/utils/validation/validateDate';
 
 export const useDates = (
-  initialDate?: Date,
+  currentDate: Date | null,
+  setCurrentDate: Dispatch<SetStateAction<Date | null>>,
   minDate?: Date,
   maxDate?: Date,
 ) => {
   const [errorMessage, setErrorMessage] = useState('');
-  const [currentDate, setCurrentDate] = useState(initialDate || null);
 
   const onInputValue = (dateString: string) => {
     const validatedDate = validateDate(dateString, minDate, maxDate);
@@ -17,10 +17,8 @@ export const useDates = (
   };
 
   return {
-    currentDate,
     errorMessage,
     onInputValue,
-    setCurrentDate,
     setErrorMessage,
   };
 };
